@@ -1,0 +1,38 @@
+.grid-menu {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: .5rem;
+	text-align: center;
+
+	&__item {
+		flex: 1 1 100px;
+		min-height: 100px;
+
+		@include max-width("sm") {
+			flex-basis: 100px;
+			min-height: 100px;
+		}
+	}
+
+	&__link {
+		height: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		padding: 1em;
+
+		font-weight: 600;
+
+		border: 1px solid color("dark");
+		color: color("dark");
+		@include  transition("default");
+
+		&:hover, &:focus {
+			color: color("light");
+			background-color: color("dark");
+			@include  transition("default");
+		}
+	}
+}

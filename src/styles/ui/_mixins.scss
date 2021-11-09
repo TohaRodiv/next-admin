@@ -1,0 +1,42 @@
+@mixin transition ($id) {
+	transition: transition($id);
+}
+
+
+@mixin hover-focus ($noTransition: false) {
+	&:hover, &:focus {
+		@content;
+		@if false == $noTransition {
+			@include transition ("default");
+		}
+	}
+}
+
+
+@mixin pseudo($display: block, $position: absolute, $content: ""){
+	content: $content;
+	display: $display;
+	position: $position;
+}
+
+@mixin hide ($isHide) {
+	@if $isHide == true {
+		opacity: 0;
+		visibility: hidden;
+	} @else {
+		opacity: 1;
+		visibility: visible;
+	}
+}
+
+@mixin max-width ($breakpoint) {
+	@media (max-width: get-media($breakpoint) - 0.02px) {
+		@content;
+	}
+}
+
+@mixin min-width ($breakpoint) {
+	@media (min-width: get-media($breakpoint)) {
+		@content;
+	}
+}

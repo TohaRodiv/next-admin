@@ -1,0 +1,53 @@
+$flex-directions: row, column;
+
+
+.form {
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: column;
+	gap: .5rem;
+
+
+	@each $direction in $flex-directions {
+		&_direction_#{$direction} {
+			flex-direction: $direction;
+		}
+	}
+
+	&_justify {
+		&_between {
+			justify-content: space-between;
+		}
+	}
+
+	&_align {
+		&_center {
+			align-items: center;
+		}
+	}	
+}
+
+.form-control {
+	&__radio-icon {
+
+		> .form-control__radio {
+			display: none;
+
+			&:checked ~ .form-control__icon {
+				border-color: color("dark");
+				transform: scale(1.2);
+
+				@include transition ("default");
+			}
+		}
+
+		> .form-control__icon {
+			border: 1px solid transparent;
+			margin: .15em;
+			padding: .5em;
+			cursor: pointer;
+
+			@include transition ("default");
+		}
+	}
+}

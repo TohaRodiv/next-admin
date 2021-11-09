@@ -1,0 +1,39 @@
+@mixin button (
+	$background: color("light"),
+	$color: color("dark"),
+	$background-hover: color("dark"),
+	$color-hover: color("light")
+) {
+	background: $background;
+	color: $color;
+	border: 1px solid;
+	cursor: pointer;
+
+	padding: .5em 1em;
+	margin: 0;
+	display: inline-block;
+	width: auto;
+
+	@include transition("default");
+	@include hover-focus {
+		background-color: $background-hover;
+		color: $color-hover;
+	}
+}
+
+.btn {
+	@include button ();
+
+	&--action {}
+
+	&--dark {
+		color: color("light");
+		border-color: color("dark");
+		background-color: color("dark");
+
+		@include hover-focus() {
+			color: color("dark");
+			background-color: color("light");
+		}
+	}
+}

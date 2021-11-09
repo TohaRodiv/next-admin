@@ -1,0 +1,63 @@
+:root {
+	--swiper-theme-color: #000;
+}
+
+$colors: (
+  'dark': #000000,
+  'light': #ffffff,
+  'accent': #ecd23d,
+  'accent-hover': #ffd900,
+  'success': green,
+  'warning': yellow,
+  'error': red,
+  'gray': #DDD
+);
+
+$z-indexes: (
+  'header': 1000,
+  'catalog-menu': 999,
+);
+
+$transitions: (
+  'default': 350ms ease all,
+);
+
+$breakpoints: (
+  'sm': 576px,
+  'md': 768px,
+  'lg': 992px,
+  'xl': 1200px,
+  'xxl': 1400px,
+);
+
+
+$height-header: 40px;
+
+
+//======================= Using min-width
+
+// Small devices (landscape phones, 576px and up)
+@media (min-width: 576px) {}
+
+// Medium devices (tablets, 768px and up)
+@media (min-width: 768px) {}
+
+// Large devices (desktops, 992px and up)
+@media (min-width: 992px) {}
+
+// Extra large devices (large desktops, 1200px and up)
+@media (min-width: 1200px) {}
+
+
+//======================= Using max-width
+
+@media (max-width: 575.98px) {}
+
+// Small devices (landscape phones, less than 768px)
+@media (max-width: 767.98px) {}
+
+// Medium devices (tablets, less than 992px)
+@media (max-width: 991.98px) {}
+
+// Large devices (desktops, less than 1200px)
+@media (max-width: 1199.98px) {}

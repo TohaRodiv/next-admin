@@ -13,9 +13,6 @@ type TSProps = Promise<{
 
 const Home: NextPage<TProps> = (props: TProps) => {
 
-	useEffect(() => {
-		console.log(SwaggerParseService.getUpdateOneSchema("/tasks"));
-	}, []);
 	return (
 		<>
 			<Head>

@@ -37,7 +37,7 @@ export const getServerSideProps = async (context: NextPageContext): Promise<TSPr
 	const paths = context.query["path"] as string[];
 
 	if (Array.isArray(paths)) {
-		props.schema = SwaggerParseService.getCreateOneSchema(paths);
+		props.schema = await SwaggerParseService.getCreateOneSchema(paths);
 	}
 
 	return {

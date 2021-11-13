@@ -39,7 +39,7 @@ export const getServerSideProps = async (context: NextPageContext): Promise<TSPr
 	
 	if (isFinite(entityId)) {
 		const controllerPath = SwaggerParseService.getControlerPathFromArray(paths);
-		props.schema = SwaggerParseService.getViewOneSchema(controllerPath);
+		props.schema = await SwaggerParseService.getViewOneSchema(controllerPath);
 		props.entity = await SwaggerParseService.APIService.getById(controllerPath, entityId);
 	}
 

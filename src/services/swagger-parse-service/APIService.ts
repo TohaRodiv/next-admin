@@ -3,11 +3,11 @@ import { TControllerPaths } from "./types";
 export class APIService {
 	protected readonly API_URL: string = "http://todo.dv:8081";
 	constructor (
-		protected controllerPaths: TControllerPaths,
+		protected getControllerPaths: () => Promise<TControllerPaths>,
 	) {}
 
 	public async getMany(controllerPath: string): Promise<any[]> {
-		if (controllerPath in this.controllerPaths) {
+		if (controllerPath in await this.getControllerPaths()) {
 			const response = await fetch(`${this.API_URL}${controllerPath}`);
 			return await response.json();
 		} else {
@@ -16,7 +16,7 @@ export class APIService {
 	}
 
 	public async getById(controllerPath: string, id: number): Promise<any> {
-		if (controllerPath in this.controllerPaths) {
+		if (controllerPath in await this.getControllerPaths()) {
 			const response = await fetch(`${this.API_URL}${controllerPath}/${id}`);
 			return await response.json();
 		} else {

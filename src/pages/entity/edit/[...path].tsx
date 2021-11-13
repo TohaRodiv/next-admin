@@ -51,7 +51,7 @@ export const getServerSideProps = async (context: NextPageContext): Promise<TSPr
 	const entityId = +paths.pop();
 	
 	if (isFinite(entityId)) {
-		props.schema = SwaggerParseService.getUpdateOneSchema(paths);
+		props.schema = await SwaggerParseService.getUpdateOneSchema(paths);
 		/**
 		 * TODO: Получить по entityId сущность
 		 */

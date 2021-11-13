@@ -2,10 +2,10 @@ import type { TSchemaEntity } from "./types";
 
 export class RefService {
 	constructor(
-		protected swaggerDoc: object,
+		protected getSwaggerDoc: () => Promise<any>,
 	) {}
 
-	public getObjectByJsonRef(ref: string): TSchemaEntity {
+	public async getObjectByJsonRef(ref: string): Promise<TSchemaEntity> {
 		const arrRef = ref.split("/");
 		arrRef.shift();
 
@@ -15,6 +15,6 @@ export class RefService {
 			} else {
 				throw new Error(`Ref ${ref} not found`);
 			}
-		}, this.swaggerDoc);
+		}, await this.getSwaggerDoc());
 	}
 }

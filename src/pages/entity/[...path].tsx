@@ -47,7 +47,7 @@ export const getServerSideProps = async (context: NextPageContext): Promise<TSPr
 	if (Array.isArray(paths)) {
 		const controllerPath = SwaggerParseService.getControlerPathFromArray(paths);
 		props.path = controllerPath;
-		props.schema = SwaggerParseService.getViewManySchema(controllerPath);
+		props.schema = await SwaggerParseService.getViewManySchema(controllerPath);
 		props.entities = await SwaggerParseService.APIService.getMany(controllerPath);
 		console.log(props.entities);
 	}

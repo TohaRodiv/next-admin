@@ -7,6 +7,7 @@ import type {
 	TCategoryEntity,
 	TAvailableCRUD,
 	TSchemaEntity,
+	TControllerPaths,
 } from "./types";
 
 
@@ -25,9 +26,9 @@ export const SwaggerParseService = new class {
 
 	constructor() {
 		this.availableCRUDService = new AvailableCRUDService();
-		this.refService = new RefService(swaggerDoc);
+		this.refService = new RefService(this.getSwaggerDoc);
 		this.schemaService = new SchemaService(this.refService);
-		this.apiService = new APIService(this.controllerPaths);
+		this.apiService = new APIService(this.getControlerPaths);
 	}
 
 
@@ -78,34 +79,55 @@ export const SwaggerParseService = new class {
 		return this.availableCRUDService.getAvailableCRUD(pathController, this.controllerPaths);
 	}
 
-	public getViewOneSchema(controllerPath: string | string[]): TSchemaEntity {
+	/**
+	 * TODO:
+	 * @param controllerPath 
+	 * @returns 
+	 */
+	public async getViewOneSchema(controllerPath: string | string[]): Promise<TSchemaEntity> {
 		if (Array.isArray(controllerPath)) {
-			return this.schemaService.getViewOneSchema(
+			return await this.schemaService.getViewOneSchema(
 				this.getControlerPathFromArray(controllerPath), this.controllerPaths);
 		} else {
 			return this.schemaService.getViewOneSchema(controllerPath, this.controllerPaths);
 		}
 	}
 
-	public getViewManySchema(controllerPath: string | string[]): TSchemaEntity {
+	/**
+	 * TODO:
+	 * @param controllerPath 
+	 * @returns 
+	 */
+	public async getViewManySchema(controllerPath: string | string[]): Promise<TSchemaEntity> {
 		if (Array.isArray(controllerPath)) {
-			return this.schemaService.getViewManySchema(
+			return await this.schemaService.getViewManySchema(
 				this.getControlerPathFromArray(controllerPath), this.controllerPaths);
 		} else {
 			return this.schemaService.getViewManySchema(controllerPath, this.controllerPaths);
 		}
 	}
 
-	public getCreateOneSchema(controllerPath: string | string[]): TSchemaEntity {
+	/**
+	 * TODO:
+	 * @param controllerPath 
+	 * @returns 
+	 */
+	public getCreateOneSchema(controllerPath: string | string[]): Promise<TSchemaEntity> {
 		if (Array.isArray(controllerPath)) {
 			return this.schemaService.getCreateOneSchema(
-				this.getControlerPathFromArray(controllerPath), this.controllerPaths);
+				this.getControlerPathFromArray(controllerPath), this.controllerPaths
+			);
 		} else {
 			return this.schemaService.getCreateOneSchema(controllerPath, this.controllerPaths);
 		}
 	}
 
-	public getUpdateOneSchema(controllerPath: string | string[]): TSchemaEntity {
+	/**
+	 * TODO:
+	 * @param controllerPath 
+	 * @returns 
+	 */
+	public getUpdateOneSchema(controllerPath: string | string[]): Promise<TSchemaEntity> {
 		if (Array.isArray(controllerPath)) {
 			return this.schemaService.getUpdateOneSchema(
 				this.getControlerPathFromArray(controllerPath), this.controllerPaths);
@@ -118,5 +140,19 @@ export const SwaggerParseService = new class {
 		return this.apiService;
 	}
 
+	protected async getSwaggerDoc(): Promise<any> {
+		const response = await fetch("http://todo.dv:8081/api-json");
+		const data = await response.json();
+		return data;
+	}
 
+	/**
+	 * TODO:
+	 * @returns 
+	 */
+	protected async getControlerPaths(): Promise<TControllerPaths> {
+		const response = await fetch("http://todo.dv:8081/api-json");
+		const data = await response.json();
+		return data.paths;
+	}
 }

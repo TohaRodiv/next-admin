@@ -10,6 +10,7 @@
   "dependencies": {
     "@nestjsx/crud-request": "^5.0.0-alpha.3",
     "classnames": "^2.2.6",
+    "form-data-json-convert": "^2.0.0",
     "formidable": "^1.2.2",
     "next": "10.2.3",
     "react": "17.0.2",

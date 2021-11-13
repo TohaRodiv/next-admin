@@ -1,7 +1,7 @@
 import { Container, } from "react-grid-system";
 import classNames from "classnames";
-import { HTMLElementAttributes } from "#data-transfer-types/src/types/HTMLElementAttributes";
-import { TMenu } from "#data-transfer-types/src/types/TMenu";
+import { HTMLElementAttributes } from "#types/HTMLElementAttributes";
+import { TMenu } from "#types/TMenu";
 
 
 type TPropsComponent = {

@@ -8,6 +8,7 @@ import type {
 	TAvailableCRUD,
 	TSchemaEntity,
 	TControllerPaths,
+	TAvailableCRUDPaths,
 } from "./types";
 
 
@@ -28,15 +29,16 @@ export const SwaggerParseService = new class {
 		this.availableCRUDService = new AvailableCRUDService();
 		this.refService = new RefService(this.getSwaggerDoc);
 		this.schemaService = new SchemaService(this.refService);
-		this.apiService = new APIService(this.getControlerPaths);
+		this.apiService = new APIService(this.getControllerPaths);
 	}
 
 
-	public getCategoriesEntity(): TCategoryEntity[] {
+	public async getCategoriesEntity(): Promise<TCategoryEntity[]> {
 		const paths = new Set();
 		const tags = new Set();
+		const controllerPaths = await this.getControllerPaths();
 
-		Object.keys(swaggerDoc.paths).forEach((path) => {
+		Object.keys(controllerPaths).forEach((path) => {
 			const controllerPath = path.replace(/\/({id}|bulk)$/, "");
 
 			const isExcluded = this.excludePaths
@@ -52,12 +54,12 @@ export const SwaggerParseService = new class {
 				return;
 			}
 
-			if ("get" in swaggerDoc.paths[path]) {
+			if ("get" in controllerPaths[path]) {
 				paths.add(controllerPath);
-				tags.add(swaggerDoc.paths[path]["get"]["tags"][0]);
+				tags.add(controllerPaths[path]["get"]["tags"][0]);
 			}
 		});
-
+		
 		const pathList = Array.from(paths);
 		const tagList = Array.from(tags);
 
@@ -75,8 +77,20 @@ export const SwaggerParseService = new class {
 		return `/${path.join("/")}`;
 	}
 
-	public getAvailableCRUD(pathController: string): TAvailableCRUD {
-		return this.availableCRUDService.getAvailableCRUD(pathController, this.controllerPaths);
+	/**
+	 * @description Использовать на серверной части.
+	 * @return Возвращает объект с путями для CRUD операций.
+	 */
+	public async getAvailableCRUDPaths(pathController: string): Promise<TAvailableCRUDPaths> {
+		return this.availableCRUDService.getAvailableCRUDPaths(pathController, await this.getControllerPaths());
+	}
+
+	/**
+	 * @description Использовать на клиенте.
+	 * @return Возвращает объект с функциями формирования CRUD операций.
+	 */
+	public getAvailableCRUD(availableCRUDPaths: TAvailableCRUDPaths): TAvailableCRUD {
+		return this.availableCRUDService.getAvailableCRUD(availableCRUDPaths);
 	}
 
 	/**
@@ -87,9 +101,9 @@ export const SwaggerParseService = new class {
 	public async getViewOneSchema(controllerPath: string | string[]): Promise<TSchemaEntity> {
 		if (Array.isArray(controllerPath)) {
 			return await this.schemaService.getViewOneSchema(
-				this.getControlerPathFromArray(controllerPath), this.controllerPaths);
+				this.getControlerPathFromArray(controllerPath), await this.getControllerPaths());
 		} else {
-			return this.schemaService.getViewOneSchema(controllerPath, this.controllerPaths);
+			return this.schemaService.getViewOneSchema(controllerPath, await this.getControllerPaths());
 		}
 	}
 
@@ -101,9 +115,9 @@ export const SwaggerParseService = new class {
 	public async getViewManySchema(controllerPath: string | string[]): Promise<TSchemaEntity> {
 		if (Array.isArray(controllerPath)) {
 			return await this.schemaService.getViewManySchema(
-				this.getControlerPathFromArray(controllerPath), this.controllerPaths);
+				this.getControlerPathFromArray(controllerPath), await this.getControllerPaths());
 		} else {
-			return this.schemaService.getViewManySchema(controllerPath, this.controllerPaths);
+			return this.schemaService.getViewManySchema(controllerPath, await this.getControllerPaths());
 		}
 	}
 
@@ -112,13 +126,13 @@ export const SwaggerParseService = new class {
 	 * @param controllerPath 
 	 * @returns 
 	 */
-	public getCreateOneSchema(controllerPath: string | string[]): Promise<TSchemaEntity> {
+	public async getCreateOneSchema(controllerPath: string | string[]): Promise<TSchemaEntity> {
 		if (Array.isArray(controllerPath)) {
 			return this.schemaService.getCreateOneSchema(
-				this.getControlerPathFromArray(controllerPath), this.controllerPaths
+				this.getControlerPathFromArray(controllerPath), await this.getControllerPaths()
 			);
 		} else {
-			return this.schemaService.getCreateOneSchema(controllerPath, this.controllerPaths);
+			return this.schemaService.getCreateOneSchema(controllerPath, await this.getControllerPaths());
 		}
 	}
 
@@ -127,12 +141,12 @@ export const SwaggerParseService = new class {
 	 * @param controllerPath 
 	 * @returns 
 	 */
-	public getUpdateOneSchema(controllerPath: string | string[]): Promise<TSchemaEntity> {
+	public async getUpdateOneSchema(controllerPath: string | string[]): Promise<TSchemaEntity> {
 		if (Array.isArray(controllerPath)) {
 			return this.schemaService.getUpdateOneSchema(
-				this.getControlerPathFromArray(controllerPath), this.controllerPaths);
+				this.getControlerPathFromArray(controllerPath), await this.getControllerPaths());
 		} else {
-			return this.schemaService.getUpdateOneSchema(controllerPath, this.controllerPaths);
+			return this.schemaService.getUpdateOneSchema(controllerPath, await this.getControllerPaths());
 		}
 	}
 
@@ -141,18 +155,22 @@ export const SwaggerParseService = new class {
 	}
 
 	protected async getSwaggerDoc(): Promise<any> {
-		const response = await fetch("http://todo.dv:8081/api-json");
+		const response = await fetch(`${process.env.LOCAL_API_URL}/api/swagger-docs`);
 		const data = await response.json();
 		return data;
 	}
 
 	/**
 	 * TODO:
-	 * @returns 
 	 */
-	protected async getControlerPaths(): Promise<TControllerPaths> {
-		const response = await fetch("http://todo.dv:8081/api-json");
-		const data = await response.json();
-		return data.paths;
+	protected async getControllerPaths(): Promise<TControllerPaths> {
+		if (typeof this["_controllerPaths"] === "undefined") {
+			const response = await fetch(`${process.env.LOCAL_API_URL}/api/swagger-docs`);
+			const data = await response.json();
+			this["_controllerPaths"] = data.paths;
+			return data.paths;
+		} else {
+			return this["_controllerPaths"];
+		}
 	}
 }

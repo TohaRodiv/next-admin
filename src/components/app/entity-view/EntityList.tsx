@@ -1,4 +1,4 @@
-import { TCategoryEntity } from "#services/swagger-parse-service/types";
+import { TCategoryEntity } from "#services/swagger-parse/types";
 import { Link } from "../../ui/Link";
 
 type TProps = {

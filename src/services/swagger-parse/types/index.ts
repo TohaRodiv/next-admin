@@ -23,6 +23,14 @@ export type TAvailableCRUD = {
 	getPathCreateOne?: () => string
 }
 
+export type TAvailableCRUDPaths = {
+	getPathGetMany?: string
+	getPathGetOne?: string
+	getPathUpdateOne?: string
+	getPathDeleteOne?: string
+	getPathCreateOne?: string
+}
+
 export type TEntity = {
 	[propName: string]: any
 }

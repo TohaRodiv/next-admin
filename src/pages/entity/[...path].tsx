@@ -2,20 +2,22 @@ import { NextPage, NextPageContext } from "next";
 import Head from "next/head";
 import { EntityViews } from "#components/app/entity-view";
 import { Container } from "react-grid-system";
-import { SwaggerParseService } from "#services/swagger-parse-service/SwaggerParseService";
-import { TEntity, TSchemaEntity } from "#services/swagger-parse-service/types";
+import { SwaggerParseService } from "#services/swagger-parse/SwaggerParseService";
+import { TAvailableCRUDPaths, TControllerPaths, TEntity, TSchemaEntity } from "#services/swagger-parse/types";
+import { APIFrontendService } from "#services/api-frontend/APIFrontendService";
 
 type TProps = {
 	entities: TEntity[],
 	schema: TSchemaEntity
-	path: string
+	controllerPath: TControllerPaths
+	availableCRUDPaths: TAvailableCRUDPaths
 }
 
 type TSProps = Promise<{
 	props: TProps
 }>
 
-const EntityPageViews: NextPage<TProps> = ({ entities, schema, path }) => {
+const EntityPageViews: NextPage<TProps> = ({ entities, schema, controllerPath,availableCRUDPaths }) => {
 
 	return (
 		<>
@@ -28,7 +30,8 @@ const EntityPageViews: NextPage<TProps> = ({ entities, schema, path }) => {
 						entities={entities}
 						schema={schema}
 						caption="Задачи"
-						availableCRUD={SwaggerParseService.getAvailableCRUD(path)} />
+						availableCRUD={SwaggerParseService.getAvailableCRUD(availableCRUDPaths)}
+						controllerPath={controllerPath} />
 				</>
 			</Container>
 		</>
@@ -39,17 +42,18 @@ export const getServerSideProps = async (context: NextPageContext): Promise<TSPr
 	const props = {
 		entities: null,
 		schema: null,
-		path: null,
+		controllerPath: null,
+		availableCRUDPaths: null,
 	};
 
 	const paths = context.query["path"] as string[];
 
 	if (Array.isArray(paths)) {
 		const controllerPath = SwaggerParseService.getControlerPathFromArray(paths);
-		props.path = controllerPath;
+		props.controllerPath = controllerPath;
 		props.schema = await SwaggerParseService.getViewManySchema(controllerPath);
-		props.entities = await SwaggerParseService.APIService.getMany(controllerPath);
-		console.log(props.entities);
+		props.entities = await APIFrontendService.getMany(controllerPath);
+		props.availableCRUDPaths = await SwaggerParseService.getAvailableCRUDPaths(controllerPath);
 	}
 
 	return {

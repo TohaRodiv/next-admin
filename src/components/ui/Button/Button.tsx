@@ -4,7 +4,7 @@ import { HTMLElementAttributes } from "#types/HTMLElementAttributes";
 
 type TProps = {
 	variant?: "default" | "primary" | "secondary" | "action" | "success" | "warning" | "error"
-} & HTMLElementAttributes<HTMLButtonElement>
+} & React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>;
 
 export const Button: React.FC<TProps> = ({ children, variant, className, ...buttonProps }: TProps): JSX.Element => {
 	const classes = classNames(

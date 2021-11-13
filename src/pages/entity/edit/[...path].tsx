@@ -2,31 +2,22 @@ import { NextPage, NextPageContext } from "next";
 import Head from "next/head";
 import { EntityEdit } from "#components/app/entity-view/edit/EntityEdit";
 import { Container } from "react-grid-system";
-import { SwaggerParseService } from "#services/swagger-parse-service/SwaggerParseService";
-import { TSchemaEntity } from "#services/swagger-parse-service/types";
+import { SwaggerParseService } from "#services/swagger-parse/SwaggerParseService";
+import { TControllerPaths, TEntity, TSchemaEntity } from "#services/swagger-parse/types";
+import { APIFrontendService } from "#services/api-frontend/APIFrontendService";
 
 type TProps = {
-	entity: {
-		[propName: string]: any
-	},
+	entity: TEntity
 	schema: TSchemaEntity
+	controllerPath: TControllerPaths
 }
 
 type TSProps = {
 	props: TProps
 }
 
-const entity_ =
-{
-	id: 3,
-	name: "Three name",
-	categoryId: 1,
-	active: true,
-	createdAt: new Date(),
-};
-
 const EntityPageViews: NextPage<TProps> = ({
-	entity, schema,
+	entity, schema, controllerPath
 }) => {
 
 	return (
@@ -35,7 +26,7 @@ const EntityPageViews: NextPage<TProps> = ({
 				<title>Редактор сущности</title>
 			</Head>
 			<Container>
-				<EntityEdit schema={schema} entity={entity_}/>
+				<EntityEdit schema={schema} entity={entity} controllerPath={controllerPath} />
 			</Container>
 		</>
 	);
@@ -45,16 +36,17 @@ export const getServerSideProps = async (context: NextPageContext): Promise<TSPr
 	const props = {
 		entity: null,
 		schema: null,
+		controllerPath: null,
 	};
 
 	const paths = context.query["path"] as string[];
 	const entityId = +paths.pop();
 	
 	if (isFinite(entityId)) {
-		props.schema = await SwaggerParseService.getUpdateOneSchema(paths);
-		/**
-		 * TODO: Получить по entityId сущность
-		 */
+		const controllerPath = SwaggerParseService.getControlerPathFromArray(paths);
+		props.controllerPath = controllerPath;
+		props.schema = await SwaggerParseService.getUpdateOneSchema(controllerPath);
+		props.entity = await APIFrontendService.getById(controllerPath, entityId);
 	}
 
 	return {

@@ -1,23 +1,26 @@
 import { Button } from "#components/ui/Button";
-import { TSchemaEntity } from "#services/swagger-parse-service/types";
+import { TControllerPaths, TSchemaEntity } from "#services/swagger-parse/types";
 import React, { FormEvent, HTMLInputTypeAttribute, SyntheticEvent } from "react";
 import { BackButton } from "../../button-back";
 import { getTypeField } from "../libs/getTypeField";
 import FormDataJson from "form-data-json-convert";
+import { APIFrontendService } from "#services/api-frontend/APIFrontendService";
 
 
 type TProps = {
 	schema: TSchemaEntity
+	controllerPath: TControllerPaths
 }
 
-export const EntityCreate: React.FC <TProps> = ({ schema, }): JSX.Element => {
+export const EntityCreate: React.FC <TProps> = ({ schema, controllerPath, }): JSX.Element => {
 	const { properties: schemaProps } = schema;
 
-	const handleSubmit = (event: SyntheticEvent<HTMLFormElement>): void => {
+	const handleSubmit = async (event: SyntheticEvent<HTMLFormElement>): Promise<void> => {
 		event.preventDefault();
-		const target = event.currentTarget;
-		const payload = FormDataJson.toJson(target);
-		console.log(payload);
+		const form = event.currentTarget;
+		const data = new FormData(form);
+		const result = await APIFrontendService.createOne(controllerPath, data);
+		console.log(result);
 	};
 
 	return (
@@ -25,9 +28,8 @@ export const EntityCreate: React.FC <TProps> = ({ schema, }): JSX.Element => {
 			{
 				Object.keys(schemaProps).map((schemaKey) => {
 					let title = schemaProps[schemaKey]["title"] ? schemaProps[schemaKey]["title"] : schemaKey;
-					console.log("Type:", schemaProps[schemaKey]["type"]);
 					let type: HTMLInputTypeAttribute = getTypeField(schemaProps[schemaKey]["type"], schemaProps[schemaKey]["format"]);
-
+					console.log(schema.required);
 					return (
 						<div className="entity-view__item" key={schemaKey}>
 							<div className="entity-view__title">{title}</div>

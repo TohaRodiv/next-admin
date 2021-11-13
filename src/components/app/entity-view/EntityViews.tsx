@@ -1,4 +1,7 @@
-import { TEntity, TSchemaEntity, TAvailableCRUD } from "#services/swagger-parse-service/types";
+import { Button } from "#components/ui/Button";
+import { APIFrontendService } from "#services/api-frontend/APIFrontendService";
+import { TEntity, TSchemaEntity, TAvailableCRUD, TControllerPaths } from "#services/swagger-parse/types";
+import { SyntheticEvent } from "react";
 import { Link } from "../../ui/Link";
 
 type TProps = {
@@ -6,12 +9,20 @@ type TProps = {
 	caption: string
 	schema: TSchemaEntity
 	availableCRUD: TAvailableCRUD
+	controllerPath: TControllerPaths
 }
 
-export const EntityViews: React.FC<TProps> = ({ entities, schema, caption, availableCRUD }): JSX.Element => {
+export const EntityViews: React.FC<TProps> = ({ entities, schema, caption, availableCRUD, controllerPath, }): JSX.Element => {
 
 	const { properties: schemaProps } = schema;
 	const countEntities = entities.length;
+
+	const handleDelete = async (entityId: number) => {
+		if (confirm("Удалить?")) {
+			const result = await APIFrontendService.deleteById(controllerPath, entityId);
+			console.log(result);
+		}
+	};
 
 	return (
 		<>
@@ -48,36 +59,39 @@ export const EntityViews: React.FC<TProps> = ({ entities, schema, caption, avail
 				</thead>
 				<tbody>
 					{
-						entities.map((entity, index) => (
+						!!entities.length && entities.map((entity, index) => (
 							<tr key={`entity-${index}`}>
 								<td>
 									<input type="checkbox" name="selected-entity" />
 								</td>
 								{
-									Object.values(entity).map((propValue, index) => (
-										<td key={`prop-value-${index}`}>
-											{propValue.toString()}
-										</td>
-									))
+									Object.values(entity).map((propValue, index) => {
+										const value = !!propValue && propValue.toString().substr(0, 80);
+										return (
+											<td key={`prop-value-${index}`}>
+												{value}
+											</td>
+										)
+									})
 								}
 								<td>
 									{
 										availableCRUD.getPathUpdateOne && (
-											<Link href={availableCRUD.getPathUpdateOne(1)}>Редактировать</Link>
+											<Link href={availableCRUD.getPathUpdateOne(entity.id)}>Редактировать</Link>
 										)
 									}
 								</td>
 								<td>
 									{
 										availableCRUD.getPathGetOne && (
-											<Link href={availableCRUD.getPathGetOne(1)}>Просмотр</Link>
+											<Link href={availableCRUD.getPathGetOne(entity.id)}>Просмотр</Link>
 										)
 									}
 								</td>
 								<td>
 									{
 										availableCRUD.getPathDeleteOne && (
-											<Link href={availableCRUD.getPathDeleteOne(1)}>Удалить</Link>
+											<Button onClick={() => handleDelete(entity.id)}>Удалить</Button>
 										)
 									}
 								</td>

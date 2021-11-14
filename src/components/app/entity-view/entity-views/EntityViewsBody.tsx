@@ -25,7 +25,7 @@ export const EntityViewsBody: React.FC<TProps> = ({ entities: _entities, availab
 		<>
 		<tbody className="entity-views__tbody">
 			{
-				entities.length === 0 ? (
+				!entities.length ? (
 					<tr>
 						<td colSpan={999}>Записей нет</td>
 					</tr>

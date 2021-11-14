@@ -2,6 +2,7 @@ import { Button } from "#components/ui/Button";
 import { ButtonGroup } from "#components/ui/button-group";
 import { APIFrontendService } from "#services/api-frontend/APIFrontendService";
 import { TSchemaEntity, TEntity, TControllerPaths } from "#services/swagger-parse/types";
+import { useRouter } from "next/router";
 import { HTMLInputTypeAttribute, SyntheticEvent } from "react";
 import { BackButton } from "../../button-back";
 import { ButtonSave } from "../buttons";
@@ -16,14 +17,13 @@ type TProps = {
 
 export const EntityEdit: React.FC<TProps> = ({ schema, entity, controllerPath, }): JSX.Element => {
 	const { properties: schemaProps } = schema;
+	const router = useRouter();
 
 	const handleSubmit = async (e: SyntheticEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		const data = new FormData(e.currentTarget);
-		APIFrontendService.updateById(controllerPath, entity.id, data)
-			.then(result => {
-				console.log(result);
-			});
+		await APIFrontendService.updateById(controllerPath, entity.id, data);
+		router.back();
 	};
 
 	return (

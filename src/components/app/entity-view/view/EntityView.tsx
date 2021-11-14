@@ -3,6 +3,7 @@ import { ButtonGroup } from "#components/ui/button-group";
 import { Link } from "#components/ui/Link";
 import { APIFrontendService } from "#services/api-frontend/APIFrontendService";
 import type { TSchemaEntity, TEntity, TAvailableCRUD, TControllerPaths } from "#services/swagger-parse/types";
+import router, { useRouter } from "next/router";
 import { ButtonDelete, ButtonEdit } from "../buttons";
 
 type TProps = {
@@ -14,12 +15,10 @@ type TProps = {
 
 export const EntityView: React.FC<TProps> = ({ schema, entity, availableCRUD, controllerPath, }): JSX.Element => {
 	const { properties: schemaProps } = schema;
+	const router = useRouter();
 
-	const handleDelete = async (entityId: number) => {
-		if (confirm("Удалить?")) {
-			const result = await APIFrontendService.deleteById(controllerPath, entityId);
-			console.log(result);
-		}
+	const handleDelete = async (_entity: TEntity) => {
+		router.back();
 	};
 
 	return (
@@ -51,7 +50,7 @@ export const EntityView: React.FC<TProps> = ({ schema, entity, availableCRUD, co
 
 				{
 					availableCRUD.getPathDeleteOne && (
-						<ButtonDelete controllerPath={controllerPath} entityId={entity.id} />
+						<ButtonDelete controllerPath={controllerPath} entityId={entity.id} onDelete={handleDelete} />
 					)
 				}
 			</ButtonGroup>

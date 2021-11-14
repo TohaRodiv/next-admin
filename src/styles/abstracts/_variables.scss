@@ -1,16 +1,36 @@
 :root {
 	--swiper-theme-color: #000;
+
+	--color-dark: #000;
+	--color-dark-hover: rgb(46, 46, 46);
+
+	--color-light: #FFF;
+	
+	--color-primary: #0d6efd;
+	--color-primary-hover: #0b5eda;
+
+	--color-secondary: #6c757d;
+	--color-secondary-hover: #5a6269;
+
+	--color-success: #198754;
+	--color-success-hover: #157448;
+	
+	--color-danger: #dc3545;
+	--color-danger-hover: #c22e3d;
+	
+	--color-warning: #ffc107;
+	--color-warning-hover: #ffcc34;
+	
+	--color-info: #0dcaf0;
+	--color-info-hover: #0cb2d3;
+	
+	--color-link: #0d6efd;
+	--color-link-hover: #0e5ed6;
 }
 
 $colors: (
   'dark': #000000,
   'light': #ffffff,
-  'accent': #ecd23d,
-  'accent-hover': #ffd900,
-  'success': green,
-  'warning': yellow,
-  'error': red,
-  'gray': #DDD
 );
 
 $z-indexes: (

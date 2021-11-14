@@ -6,5 +6,5 @@ type TProps = {
 }
 
 export const BackButton: React.FC<TProps> = ({ value }): JSX.Element => (
-	<Button onClick={() => Router.back()}>{ value ? value : "Назад"}</Button>
+	<Button variant="dark" iconName="chevron-left" onClick={() => Router.back()}>{ value ? value : "Назад"}</Button>
 );

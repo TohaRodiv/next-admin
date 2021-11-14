@@ -1,8 +1,10 @@
 import { Button } from "#components/ui/Button";
+import { ButtonGroup } from "#components/ui/button-group";
 import { APIFrontendService } from "#services/api-frontend/APIFrontendService";
 import { TSchemaEntity, TEntity, TControllerPaths } from "#services/swagger-parse/types";
 import { HTMLInputTypeAttribute, SyntheticEvent } from "react";
 import { BackButton } from "../../button-back";
+import { ButtonSave } from "../buttons";
 import { getTypeField } from "../libs/getTypeField";
 
 type TProps = {
@@ -12,16 +14,16 @@ type TProps = {
 }
 
 
-export const EntityEdit: React.FC <TProps> = ({ schema, entity, controllerPath, }): JSX.Element => {
+export const EntityEdit: React.FC<TProps> = ({ schema, entity, controllerPath, }): JSX.Element => {
 	const { properties: schemaProps } = schema;
 
 	const handleSubmit = async (e: SyntheticEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		const data = new FormData(e.currentTarget);
 		APIFrontendService.updateById(controllerPath, entity.id, data)
-		.then (result => {
-			console.log(result);
-		});
+			.then(result => {
+				console.log(result);
+			});
 	};
 
 	return (
@@ -33,7 +35,7 @@ export const EntityEdit: React.FC <TProps> = ({ schema, entity, controllerPath, 
 					let type: HTMLInputTypeAttribute = getTypeField(
 						schemaProps[schemaKey]["type"],
 						schemaProps[schemaKey]["format"]
-						);
+					);
 					const defaultValue: {
 						defaultValue?: any
 						defaultChecked?: boolean
@@ -62,8 +64,10 @@ export const EntityEdit: React.FC <TProps> = ({ schema, entity, controllerPath, 
 					);
 				})
 			}
-			<Button type="submit">Сохранить</Button>
-			<BackButton value="Отменить" />
+			<ButtonGroup>
+				<ButtonSave />
+				<BackButton value="Отменить" />
+			</ButtonGroup>
 		</form>
 	);
 };

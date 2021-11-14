@@ -5,6 +5,8 @@ import { BackButton } from "../../button-back";
 import { getTypeField } from "../libs/getTypeField";
 import FormDataJson from "form-data-json-convert";
 import { APIFrontendService } from "#services/api-frontend/APIFrontendService";
+import { ButtonGroup } from "#components/ui/button-group";
+import { ButtonSave } from "../buttons";
 
 
 type TProps = {
@@ -24,7 +26,7 @@ export const EntityCreate: React.FC <TProps> = ({ schema, controllerPath, }): JS
 	};
 
 	return (
-		<form action="" method="POST" onSubmit={handleSubmit} className="entity-view">
+		<form onSubmit={handleSubmit} className="entity-view">
 			{
 				Object.keys(schemaProps).map((schemaKey) => {
 					let title = schemaProps[schemaKey]["title"] ? schemaProps[schemaKey]["title"] : schemaKey;
@@ -43,8 +45,10 @@ export const EntityCreate: React.FC <TProps> = ({ schema, controllerPath, }): JS
 					);
 				})
 			}
-			<Button>Сохранить</Button>
+			<ButtonGroup>
+			<ButtonSave />
 			<BackButton value="Отменить" />
+			</ButtonGroup>
 		</form>
 	);
 };

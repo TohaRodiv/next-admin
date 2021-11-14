@@ -1,7 +1,9 @@
 import { Button } from "#components/ui/Button";
+import { ButtonGroup } from "#components/ui/button-group";
 import { Link } from "#components/ui/Link";
 import { APIFrontendService } from "#services/api-frontend/APIFrontendService";
 import type { TSchemaEntity, TEntity, TAvailableCRUD, TControllerPaths } from "#services/swagger-parse/types";
+import { ButtonDelete, ButtonEdit } from "../buttons";
 
 type TProps = {
 	schema: TSchemaEntity
@@ -40,17 +42,19 @@ export const EntityView: React.FC<TProps> = ({ schema, entity, availableCRUD, co
 					);
 				})
 			}
-			{
-				availableCRUD.getPathUpdateOne && (
-					<Link href={availableCRUD.getPathUpdateOne(entity.id)}>Редактировать</Link>
-				)
-			}
+			<ButtonGroup>
+				{
+					availableCRUD.getPathUpdateOne && (
+						<ButtonEdit path={availableCRUD.getPathUpdateOne(entity.id)} />
+					)
+				}
 
-			{
-				availableCRUD.getPathDeleteOne && (
-					<Button onClick={() => handleDelete(entity.id)}>Удалить</Button>
-				)
-			}
+				{
+					availableCRUD.getPathDeleteOne && (
+						<ButtonDelete controllerPath={controllerPath} entityId={entity.id} />
+					)
+				}
+			</ButtonGroup>
 		</div>
 	);
 }

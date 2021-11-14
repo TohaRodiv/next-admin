@@ -3,6 +3,7 @@ import { APIFrontendService } from "#services/api-frontend/APIFrontendService";
 import { TEntity, TSchemaEntity, TAvailableCRUD, TControllerPaths } from "#services/swagger-parse/types";
 import { SyntheticEvent } from "react";
 import { Link } from "../../ui/Link";
+import { ButtonCreate, ButtonDelete, ButtonEdit, ButtonView } from "./buttons";
 
 type TProps = {
 	entities: TEntity[]
@@ -17,18 +18,11 @@ export const EntityViews: React.FC<TProps> = ({ entities, schema, caption, avail
 	const { properties: schemaProps } = schema;
 	const countEntities = entities.length;
 
-	const handleDelete = async (entityId: number) => {
-		if (confirm("Удалить?")) {
-			const result = await APIFrontendService.deleteById(controllerPath, entityId);
-			console.log(result);
-		}
-	};
-
 	return (
 		<>
 			{
 				availableCRUD.getPathCreateOne &&
-				<Link href={availableCRUD.getPathCreateOne()}>Добавить</Link>
+				<ButtonCreate path={availableCRUD.getPathCreateOne()} />
 			}
 			<table>
 				<caption>{caption}</caption>
@@ -77,21 +71,21 @@ export const EntityViews: React.FC<TProps> = ({ entities, schema, caption, avail
 								<td>
 									{
 										availableCRUD.getPathUpdateOne && (
-											<Link href={availableCRUD.getPathUpdateOne(entity.id)}>Редактировать</Link>
+											<ButtonEdit path={availableCRUD.getPathUpdateOne(entity.id)} text={false} />
 										)
 									}
 								</td>
 								<td>
 									{
 										availableCRUD.getPathGetOne && (
-											<Link href={availableCRUD.getPathGetOne(entity.id)}>Просмотр</Link>
+											<ButtonView path={availableCRUD.getPathGetOne(entity.id)} text={false} />
 										)
 									}
 								</td>
 								<td>
 									{
 										availableCRUD.getPathDeleteOne && (
-											<Button onClick={() => handleDelete(entity.id)}>Удалить</Button>
+											<ButtonDelete controllerPath={controllerPath} entityId={entity.id} text={false} />
 										)
 									}
 								</td>

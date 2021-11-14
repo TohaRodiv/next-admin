@@ -1,1 +1,1 @@
-export { EntityViews } from "./EntityViews";
+export { EntityViews } from "./entity-views/EntityViews";

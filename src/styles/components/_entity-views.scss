@@ -1,0 +1,48 @@
+.entity-views {
+	border-collapse: collapse;
+	margin: 1rem 0;
+
+	&__caption {
+		text-align: left;
+		background-color: #EEE;
+		color: var(--color-dark);
+		padding: .5rem;
+		font-weight: 600;
+		font-size: 1.1rem;
+	}
+
+	&__thead th {
+		background-color: #000;
+		color: #FFF;
+		text-align: left;
+		padding: .5rem 1rem;
+	}
+
+	&__tbody td {
+		background-color: #FDF8D2;
+		padding: .5rem 1rem;
+		text-align: left;
+		@include  transition("default");
+	}
+
+	&__tbody tr:nth-child(odd) td {
+		background-color: #fff8be;
+	}
+
+	&__tbody tr:hover td {
+		background-color: #fff48c;
+		@include  transition("default");
+	}
+
+	&__tfoot th {
+		padding: .5rem 1rem;
+		background-color: #000;
+		color: #FFF;
+	}
+
+	&__tfoot td {
+		background-color: #000;
+		color: #FFF;
+		padding: .5rem 1rem;
+	}
+}

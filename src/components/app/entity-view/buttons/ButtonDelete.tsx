@@ -18,7 +18,8 @@ export const ButtonDelete: React.FC<TProps> = ({ className, controllerPath, enti
 
 	const handleClick = async (e: SyntheticEvent<HTMLButtonElement>) => {
 		if (confirm("Удалить?")) {
-			const result = await APIFrontendService.deleteById(controllerPath, entityId);
+			const response = await APIFrontendService.deleteById(controllerPath, entityId);
+			const result = await response.json();
 			onDelete && onDelete(result);
 		}
 	};

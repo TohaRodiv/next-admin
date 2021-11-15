@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import { HTMLInputTypeAttribute, SyntheticEvent } from "react";
 import { BackButton } from "../../button-back";
 import { ButtonSave } from "../buttons";
+import { formToJSON } from "../libs/formToJSON";
 import { getTypeField } from "../libs/getTypeField";
 
 type TProps = {
@@ -21,9 +22,10 @@ export const EntityEdit: React.FC<TProps> = ({ schema, entity, controllerPath, }
 
 	const handleSubmit = async (e: SyntheticEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		const data = new FormData(e.currentTarget);
-		await APIFrontendService.updateById(controllerPath, entity.id, data);
-		router.back();
+		const data = formToJSON(e.currentTarget.elements);
+		const response = await APIFrontendService.updateById(controllerPath, entity.id, data);
+		const result = await response.json();
+		// router.back();
 	};
 
 	return (
@@ -66,7 +68,6 @@ export const EntityEdit: React.FC<TProps> = ({ schema, entity, controllerPath, }
 			}
 			<ButtonGroup>
 				<ButtonSave />
-				<BackButton value="Отменить" />
 			</ButtonGroup>
 		</form>
 	);

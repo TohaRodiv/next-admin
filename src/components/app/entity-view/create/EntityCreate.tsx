@@ -6,6 +6,7 @@ import { APIFrontendService } from "#services/api-frontend/APIFrontendService";
 import { ButtonGroup } from "#components/ui/button-group";
 import { ButtonSave } from "../buttons";
 import { useRouter } from "next/router";
+import { formToJSON } from "../libs/formToJSON";
 
 
 type TProps = {
@@ -20,8 +21,9 @@ export const EntityCreate: React.FC <TProps> = ({ schema, controllerPath, }): JS
 	const handleSubmit = async (event: SyntheticEvent<HTMLFormElement>): Promise<void> => {
 		event.preventDefault();
 		const form = event.currentTarget;
-		const data = new FormData(form);
-		const result = await APIFrontendService.createOne(controllerPath, data);
+		const data = formToJSON(form.elements);
+		const response = await APIFrontendService.createOne(controllerPath, data);
+		const result = await response.json();
 		router.back();
 	};
 
@@ -31,7 +33,6 @@ export const EntityCreate: React.FC <TProps> = ({ schema, controllerPath, }): JS
 				Object.keys(schemaProps).map((schemaKey) => {
 					let title = schemaProps[schemaKey]["title"] ? schemaProps[schemaKey]["title"] : schemaKey;
 					let type: HTMLInputTypeAttribute = getTypeField(schemaProps[schemaKey]["type"], schemaProps[schemaKey]["format"]);
-					console.log(schema.required);
 					return (
 						<div className="entity-view__item" key={schemaKey}>
 							<div className="entity-view__title">{title}</div>

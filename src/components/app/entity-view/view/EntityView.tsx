@@ -1,19 +1,19 @@
-import { Button } from "#components/ui/Button";
 import { ButtonGroup } from "#components/ui/button-group";
-import { Link } from "#components/ui/Link";
-import { APIFrontendService } from "#services/api-frontend/APIFrontendService";
 import type { TSchemaEntity, TEntity, TAvailableCRUD, TControllerPaths } from "#services/swagger-parse/types";
-import router, { useRouter } from "next/router";
+import { TSchemaCRUD } from "#types/TSchemaCRUD";
+import { useRouter } from "next/router";
 import { ButtonDelete, ButtonEdit } from "../buttons";
+import { getFormattedEntityValue } from "../libs/getFormattedEntityValue";
 
 type TProps = {
 	schema: TSchemaEntity
 	entity: TEntity
 	availableCRUD: TAvailableCRUD
 	controllerPath: TControllerPaths
+	CRUDSchema: TSchemaCRUD
 }
 
-export const EntityView: React.FC<TProps> = ({ schema, entity, availableCRUD, controllerPath, }): JSX.Element => {
+export const EntityView: React.FC<TProps> = ({ schema, entity, availableCRUD, controllerPath, CRUDSchema, }): JSX.Element => {
 	const { properties: schemaProps } = schema;
 	const router = useRouter();
 
@@ -24,19 +24,12 @@ export const EntityView: React.FC<TProps> = ({ schema, entity, availableCRUD, co
 	return (
 		<div className="entity-view">
 			{
-				Object.keys(schemaProps).map((schemaKey) => {
-					let title = schemaKey;
-					let value = "<Значение не найдено>";
-
-					if (typeof entity[schemaKey] !== "undefined") {
-						value = entity[schemaKey].toString();
-						title = schemaProps[schemaKey]["title"] ? schemaProps[schemaKey]["title"] : schemaKey;
-					}
-
+				Object.entries(entity).map(([key, value]) => {
+					const schemaValue = schema.properties[key];
 					return (
-						<div className="entity-view__item" key={schemaKey}>
-							<div className="entity-view__title">{title}</div>
-							<div className="entity-view__value">{value}</div>
+						<div className="entity-view__item" key={key}>
+							<div className="entity-view__title">{schemaValue.title || key}</div>
+							<div className="entity-view__value">{getFormattedEntityValue(value, schemaValue, CRUDSchema)}</div>
 						</div>
 					);
 				})

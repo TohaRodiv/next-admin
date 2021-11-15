@@ -5,19 +5,21 @@ import { Container } from "react-grid-system";
 import { SwaggerParseService } from "#services/swagger-parse/SwaggerParseService";
 import { TAvailableCRUDPaths, TControllerPaths, TEntity, TSchemaEntity } from "#services/swagger-parse/types";
 import { APIFrontendService } from "#services/api-frontend/APIFrontendService";
+import { TSchemaCRUD } from "#types/TSchemaCRUD";
 
 type TProps = {
 	entities: TEntity[],
 	schema: TSchemaEntity
 	controllerPath: TControllerPaths
 	availableCRUDPaths: TAvailableCRUDPaths
+	CRUDSchema: TSchemaCRUD
 }
 
 type TSProps = Promise<{
 	props: TProps
 }>
 
-const EntityPageViews: NextPage<TProps> = ({ entities, schema, controllerPath,availableCRUDPaths }) => {
+const EntityPageViews: NextPage<TProps> = ({ entities, schema, controllerPath,availableCRUDPaths, CRUDSchema, }) => {
 
 	return (
 		<>
@@ -31,7 +33,8 @@ const EntityPageViews: NextPage<TProps> = ({ entities, schema, controllerPath,av
 						schema={schema}
 						caption="Задачи"
 						availableCRUD={SwaggerParseService.getAvailableCRUD(availableCRUDPaths)}
-						controllerPath={controllerPath} />
+						controllerPath={controllerPath}
+						CRUDSchema={CRUDSchema} />
 				</>
 			</Container>
 		</>
@@ -44,6 +47,7 @@ export const getServerSideProps = async (context: NextPageContext): Promise<TSPr
 		schema: null,
 		controllerPath: null,
 		availableCRUDPaths: null,
+		CRUDSchema: null,
 	};
 
 	const paths = context.query["path"] as string[];
@@ -52,8 +56,10 @@ export const getServerSideProps = async (context: NextPageContext): Promise<TSPr
 		const controllerPath = SwaggerParseService.getControlerPathFromArray(paths);
 		props.controllerPath = controllerPath;
 		props.schema = await SwaggerParseService.getViewManySchema(controllerPath);
-		props.entities = await APIFrontendService.getMany(controllerPath);
+		const responseMany = await APIFrontendService.getMany(controllerPath);
+		props.entities = await responseMany.json();
 		props.availableCRUDPaths = await SwaggerParseService.getAvailableCRUDPaths(controllerPath);
+		props.CRUDSchema = await SwaggerParseService.getSchemaCRUD();
 	}
 
 	return {

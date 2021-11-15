@@ -5,6 +5,9 @@ export type TSchemaEntity = {
 			type: string
 			title?: string
 			format?: string
+			allOf?: {
+				$ref: string
+			}[]
 		}
 	}
 	required: string[]

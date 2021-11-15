@@ -1,12 +1,6 @@
-import { parseFormData } from "#libs/parse-form-data/parseFormData";
 import { SwaggerParseService } from "#services/swagger-parse";
 import { NextApiRequest, NextApiResponse } from "next";
 
-export const config = {
-	api: {
-		bodyParser: false,
-	}
-};
 
 export default async function API(req: NextApiRequest, res: NextApiResponse): Promise<any> {
 	const queryPath = req.query["path"] as string[];
@@ -21,27 +15,31 @@ export default async function API(req: NextApiRequest, res: NextApiResponse): Pr
 	switch (req.method) {
 		case "GET":
 			if (entityId) {
-				const result = await SwaggerParseService.APIService.getById(controllerPath, entityId);
-				res.status(200).send(result);
+				const response = await SwaggerParseService.APIService.getById(controllerPath, entityId);
+				const result = await response.json();
+				res.status(response.status).send(result);
 			} else {
-				const result = await SwaggerParseService.APIService.getMany(controllerPath);
-				res.status(200).send(result);
+				const response = await SwaggerParseService.APIService.getMany(controllerPath);
+				const result = await response.json();
+				res.status(response.status).send(result);
 			}
 			break;
 
 		case "POST":
-			const body = (await parseFormData(req)).fields;
-			const result = await SwaggerParseService.APIService.createOne(controllerPath, body);
-			res.status(200).send(result);
+			const body = req.body;
+			const response = await SwaggerParseService.APIService.createOne(controllerPath, body);
+			const result = await response.json();
+			res.status(response.status).send(result);
 			break;
 
 		case "PATCH":
 			if (!entityId) {
 				res.status(400).send({ message: "EntityId required!" });
 			} else {
-				const body = (await parseFormData(req)).fields;
-				const result = await SwaggerParseService.APIService.updateById(controllerPath, entityId, body);
-				res.status(200).send(result);
+				const body = req.body;
+				const response = await SwaggerParseService.APIService.updateById(controllerPath, entityId, body);
+				const result = await response.json();
+				res.status(response.status).send(result);
 			}
 			break;
 
@@ -49,8 +47,9 @@ export default async function API(req: NextApiRequest, res: NextApiResponse): Pr
 			if (!entityId) {
 				res.status(400).send({ message: "EntityId required!" });
 			} else {
-				const result = await SwaggerParseService.APIService.deleteById(controllerPath, entityId);
-				res.status(200).send(result);
+				const response = await SwaggerParseService.APIService.deleteById(controllerPath, entityId);
+				const result = await response.json();
+				res.status(response.status).send(result);
 			}
 			break;
 

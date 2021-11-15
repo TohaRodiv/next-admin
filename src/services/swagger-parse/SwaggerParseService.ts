@@ -1,4 +1,5 @@
 import swaggerDoc from "#data/swagger-api.json";
+import { TSchemaCRUD } from "#types/TSchemaCRUD";
 import { APIService } from "./APIService";
 import { AvailableCRUDService } from "./AvailableCRUDService";
 import { RefService } from "./RefService";
@@ -59,7 +60,7 @@ export const SwaggerParseService = new class {
 				tags.add(controllerPaths[path]["get"]["tags"][0]);
 			}
 		});
-		
+
 		const pathList = Array.from(paths);
 		const tagList = Array.from(tags);
 
@@ -71,6 +72,33 @@ export const SwaggerParseService = new class {
 			path,
 			title: tagList[index] as string,
 		}));
+	}
+
+	public async getSchemaCRUD(): Promise<TSchemaCRUD> {
+		const result: TSchemaCRUD = {};
+
+		const controllerPaths = await this.getControllerPaths();
+
+		Object.entries(controllerPaths).forEach(([controllerPath, controllerMethods]) => {
+			Object.entries(controllerMethods).forEach(([method, methodBody]) => {
+				if (
+					"200" in methodBody["responses"]
+					&& "content" in methodBody["responses"]["200"]
+					&& methodBody["responses"]["200"]["content"]["application/json"]["schema"]["$ref"]
+				) {
+					const ref = methodBody["responses"]["200"]["content"]["application/json"]["schema"]["$ref"];
+					if (result[ref]) {
+						result[ref][method] = controllerPath;
+					} else {
+						result[ref] = {};
+						result[ref][method] = controllerPath;
+					}
+				}
+			});
+		});
+
+
+		return result;
 	}
 
 	public getControlerPathFromArray(path: string[]): string {

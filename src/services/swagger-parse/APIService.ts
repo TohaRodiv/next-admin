@@ -8,7 +8,7 @@ export class APIService implements IAPI {
 		protected getControllerPaths: () => Promise<TControllerPaths>,
 	) {}
 
-	public async getMany(controllerPath: string): Promise<any[]> {
+	public async getMany(controllerPath: string): Promise<any> {
 		this.checkControllerPath(controllerPath);
 
 		return await this.fetch(this.getFormattedUrl(controllerPath));
@@ -20,7 +20,7 @@ export class APIService implements IAPI {
 		return await this.fetch(this.getFormattedUrl(controllerPath, id));
 	}
 
-	public async updateById(controllerPath: string, id: number, data: any): Promise<any> {
+	public async updateById(controllerPath: string, id: number, data: object): Promise<any> {
 		this.checkControllerPath(controllerPath);
 
 		return await this.fetchJSON({
@@ -30,7 +30,7 @@ export class APIService implements IAPI {
 		});
 	}
 
-	public async createOne(controllerPath: string, data: BodyInit): Promise<any> {
+	public async createOne(controllerPath: string, data: object): Promise<any> {
 		this.checkControllerPath(controllerPath);
 
 		return await this.fetchJSON({
@@ -58,8 +58,7 @@ export class APIService implements IAPI {
 	}
 
 	protected async fetch(url: RequestInfo, body?: RequestInit): Promise<any> {
-		const response = await fetch(url, body);
-		return await response.json();
+		return await fetch(url, body);
 	}
 
 	protected async fetchJSON({ url, method, data,}: {
@@ -67,12 +66,11 @@ export class APIService implements IAPI {
 		method: string
 		data: any
 	}): Promise<any> {
-		const response = await fetch(url, {
+		return await fetch(url, {
 			method,
 			body: JSON.stringify(data),
 			headers: new Headers({ "Content-Type": "application/json"}),
 		});
-		return await response.json();
 	}
 
 	protected getFormattedUrl(controllerPath: TControllerPaths, id?: number): string {

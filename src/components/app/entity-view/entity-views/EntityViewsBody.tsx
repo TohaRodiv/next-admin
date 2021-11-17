@@ -44,15 +44,19 @@ export const EntityViewsBody: React.FC<TProps> = ({
 							{/* <td>
 							<input type="checkbox" name="selected-entity" />
 						</td> */}
-							<td colSpan={3}>
+							<td colSpan={3} className="entity-views__operation">
 								{
 									availableCRUD.getPathUpdateOne && (
-										<ButtonEdit path={availableCRUD.getPathUpdateOne(entity.id)} text={false} />
+										<ButtonEdit
+											path={availableCRUD.getPathUpdateOne(entity.id)}
+											text={false} />
 									)
 								}
 								{
 									availableCRUD.getPathGetOne && (
-										<ButtonView path={availableCRUD.getPathGetOne(entity.id)} text={false} />
+										<ButtonView
+											path={availableCRUD.getPathGetOne(entity.id)}
+											text={false} />
 									)
 								}
 								{
@@ -65,7 +69,10 @@ export const EntityViewsBody: React.FC<TProps> = ({
 									)
 								}
 							</td>
-							<EntityViewsFormatted entity={entity} schema={schema} CRUDSchema={CRUDSchema} />
+							<EntityViewsFormatted
+								entity={entity}
+								schema={schema}
+								CRUDSchema={CRUDSchema} />
 						</tr>
 					))
 				}

@@ -3,7 +3,6 @@ import { TSchemaCRUD } from "#types/TSchemaCRUD";
 import { getTypeField } from "./getTypeField";
 
 function getFormattedField(type: string, value: any) {
-	// console.log(type, value);
 	switch (type) {
 		case "number":
 		case "password":
@@ -32,20 +31,42 @@ function getFormattedField(type: string, value: any) {
 }
 
 export function getFormattedEntityValue(entityValue: any, schema: any, CRUDSchema: TSchemaCRUD): any {
-	let formattedField = null;
+	let formattedField = [];
 
 	/**
 	 * Форматирование примитивных типов
 	 */
 	if (schema.type && schema.type !== "array" && schema.type !== "object") {
 		const type = getTypeField(schema.type, schema.format);
-		formattedField = getFormattedField(type, entityValue);
+		formattedField.push(
+			<div key={entityValue}>
+				{getFormattedField(type, entityValue)}
+			</div>
+		);
 	}
 	/**
 	 * Форматирование связи many-to-many
 	 */
 	else if (schema.type === "array") {
-		// console.log(schema, entityValue);
+		
+		if (typeof schema.items !== "object") {
+			throw new Error(`Typeof schema.items must be an object, got ${typeof schema.items}`);
+		}
+
+		const getControllerPath = (id: string) => CRUDSchema[schema.items.$ref].get.replace("{id}", id);
+	
+		entityValue.forEach((entityItem, index) => {
+			const head = entityItem["head"] || entityItem["title"] || entityItem["name"];
+			const id = entityItem["id"];
+			
+			formattedField.push(
+				<Link href={`/entity/view${getControllerPath(id)}`} key={`${getControllerPath(id)}`}>{head}</Link>
+			);
+
+			if (index < entityValue.length - 1) {
+				formattedField.push(", ");
+			}
+		});
 	}
 	/**
 	 * Форматирование связи one-to-many, many-to-one, one-to-one
@@ -55,11 +76,8 @@ export function getFormattedEntityValue(entityValue: any, schema: any, CRUDSchem
 		const head = entityValue["head"] || entityValue["title"] || entityValue["name"];
 		const id = entityValue["id"];
 		const controllerPath = CRUDSchema[schema.allOf[0].$ref].get.replace("{id}", id);
-		console.log(schema.allOf[0].$ref, controllerPath);
-		formattedField = <Link href={`/entity/view${controllerPath}`}>{head}</Link>;
+		formattedField.push(<Link href={`/entity/view${controllerPath}`} key={controllerPath}>{head}</Link>);
 	}
-
-	// console.log(entityValue, schema);
 
 	return formattedField || entityValue.toString();
 }

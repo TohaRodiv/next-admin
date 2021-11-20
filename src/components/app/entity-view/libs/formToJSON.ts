@@ -11,6 +11,8 @@ export function formToJSON(elements: HTMLFormControlsCollection): object {
 			type, name, value, checked, selectedOptions
 		} = element as HTMLSelectElement & HTMLInputElement;
 
+		let preparedValue = value.trim();
+
 		if (isExcludedType(type)) {
 			continue;
 		}
@@ -25,13 +27,17 @@ export function formToJSON(elements: HTMLFormControlsCollection): object {
 				result[name].push(isFinite(+option.value) ? +option.value : option.value);
 			}
 
-		} else if (isFinite(+value)) {
+		} else if (preparedValue == "") {
+			
+			result[name] = preparedValue;
 
-			result[name] = +value;
+		} else if (isFinite(+preparedValue)) {
+
+			result[name] = +preparedValue;
 			
 		} else {
 
-			result[name] = value;
+			result[name] = preparedValue;
 			
 		}
 	}

@@ -3,7 +3,7 @@ import type { TSchemaEntity, TEntity, TAvailableCRUD, TControllerPaths } from "#
 import { TSchemaCRUD } from "#types/TSchemaCRUD";
 import { useRouter } from "next/router";
 import { ButtonDelete, ButtonEdit } from "../buttons";
-import { getFormattedEntityValue } from "../libs/getFormattedEntityValue";
+import { getFormattedEntityField } from "../libs/view/getFormattedEntityField";
 
 type TProps = {
 	schema: TSchemaEntity
@@ -29,7 +29,7 @@ export const EntityView: React.FC<TProps> = ({ schema, entity, availableCRUD, co
 					return (
 						<div className="entity-view__item" key={key}>
 							<div className="entity-view__title">{schemaValue.title || key}</div>
-							<div className="entity-view__value">{getFormattedEntityValue(value, schemaValue, CRUDSchema)}</div>
+							<div className="entity-view__value">{getFormattedEntityField(value, schemaValue, CRUDSchema)}</div>
 						</div>
 					);
 				})

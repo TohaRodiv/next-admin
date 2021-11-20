@@ -32,6 +32,10 @@ export function getTypeField (type: string, format: string): HTMLInputTypeAttrib
 			return "text";
 		
 		default:
+			return "text";
+			/**
+			 * TODO:
+			 */
 			throw new Error(`Unknown type ${type}`);
 	}
 }

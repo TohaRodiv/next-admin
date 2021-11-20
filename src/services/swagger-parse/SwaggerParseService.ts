@@ -1,4 +1,3 @@
-import swaggerDoc from "#data/swagger-api.json";
 import { TSchemaCRUD } from "#types/TSchemaCRUD";
 import { APIService } from "./APIService";
 import { AvailableCRUDService } from "./AvailableCRUDService";
@@ -10,6 +9,7 @@ import type {
 	TSchemaEntity,
 	TControllerPaths,
 	TAvailableCRUDPaths,
+	TRelations,
 } from "./types";
 
 
@@ -18,8 +18,6 @@ export const SwaggerParseService = new class {
 	protected readonly excludePaths: string[] = ["auth"];
 
 	protected readonly refSchemas = "#/components/schemas";
-
-	protected readonly controllerPaths = swaggerDoc.paths;
 
 	protected availableCRUDService: AvailableCRUDService;
 	protected schemaService: SchemaService;
@@ -180,6 +178,42 @@ export const SwaggerParseService = new class {
 
 	public get APIService(): APIService {
 		return this.apiService;
+	}
+
+	public async getRelations(schema: TSchemaEntity): Promise<TRelations> {
+
+		const CRUDSchemas = await this.getSchemaCRUD();
+
+		const relations = Object
+			.entries(schema.properties)
+			.filter(([, prop]) => "allOf" in prop || (prop.type === "array" && "items" in prop))
+			.map(async ([propName, propValue]) => {
+				if ("allOf" in propValue) {
+					const ref = propValue["allOf"][0]["$ref"];
+					const controllerPath = CRUDSchemas[ref].get.replace("/{id}", "");
+					const response = await this.APIService.getMany(controllerPath);
+					const relations = await response.json();
+					return {
+						[propName]: relations,
+					};
+				} else if ((propValue.type === "array" && "items" in propValue)) {
+					if (propValue["items"]["type"] === "string") {
+						throw new Error(`$ref is required!`);
+					}
+					const ref = propValue["items"]["$ref"];
+					const controllerPath = CRUDSchemas[ref].get.replace("/{id}", "");
+					const response = await this.APIService.getMany(controllerPath);
+					const relations = await response.json();
+					return {
+						[propName]: relations,
+					};
+				} else {
+					console.log(`Relation not found for property ${propName}`);
+					return null;
+				}
+			});
+
+			return Promise.all(relations);
 	}
 
 	protected async getSwaggerDoc(): Promise<any> {

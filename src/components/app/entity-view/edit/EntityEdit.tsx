@@ -1,11 +1,11 @@
-import { Button } from "#components/ui/Button";
 import { ButtonGroup } from "#components/ui/button-group";
 import { APIFrontendService } from "#services/api-frontend/APIFrontendService";
-import { TSchemaEntity, TEntity, TControllerPaths } from "#services/swagger-parse/types";
+import { TSchemaEntity, TEntity, TControllerPaths, TRelations } from "#services/swagger-parse/types";
+import { TSchemaCRUD } from "#types/TSchemaCRUD";
 import { useRouter } from "next/router";
 import { HTMLInputTypeAttribute, SyntheticEvent } from "react";
-import { BackButton } from "../../button-back";
 import { ButtonSave } from "../buttons";
+import { getFormattedEntityField } from "../libs/create-update/getFormattedEntityField";
 import { formToJSON } from "../libs/formToJSON";
 import { getTypeField } from "../libs/getTypeField";
 
@@ -13,10 +13,12 @@ type TProps = {
 	schema: TSchemaEntity
 	entity: TEntity
 	controllerPath: TControllerPaths
+	CRUDSchema: TSchemaCRUD
+	relations: TRelations
 }
 
 
-export const EntityEdit: React.FC<TProps> = ({ schema, entity, controllerPath, }): JSX.Element => {
+export const EntityEdit: React.FC<TProps> = ({ schema, entity, controllerPath, CRUDSchema, relations, }): JSX.Element => {
 	const { properties: schemaProps } = schema;
 	const router = useRouter();
 
@@ -25,13 +27,15 @@ export const EntityEdit: React.FC<TProps> = ({ schema, entity, controllerPath, }
 		const data = formToJSON(e.currentTarget.elements);
 		const response = await APIFrontendService.updateById(controllerPath, entity.id, data);
 		const result = await response.json();
-		// router.back();
+		router.back();
 	};
+
+
 
 	return (
 		<form className="entity-view" onSubmit={handleSubmit}>
 			{
-				Object.keys(schemaProps).map((schemaKey) => {
+				Object.entries(schemaProps).map(([schemaKey, schemaValue]) => {
 					let title = schemaKey;
 					let value = "<Значение не найдено>";
 					let type: HTMLInputTypeAttribute = getTypeField(
@@ -55,12 +59,18 @@ export const EntityEdit: React.FC<TProps> = ({ schema, entity, controllerPath, }
 						default:
 							defaultValue.defaultValue = value.toString();
 					}
-
 					return (
 						<div className="entity-view__item" key={schemaKey}>
 							<div className="entity-view__title">{title}</div>
 							<div className="entity-view__value">
-								<input type={type} name={schemaKey} {...defaultValue} />
+								{getFormattedEntityField({
+									CRUDSchema,
+									defaultValue: value,
+									schemaKey,
+									schemaValue,
+									isRequired: false,
+									relations,
+								})}
 							</div>
 						</div>
 					);

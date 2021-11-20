@@ -1,6 +1,6 @@
 import { TEntity, TSchemaEntity } from "#services/swagger-parse/types";
 import { TSchemaCRUD } from "#types/TSchemaCRUD";
-import { getFormattedEntityValue } from "../libs/getFormattedEntityValue";
+import { getFormattedEntityField } from "../libs/view/getFormattedEntityField";
 
 type TProps = {
 	entity: TEntity
@@ -16,7 +16,7 @@ export const EntityViewsFormatted: React.FC<TProps> = ({ entity, schema, CRUDSch
 					const schemaValue = schema.properties[key];
 					return (
 						<td key={key}>
-							{getFormattedEntityValue(value, schemaValue, CRUDSchema)}
+							{getFormattedEntityField(value, schemaValue, CRUDSchema)}
 						</td>
 					);
 				})

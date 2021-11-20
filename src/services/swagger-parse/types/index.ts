@@ -39,3 +39,9 @@ export type TEntity = {
 }
 
 export type TControllerPaths = any
+
+export type TRelations = Array<{
+	[propName: string]: {
+		[propName: string]: any
+	}
+}>

@@ -3,13 +3,16 @@ import Head from "next/head";
 import { EntityEdit } from "#components/app/entity-view/edit/EntityEdit";
 import { Container } from "react-grid-system";
 import { SwaggerParseService } from "#services/swagger-parse/SwaggerParseService";
-import { TControllerPaths, TEntity, TSchemaEntity } from "#services/swagger-parse/types";
+import { TControllerPaths, TEntity, TRelations, TSchemaEntity } from "#services/swagger-parse/types";
 import { APIFrontendService } from "#services/api-frontend/APIFrontendService";
+import { TSchemaCRUD } from "#types/TSchemaCRUD";
 
 type TProps = {
 	entity: TEntity
 	schema: TSchemaEntity
 	controllerPath: TControllerPaths
+	CRUDSchema: TSchemaCRUD
+	relations: TRelations
 }
 
 type TSProps = {
@@ -17,7 +20,7 @@ type TSProps = {
 }
 
 const EntityPageViews: NextPage<TProps> = ({
-	entity, schema, controllerPath
+	entity, schema, controllerPath, CRUDSchema, relations,
 }) => {
 
 	return (
@@ -26,7 +29,7 @@ const EntityPageViews: NextPage<TProps> = ({
 				<title>Редактор сущности</title>
 			</Head>
 			<Container>
-				<EntityEdit schema={schema} entity={entity} controllerPath={controllerPath} />
+				<EntityEdit schema={schema} entity={entity} controllerPath={controllerPath} CRUDSchema={CRUDSchema} relations={relations} />
 			</Container>
 		</>
 	);
@@ -37,6 +40,8 @@ export const getServerSideProps = async (context: NextPageContext): Promise<TSPr
 		entity: null,
 		schema: null,
 		controllerPath: null,
+		CRUDSchema: null,
+		relations: null,
 	};
 
 	const paths = context.query["path"] as string[];
@@ -48,6 +53,8 @@ export const getServerSideProps = async (context: NextPageContext): Promise<TSPr
 		props.schema = await SwaggerParseService.getUpdateOneSchema(controllerPath);
 		const responseEntity = await APIFrontendService.getById(controllerPath, entityId);
 		props.entity = await responseEntity.json();
+		props.CRUDSchema = await SwaggerParseService.getSchemaCRUD();
+		props.relations = await SwaggerParseService.getRelations(props.schema);
 	}
 
 	return {

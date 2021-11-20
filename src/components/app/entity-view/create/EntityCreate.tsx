@@ -1,4 +1,4 @@
-import { TControllerPaths, TSchemaEntity } from "#services/swagger-parse/types";
+import { TControllerPaths, TRelations, TSchemaEntity } from "#services/swagger-parse/types";
 import React, { HTMLInputTypeAttribute, SyntheticEvent } from "react";
 import { BackButton } from "../../button-back";
 import { getTypeField } from "../libs/getTypeField";
@@ -7,14 +7,19 @@ import { ButtonGroup } from "#components/ui/button-group";
 import { ButtonSave } from "../buttons";
 import { useRouter } from "next/router";
 import { formToJSON } from "../libs/formToJSON";
+import { TSchemaCRUD } from "#types/TSchemaCRUD";
+import { getFormattedEntityField } from "../libs/create-update/getFormattedEntityField";
 
 
 type TProps = {
 	schema: TSchemaEntity
 	controllerPath: TControllerPaths
+	CRUDSchema: TSchemaCRUD
+	relations: TRelations
 }
 
-export const EntityCreate: React.FC <TProps> = ({ schema, controllerPath, }): JSX.Element => {
+export const EntityCreate: React.FC<TProps> = ({ schema, controllerPath, CRUDSchema, relations, }): JSX.Element => {
+	// return null;
 	const { properties: schemaProps } = schema;
 	const router = useRouter();
 
@@ -27,28 +32,33 @@ export const EntityCreate: React.FC <TProps> = ({ schema, controllerPath, }): JS
 		router.back();
 	};
 
+
 	return (
 		<form onSubmit={handleSubmit} className="entity-view">
 			{
-				Object.keys(schemaProps).map((schemaKey) => {
-					let title = schemaProps[schemaKey]["title"] ? schemaProps[schemaKey]["title"] : schemaKey;
-					let type: HTMLInputTypeAttribute = getTypeField(schemaProps[schemaKey]["type"], schemaProps[schemaKey]["format"]);
+				Object.entries(schemaProps).map(([schemaKey, schemaValue]) => {
+					let title = schemaValue["title"] ? schemaValue["title"] : schemaKey;
+
 					return (
-						<div className="entity-view__item" key={schemaKey}>
+						<label className="entity-view__item" key={schemaKey}>
 							<div className="entity-view__title">{title}</div>
 							<div className="entity-view__value">
-								<input
-									type={type}
-									name={schemaKey}
-									required={schema.required.includes(schemaKey)} />
+								{getFormattedEntityField({
+									CRUDSchema,
+									defaultValue: null,
+									schemaKey,
+									schemaValue,
+									isRequired: schema.required.includes(schemaKey),
+									relations,
+								})}
 							</div>
-						</div>
+						</label>
 					);
 				})
 			}
 			<ButtonGroup>
-			<ButtonSave />
-			<BackButton value="Отменить" />
+				<ButtonSave />
+				<BackButton value="Отменить" />
 			</ButtonGroup>
 		</form>
 	);

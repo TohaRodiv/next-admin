@@ -2,25 +2,25 @@ import type { TAvailableCRUD, TAvailableCRUDPaths, TControllerPaths } from "./ty
 
 export class AvailableCRUDService {
 
-	public getAvailableCRUD(availableCRUDPaths: TAvailableCRUDPaths): TAvailableCRUD {
+	public getAvailableCRUD(availableCRUDPaths: TAvailableCRUDPaths, CRUDCategory: string = "entity"): TAvailableCRUD {
 		const availableCRUD: TAvailableCRUD = {};
 
 		for (const path in availableCRUDPaths) {
 			switch (path) {
 				case "getPathGetMany":
-					availableCRUD.getPathGetMany = () => this.getManyPath(availableCRUDPaths[path]);
+					availableCRUD.getPathGetMany = () => this.getManyPath(availableCRUDPaths[path], CRUDCategory);
 					break;
 				case "getPathGetOne":
-					availableCRUD.getPathGetOne = (id: number) => this.getOnePath(availableCRUDPaths[path], id);
+					availableCRUD.getPathGetOne = (id: number) => this.getOnePath(availableCRUDPaths[path], id, CRUDCategory);
 					break;
 				case "getPathUpdateOne":
-					availableCRUD.getPathUpdateOne = (id: number) => this.getUpdateOnePath(availableCRUDPaths[path], id);
+					availableCRUD.getPathUpdateOne = (id: number) => this.getUpdateOnePath(availableCRUDPaths[path], id, CRUDCategory);
 					break;
 				case "getPathDeleteOne":
-					availableCRUD.getPathDeleteOne = (id: number) => this.getDeleteOnePath(availableCRUDPaths[path], id);
+					availableCRUD.getPathDeleteOne = (id: number) => this.getDeleteOnePath(availableCRUDPaths[path], id, CRUDCategory);
 					break;
 				case "getPathCreateOne":
-					availableCRUD.getPathCreateOne = () => this.getCreateOnePath(availableCRUDPaths[path]);
+					availableCRUD.getPathCreateOne = () => this.getCreateOnePath(availableCRUDPaths[path], CRUDCategory);
 					break;
 			}
 		}
@@ -72,23 +72,23 @@ export class AvailableCRUDService {
 		return controllerPaths[path] && method in controllerPaths[path];
 	}
 
-	protected getManyPath (path: string): string {
-		return `/entity/${path}`;
+	protected getManyPath (path: string, CRUDCategory: string = "entity"): string {
+		return `/${CRUDCategory}${path}`;
 	}
 
-	protected getOnePath (path: string, id: number): string {
-		return `/entity/view${path}/${id}`;
+	protected getOnePath (path: string, id: number, CRUDCategory: string = "entity"): string {
+		return `/${CRUDCategory}/view${path}/${id}`;
 	}
 
-	protected getUpdateOnePath (path: string, id: number): string {
-		return `/entity/edit${path}/${id}`;
+	protected getUpdateOnePath (path: string, id: number, CRUDCategory: string = "entity"): string {
+		return `/${CRUDCategory}/edit${path}/${id}`;
 	}
 
-	protected getDeleteOnePath (path: string, id: number): string {
-		return `/entity/delete${path}/${id}`;
+	protected getDeleteOnePath (path: string, id: number, CRUDCategory: string = "entity"): string {
+		return `/${CRUDCategory}/delete${path}/${id}`;
 	}
 
-	protected getCreateOnePath (path: string): string {
-		return `/entity/create${path}`;
+	protected getCreateOnePath (path: string, CRUDCategory: string = "entity"): string {
+		return `/${CRUDCategory}/create${path}`;
 	}
 }

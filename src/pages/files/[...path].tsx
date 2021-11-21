@@ -1,6 +1,5 @@
 import { NextPage, NextPageContext } from "next";
 import Head from "next/head";
-import { EntityViews } from "#components/app/entity-view";
 import { Container } from "react-grid-system";
 import { SwaggerParseService } from "#services/swagger-parse/SwaggerParseService";
 import { TAvailableCRUDPaths, TControllerPaths, TEntity, TSchemaEntity } from "#services/swagger-parse/types";
@@ -20,30 +19,8 @@ type TSProps = Promise<{
 	props: TProps
 }>
 
-const EntityPageViews: NextPage<TProps> = ({ entities, schema, controllerPath, availableCRUDPaths, CRUDSchema, }) => {
+const FilesPageViews: NextPage<TProps> = ({ entities, schema, controllerPath, availableCRUDPaths, CRUDSchema, }) => {
 
-	function getComponentViews(controllerPath) {
-		console.log(controllerPath);
-		switch (controllerPath) {
-			case "/files":
-				return <FileViews
-					entities={entities}
-					schema={schema}
-					caption="Файлы"
-					availableCRUD={SwaggerParseService.getAvailableCRUD(availableCRUDPaths)}
-					controllerPath={controllerPath}
-					CRUDSchema={CRUDSchema} />;
-
-			default:
-				return <EntityViews
-					entities={entities}
-					schema={schema}
-					caption="Задачи"
-					availableCRUD={SwaggerParseService.getAvailableCRUD(availableCRUDPaths)}
-					controllerPath={controllerPath}
-					CRUDSchema={CRUDSchema} />
-		}
-	}
 
 	return (
 		<>
@@ -51,9 +28,13 @@ const EntityPageViews: NextPage<TProps> = ({ entities, schema, controllerPath, a
 				<title>Просмотр списка экземпляров сущности</title>
 			</Head>
 			<Container>
-				<>
-					{getComponentViews(controllerPath)}
-				</>
+				<FileViews
+					entities={entities}
+					schema={schema}
+					caption="Файлы"
+					availableCRUD={SwaggerParseService.getAvailableCRUD(availableCRUDPaths, "files")}
+					controllerPath={controllerPath}
+					CRUDSchema={CRUDSchema} />
 			</Container>
 		</>
 	);
@@ -85,4 +66,4 @@ export const getServerSideProps = async (context: NextPageContext): Promise<TSPr
 	};
 }
 
-export default EntityPageViews;
+export default FilesPageViews;

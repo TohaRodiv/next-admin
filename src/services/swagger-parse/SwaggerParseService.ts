@@ -115,8 +115,8 @@ export const SwaggerParseService = new class {
 	 * @description Использовать на клиенте.
 	 * @return Возвращает объект с функциями формирования CRUD операций.
 	 */
-	public getAvailableCRUD(availableCRUDPaths: TAvailableCRUDPaths): TAvailableCRUD {
-		return this.availableCRUDService.getAvailableCRUD(availableCRUDPaths);
+	public getAvailableCRUD(availableCRUDPaths: TAvailableCRUDPaths, CRUDCategory: string = "entity"): TAvailableCRUD {
+		return this.availableCRUDService.getAvailableCRUD(availableCRUDPaths, CRUDCategory);
 	}
 
 	/**

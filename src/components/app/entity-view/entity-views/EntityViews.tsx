@@ -13,7 +13,9 @@ type TProps = {
 	CRUDSchema: TSchemaCRUD
 }
 
-export const EntityViews: React.FC<TProps> = ({ entities, schema, caption, availableCRUD, controllerPath, CRUDSchema, }): JSX.Element => {
+export const EntityViews: React.FC<TProps> = ({
+	entities, schema, caption, availableCRUD, controllerPath, CRUDSchema,
+}): JSX.Element => {
 	return (
 		<>
 			{

@@ -4,6 +4,7 @@ import { TControllerPaths } from "#services/swagger-parse/types";
 export const APIFrontendService = new class implements IAPI {
 
 	protected API_URL: string = "http://localhost:3000/api/entities";
+	protected API_URL_UPLOAD = "http://localhost:3000/api/upload";
 
 	public async getMany(controllerPath: TControllerPaths): Promise<any> {
 		return await this.fetch(this.getFormattedUrl(controllerPath));
@@ -35,11 +36,29 @@ export const APIFrontendService = new class implements IAPI {
 		});
 	}
 
+	public async uploadFiles(controllerPath: TControllerPaths, data: FormData): Promise<any> {
+		return await this.fetch(this.getFormattedUrlUpload(controllerPath), {
+			method: "POST",
+			body: data,
+		});
+	}
+
+	public async updateFileById(controllerPath: TControllerPaths, fileId: number, data: FormData): Promise<any> {
+		return await this.fetch(this.getFormattedUrlUpload(controllerPath, fileId), {
+			method: "PATCH",
+			body: data,
+		});
+	}
+
 	protected async fetch(url: RequestInfo, body?: RequestInit): Promise<any> {
 		return await fetch(url, body);
 	}
 
 	protected getFormattedUrl(controllerPath: TControllerPaths, id?: number): string {
 		return `${this.API_URL}${controllerPath}${id ? `/${id}` : ""}`;
+	}
+
+	protected getFormattedUrlUpload(controllerPath: TControllerPaths, id?: number): string {
+		return `${this.API_URL_UPLOAD}${controllerPath}${id ? `/${id}` : ""}`;
 	}
 }

@@ -1,12 +1,15 @@
 import { IAPI } from "#services/interfaces/IAPI";
 import { TControllerPaths } from "./types";
+import FormData from "form-data";
+import { createReadStream } from "fs";
+import path from "path";
 
 export class APIService implements IAPI {
 	protected readonly API_URL: string = `${process.env.EXTERNAL_API_URL}`;
 
-	constructor (
+	constructor(
 		protected getControllerPaths: () => Promise<TControllerPaths>,
-	) {}
+	) { }
 
 	public async getMany(controllerPath: string): Promise<any> {
 		this.checkControllerPath(controllerPath);
@@ -48,6 +51,58 @@ export class APIService implements IAPI {
 		});
 	}
 
+	public async uploadFiles(controllerPath, files: { [fieldName: string]: File[] }): Promise<any> {
+		this.checkControllerPath(controllerPath);
+
+		const formData = new FormData();
+
+		Object
+			.entries(files)
+			.forEach(([fieldName, files]) => {
+				if (Array.isArray(files)) {
+					files.forEach(file => {
+						formData.append(
+							fieldName,
+							createReadStream(path.resolve(file["path"])),
+							file.name
+						);
+					});
+				} else {
+					formData.append(
+						fieldName,
+						createReadStream(path.resolve(files["path"]))
+					);
+				}
+			});
+
+		return await this.fetchFormData({
+			url: this.getFormattedUrl(controllerPath),
+			method: "POST",
+			body: formData,
+		});
+	}
+
+	public async updateFileById(controllerPath: TControllerPaths, fileId: number, file: {[prop: string]: File}): Promise<any> {
+		this.checkControllerPath(controllerPath);
+
+		const formData = new FormData();
+		
+		Object
+			.entries(file)
+			.forEach(([fieldName, file]) => {
+				formData.append(
+					fieldName,
+					createReadStream(path.resolve(file["path"]))
+				);
+			});
+
+		return await this.fetchFormData({
+			url: this.getFormattedUrl(controllerPath, fileId),
+			method: "PATCH",
+			body: formData,
+		});
+	}
+
 	/**
 	 * @throw Error
 	 */
@@ -61,7 +116,7 @@ export class APIService implements IAPI {
 		return await fetch(url, body);
 	}
 
-	protected async fetchJSON({ url, method, data,}: {
+	protected async fetchJSON({ url, method, data, }: {
 		url: RequestInfo
 		method: string
 		data: any
@@ -69,7 +124,14 @@ export class APIService implements IAPI {
 		return await fetch(url, {
 			method,
 			body: JSON.stringify(data),
-			headers: new Headers({ "Content-Type": "application/json"}),
+			headers: new Headers({ "Content-Type": "application/json" }),
+		});
+	}
+
+	protected async fetchFormData({ url, method, body, }): Promise<any> {
+		return await fetch(url, {
+			method,
+			body,
 		});
 	}
 

@@ -1,15 +1,18 @@
+export type TSchemaProperties = {
+	[propName: string]: {
+		default: any
+		type: string
+		title?: string
+		format?: string
+		allOf?: {
+			$ref: string
+		}[]
+	}
+}
+
 export type TSchemaEntity = {
 	type: string
-	properties: {
-		[propName: string]: {
-			type: string
-			title?: string
-			format?: string
-			allOf?: {
-				$ref: string
-			}[]
-		}
-	}
+	properties: TSchemaProperties
 	required: string[]
 }
 

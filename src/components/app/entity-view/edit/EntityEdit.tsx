@@ -3,11 +3,12 @@ import { APIFrontendService } from "#services/api-frontend/APIFrontendService";
 import { TSchemaEntity, TEntity, TControllerPaths, TRelations } from "#services/swagger-parse/types";
 import { TSchemaCRUD } from "#types/TSchemaCRUD";
 import { useRouter } from "next/router";
-import { HTMLInputTypeAttribute, SyntheticEvent } from "react";
+import { HTMLInputTypeAttribute, SyntheticEvent, useState } from "react";
 import { ButtonSave } from "../buttons";
 import { getFormattedEntityField } from "../libs/create-update/getFormattedEntityField";
 import { formToJSON } from "../libs/formToJSON";
 import { getTypeField } from "../libs/getTypeField";
+import ReactModal from 'react-modal';
 
 type TProps = {
 	schema: TSchemaEntity
@@ -21,13 +22,18 @@ type TProps = {
 export const EntityEdit: React.FC<TProps> = ({ schema, entity, controllerPath, CRUDSchema, relations, }): JSX.Element => {
 	const { properties: schemaProps } = schema;
 	const router = useRouter();
-
+	
 	const handleSubmit = async (e: SyntheticEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		const data = formToJSON(e.currentTarget.elements);
+		const data = formToJSON(e.currentTarget.elements, schemaProps);
 		const response = await APIFrontendService.updateById(controllerPath, entity.id, data);
 		const result = await response.json();
-		router.back();
+
+		if (200 !== response.status) {
+			console.error(response.status, result);
+		} else {
+			router.back();
+		}
 	};
 
 
@@ -57,7 +63,7 @@ export const EntityEdit: React.FC<TProps> = ({ schema, entity, controllerPath, C
 							defaultValue.defaultChecked = !!value;
 							break;
 						default:
-							defaultValue.defaultValue = value.toString();
+							defaultValue.defaultValue = value ? value.toString() : null;
 					}
 					return (
 						<div className="entity-view__item" key={schemaKey}>

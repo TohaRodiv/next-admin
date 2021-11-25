@@ -26,10 +26,15 @@ export const EntityCreate: React.FC<TProps> = ({ schema, controllerPath, CRUDSch
 	const handleSubmit = async (event: SyntheticEvent<HTMLFormElement>): Promise<void> => {
 		event.preventDefault();
 		const form = event.currentTarget;
-		const data = formToJSON(form.elements);
+		const data = formToJSON(form.elements, schemaProps);
 		const response = await APIFrontendService.createOne(controllerPath, data);
 		const result = await response.json();
-		router.back();
+		
+		if (201 !== response.status) {
+			console.error(response.status, result);
+		} else {
+			router.back();
+		}
 	};
 
 

@@ -19,13 +19,12 @@ export function getFormattedEntityField({ defaultValue, schemaKey, schemaValue, 
 	return getBaseFromattedEntityField(schemaValue, defaultValue, {
 		formatingPrimitive(schemaValue, entityFieldValue) {
 			const type = getTypeField(schemaValue.type, schemaValue.format);
-
 			return [
 				<div key={type}>
 					{getFormattedPrimitiveField({
 						name: schemaKey,
 						type,
-						defaultValue,
+						defaultValue: defaultValue || schemaValue.default || null,
 						isRequired,
 					})}
 				</div>

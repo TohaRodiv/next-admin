@@ -17,18 +17,27 @@ export function getFormattedEntityField(entityValue: any, schema: any, CRUDSchem
 			];
 		},
 		formatingOneRelation(schema, entityValue) {
+			if (!entityValue) {
+				return ["NULL"];
+			}
+			
 			const id = entityValue["id"];
 			const head = entityValue["head"] || entityValue["title"] || entityValue["name"] || entityValue["id"];
 			const controllerPath = CRUDSchema[schema.allOf[0].$ref].get.replace("{id}", id);
 			return [<Link href={`/entity/view${controllerPath}`} key={controllerPath}>{head}</Link>];
 		},
 		formatingManyRelation(schema, entityValue) {
+			
 			if (typeof schema.items !== "object") {
 				throw new Error(`Typeof schema.items must be an object, got ${typeof schema.items}`);
 			}
 
 			const getControllerPath = (id: string) => CRUDSchema[schema.items.$ref].get.replace("{id}", id);
 			let formattedField = [];
+
+			if (entityValue && "length" in entityValue && entityValue.length < 1) {
+				return ["NULL"];
+			}
 
 			entityValue.forEach((entityItem, index) => {
 				const id = entityItem["id"];

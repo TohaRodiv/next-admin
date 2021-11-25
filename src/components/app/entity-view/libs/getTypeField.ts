@@ -13,6 +13,13 @@ export function getTypeField (type: string, format: string): HTMLInputTypeAttrib
 
 				case "email":
 					return "email";
+				
+				case "text":
+					return "textarea";
+				
+				case "url":
+				case "uri":
+					return "url";
 					
 				default:
 					return "text";

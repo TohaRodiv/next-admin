@@ -15,6 +15,10 @@ export function getBaseFromattedEntityField (
 ): any[] {
 	let formattedField = null;
 
+	if (typeof schema === "undefined") {
+		throw new Error(`Schema for field value ${entityFieldValue.toString()} is undefined!`);
+	}
+
 	/**
 	 * Форматирование примитивных типов
 	 */

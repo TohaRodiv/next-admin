@@ -1,10 +1,11 @@
+import { appConfig } from "#config/app-config";
 import { IAPI } from "#services/interfaces/IAPI";
 import { TControllerPaths } from "#services/swagger-parse/types";
 
 export const APIFrontendService = new class implements IAPI {
 
-	protected API_URL: string = "http://localhost:3000/api/entities";
-	protected API_URL_UPLOAD = "http://localhost:3000/api/upload";
+	protected API_URL: string = appConfig.LOCAL_API_ENTITIES_URL;
+	protected API_URL_UPLOAD = appConfig.LOCAL_API_UPLOAD_URL;
 
 	public async getMany(controllerPath: TControllerPaths): Promise<any> {
 		return await this.fetch(this.getFormattedUrl(controllerPath));

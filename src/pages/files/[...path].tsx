@@ -21,7 +21,6 @@ type TSProps = Promise<{
 
 const FilesPageViews: NextPage<TProps> = ({ entities, schema, controllerPath, availableCRUDPaths, CRUDSchema, }) => {
 
-
 	return (
 		<>
 			<Head>

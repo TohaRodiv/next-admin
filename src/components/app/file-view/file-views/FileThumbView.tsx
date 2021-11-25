@@ -1,4 +1,5 @@
 import classNames from "classnames";
+import { useSettings } from "src/context";
 
 type TProps = {
 	path: string
@@ -9,10 +10,11 @@ type TProps = {
 export const FileThumbView: React.FC<TProps> = ({ path, mimeType, className, }): JSX.Element=> {
 	let thumbView = null;
 	const classes = classNames(className);
+	const { API_URL } = useSettings();
 
 	switch (mimeType) {
 		default:
-			thumbView = <img src={`http://todo.dv:8081/${path}`} alt="" />
+			thumbView = <img src={`${API_URL}/${path}`} alt="" />
 	}
 
 	return (

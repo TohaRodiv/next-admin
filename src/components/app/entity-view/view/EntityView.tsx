@@ -3,7 +3,8 @@ import type { TSchemaEntity, TEntity, TAvailableCRUD, TControllerPaths } from "#
 import { TSchemaCRUD } from "#types/TSchemaCRUD";
 import { useRouter } from "next/router";
 import { ButtonDelete, ButtonEdit } from "../buttons";
-import { getFormattedEntityField } from "../libs/view/getFormattedEntityField";
+import { getFormattedEntityField } from "#libs/view/getFormattedEntityField";
+import { ButtonCancel } from "../buttons/ButtonCancel";
 
 type TProps = {
 	schema: TSchemaEntity
@@ -35,6 +36,7 @@ export const EntityView: React.FC<TProps> = ({ schema, entity, availableCRUD, co
 				})
 			}
 			<ButtonGroup>
+				<ButtonCancel />
 				{
 					availableCRUD.getPathUpdateOne && (
 						<ButtonEdit path={availableCRUD.getPathUpdateOne(entity.id)} />

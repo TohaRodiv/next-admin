@@ -1,33 +1,31 @@
-import { TButtonProps } from "#components/ui/Button/Button";
-import { EyeOutlined } from "@ant-design/icons";
+import { CloseOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import classNames from "classnames";
 import { useRouter } from "next/router";
 import { SyntheticEvent } from "react";
 
 type TProps = {
-	path: string
 	text?: string | boolean
-} & TButtonProps
+} & React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>;
 
-export const ButtonView: React.FC<TProps> = ({ className, path, text, }): JSX.Element => {
+export const ButtonCancel: React.FC<TProps> = ({ className, text, }): JSX.Element => {
 
 	const classes = classNames(className);
 	const router = useRouter();
 
 	const handleClick = (e: SyntheticEvent) => {
-		router.push(path);
+		router.back();
 	};
 
 	return (
 		<Button
 			size="large"
-			icon={<EyeOutlined />}
+			icon={<CloseOutlined />}
 			type="default"
 			className={classes}
 			onClick={handleClick}>
 				{
-					typeof text === "undefined" ? "Просмотр" : text
+					typeof text === "undefined" ? "Отменить" : text
 				}
 		</Button>
 	);

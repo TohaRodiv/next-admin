@@ -5,7 +5,14 @@ import { SwaggerParseService } from "#services/swagger-parse/SwaggerParseService
 import { TAvailableCRUDPaths, TControllerPaths, TEntity, TSchemaEntity } from "#services/swagger-parse/types";
 import { APIFrontendService } from "#services/api-frontend/APIFrontendService";
 import { TSchemaCRUD } from "#types/TSchemaCRUD";
-import { FileViews } from "#components/app/file-view/FileViews";
+import { DataViewList } from "#components/app/data-view";
+import { getFormattedBytes } from "#libs/getFormattedBytes";
+import { ButtonSave } from "#components/app/entity-view/buttons";
+import { SyntheticEvent, useState } from "react";
+import { ButtonGroup } from "#components/ui/button-group";
+import { Section } from "#components/skeleton/Section";
+import { message } from "antd";
+import { TDataFields } from "#components/app/data-view/types";
 
 type TProps = {
 	entities: TEntity[],
@@ -21,19 +28,71 @@ type TSProps = Promise<{
 
 const FilesPageViews: NextPage<TProps> = ({ entities, schema, controllerPath, availableCRUDPaths, CRUDSchema, }) => {
 
+	const relationFields: TDataFields = {
+		subtitle: {
+			field: "size",
+			getFormattedValue(entityValue: number): string {
+				return getFormattedBytes(entityValue);
+			},
+		},
+		title: {
+			field: "mimetype",
+		},
+		images: {
+			field: "path",
+			getFormattedValue(entityValue: string): string[] {
+				return [`http://api.electronly.dv:8081/${entityValue}`];
+			},
+		}
+	};
+
+	const handleUploadFiles = async (e: SyntheticEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		const form = e.currentTarget;
+		const data = new FormData();
+		const inputFiles = form.elements["files"];
+
+		for (const file of inputFiles.files) {
+			data.append(inputFiles.name, file);
+		}
+
+		const response = await APIFrontendService.uploadFiles(controllerPath, data);
+
+		if (response.status == 201) {
+			const result = await response.json() as any[];
+			message.success(`Успешно загруженно файлов: ${result.length}. Перезагрузите страницу для отображения файлов.`);
+		} else {
+			message.error(`Ошибка загрузки файлов (${response.status} - ${response.message})`);
+		}
+	};
+
+	const availableCRUD = SwaggerParseService.getAvailableCRUD(availableCRUDPaths, "files");
+
 	return (
 		<>
 			<Head>
 				<title>Просмотр списка экземпляров сущности</title>
 			</Head>
 			<Container>
-				<FileViews
+				<Section>
+					{
+						availableCRUD.getPathCreateOne &&
+						<form onSubmit={handleUploadFiles}>
+							<ButtonGroup>
+								<input type="file" name="files" multiple={true} className="btn btn--light" />
+								<ButtonSave text="Загрузить" />
+							</ButtonGroup>
+						</form>
+					}
+				</Section>
+				<DataViewList
 					entities={entities}
 					schema={schema}
-					caption="Файлы"
-					availableCRUD={SwaggerParseService.getAvailableCRUD(availableCRUDPaths, "files")}
+					availableCRUD={availableCRUD}
 					controllerPath={controllerPath}
-					CRUDSchema={CRUDSchema} />
+					CRUDSchema={CRUDSchema}
+					relationFields={relationFields}
+				/>
 			</Container>
 		</>
 	);

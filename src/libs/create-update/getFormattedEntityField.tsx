@@ -1,9 +1,9 @@
-import { Link } from "#components/ui/Link";
 import { TSchemaCRUD } from "#types/TSchemaCRUD";
-import { getBaseFromattedEntityField } from "../getBaseFromattedEntityField";
+import { getBaseFromattedEntityField } from "#libs/getBaseFromattedEntityField";
 import { getFormattedPrimitiveField } from "./getFormattedPrimitiveField";
-import { getTypeField } from "../getTypeField";
+import { getTypeField } from "#libs/getTypeField";
 import { TRelations } from "#services/swagger-parse/types";
+import { Button } from "antd";
 
 type TOptionProps = {
 	defaultValue: any
@@ -15,7 +15,14 @@ type TOptionProps = {
 }
 
 
-export function getFormattedEntityField({ defaultValue, schemaKey, schemaValue, CRUDSchema, isRequired, relations, }: TOptionProps): any {
+export function getFormattedEntityField({
+	defaultValue,
+	schemaKey,
+	schemaValue,
+	CRUDSchema,
+	isRequired,
+	relations,
+}: TOptionProps): any {
 	return getBaseFromattedEntityField(schemaValue, defaultValue, {
 		formatingPrimitive(schemaValue, entityFieldValue) {
 			const type = getTypeField(schemaValue.type, schemaValue.format);
@@ -84,7 +91,7 @@ export function getFormattedEntityField({ defaultValue, schemaKey, schemaValue, 
 
 			const props: React.DetailedHTMLProps<React.SelectHTMLAttributes<HTMLSelectElement>, HTMLSelectElement> = {};
 
-			if (defaultValue) {
+			if (Array.isArray(defaultValue)) {
 				props.defaultValue = defaultValue.map(value => value.id);
 			}
 

@@ -1,4 +1,7 @@
+import { TDataFields } from "#components/app/data-view/types";
+import { DataView } from "#components/app/data-view/view/DataView";
 import { EntityView } from "#components/app/entity-view/view";
+import { getFormattedBytes } from "#libs/getFormattedBytes";
 import { APIFrontendService } from "#services/api-frontend/APIFrontendService";
 import { SwaggerParseService } from "#services/swagger-parse/SwaggerParseService";
 import { TAvailableCRUDPaths, TControllerPaths, TEntity, TSchemaEntity } from "#services/swagger-parse/types";
@@ -21,13 +24,32 @@ type TSProps = {
 
 const EntityPageView: React.FC<TProps> = ({ entity, schema, controllerPath, availableCRUDPaths, CRUDSchema, }): JSX.Element => {
 
+	const relationFields: TDataFields = {
+		subtitle: {
+			field: "size",
+			getFormattedValue(entityValue: number): string {
+				return getFormattedBytes(entityValue);
+			},
+		},
+		title: {
+			field: "mimetype",
+		},
+		images: {
+			field: "path",
+			getFormattedValue(entityValue: string): string[] {
+				return [`http://api.electronly.dv:8081/${entityValue}`];
+			},
+		}
+	};
+
 	return (
 		<>
 			<Head>
 				<title>Просмотр сущности</title>
 			</Head>
 			<Container>
-				<EntityView
+				<DataView
+					relationFields={relationFields}
 					schema={schema}
 					entity={entity}
 					controllerPath={controllerPath}

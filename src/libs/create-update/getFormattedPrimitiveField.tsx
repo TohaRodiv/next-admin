@@ -1,3 +1,5 @@
+import { Input, InputNumber } from "antd";
+import Checkbox from "antd/lib/checkbox/Checkbox";
 import { HTMLInputTypeAttribute } from "react";
 
 type TOptionProps = {
@@ -15,14 +17,14 @@ export function getFormattedPrimitiveField({
 }: TOptionProps): JSX.Element {
 	switch (type) {
 		case "number":
-			return <input
+			return <InputNumber
 				name={name}
 				required={isRequired}
 				type="number"
 				defaultValue={defaultValue} />;
 
 		case "password":
-			return <input
+			return <Input.Password
 				name={name}
 				required={isRequired}
 				type="password" />;
@@ -34,7 +36,7 @@ export function getFormattedPrimitiveField({
 				type="email" />;
 
 		case "text":
-			return <input
+			return <Input
 				name={name}
 				required={isRequired}
 				type="text"
@@ -47,18 +49,16 @@ export function getFormattedPrimitiveField({
 				defaultValue={defaultValue} />;
 
 		case "checkbox":
-			return <input
+			return <Checkbox
 				name={name}
-				required={isRequired}
 				type="checkbox"
 				defaultChecked={!!defaultValue} />;
 
 		case "textarea":
-			return <textarea
+			return <Input.TextArea
 				name={name}
 				required={isRequired}
-				defaultValue={defaultValue}>
-			</textarea>;
+				defaultValue={defaultValue} />
 
 		case "url":
 			return <input

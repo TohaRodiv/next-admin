@@ -1,5 +1,6 @@
-import { Button } from "#components/ui/Button";
 import { TButtonProps } from "#components/ui/Button/Button";
+import { SaveOutlined } from "@ant-design/icons";
+import { Button } from "antd";
 import classNames from "classnames";
 
 type TProps = {
@@ -12,10 +13,12 @@ export const ButtonSave: React.FC<TProps> = ({ className, text, }): JSX.Element 
 
 	return (
 		<Button
-			type="submit"
-			variant="success"
-			className={classes}
-			iconName="save">
+			ghost
+			size="large"
+			icon={<SaveOutlined />}
+			type="primary"
+			htmlType="submit"
+			className={classes}>
 				{
 					typeof text === "undefined" ? "Сохранить" : text
 				}

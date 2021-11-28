@@ -14,7 +14,7 @@ export const FileThumbView: React.FC<TProps> = ({ path, mimeType, className, }):
 
 	switch (mimeType) {
 		default:
-			thumbView = <img src={`${API_URL}/${path}`} alt="" />
+			thumbView = <img src={`${API_URL}/${path}`} alt="" className="data-view__image" />
 	}
 
 	return (

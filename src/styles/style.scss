@@ -7,8 +7,38 @@
 
 body {
 	font-family: 'Exo 2', sans-serif;
+	font-size: 1rem;
 }
 
 .responsive-table {
 	overflow-x: auto;
+}
+
+caption {
+	caption-side: top;
+}
+
+.section {
+	margin: 1rem 0;
+}
+
+.antd-layout {
+	min-height: 100vh;
+
+	&__sider {
+		overflow: hidden;
+		height: 100vh;
+		position: sticky;
+		top: 0;
+		left: 0;
+		z-index: 1;
+	}
+
+	&__header {
+		color: #FFF;
+	}
+
+	&__content {
+		padding: 1rem;
+	}
 }

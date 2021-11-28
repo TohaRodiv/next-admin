@@ -33,7 +33,6 @@ export default async function API(req: NextApiRequest, res: NextApiResponse): Pr
 			} else {
 				const { files: file } = await parseFormData(req);
 
-				console.log(file);
 				const response = await SwaggerParseService.APIService.updateFileById(controllerPath, entityId, file);
 				const result = await response.json();
 				res.status(response.status).send(result);

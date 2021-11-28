@@ -1,6 +1,6 @@
 import { TEntity, TSchemaEntity } from "#services/swagger-parse/types";
 import { TSchemaCRUD } from "#types/TSchemaCRUD";
-import { getFormattedEntityField } from "../libs/view/getFormattedEntityField";
+import { getFormattedEntityField } from "../../../../libs/view/getFormattedEntityField";
 
 type TProps = {
 	entity: TEntity

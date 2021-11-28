@@ -54,7 +54,5 @@ export function formToJSON(elements: HTMLFormControlsCollection, schemaProps: TS
 		}
 	}
 
-	console.log(result);
-
 	return result;
 }

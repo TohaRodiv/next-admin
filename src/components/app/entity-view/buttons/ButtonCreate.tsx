@@ -1,5 +1,6 @@
-import { Button } from "#components/ui/Button";
 import { TButtonProps } from "#components/ui/Button/Button";
+import { PlusOutlined } from "@ant-design/icons";
+import { Button } from "antd";
 import classNames from "classnames";
 import { useRouter } from "next/router";
 import { SyntheticEvent } from "react";
@@ -14,19 +15,19 @@ export const ButtonCreate: React.FC<TProps> = ({ className, path, text, }): JSX.
 	const classes = classNames(className);
 	const router = useRouter();
 
-	const handleClick = (e: SyntheticEvent<HTMLButtonElement>) => {
+	const handleClick = (e: SyntheticEvent) => {
 		router.push(path);
 	};
 
 	return (
 		<Button
-			variant="success"
+			size="large"
+			ghost
+			type="primary"
+			icon={<PlusOutlined />}
 			className={classes}
-			iconName="folder-plus"
 			onClick={handleClick}>
-				{
-					typeof text === "undefined" ? "Добавить" : text
-				}
+			{typeof text === "undefined" ? "Добавить" : text}
 		</Button>
 	);
 };

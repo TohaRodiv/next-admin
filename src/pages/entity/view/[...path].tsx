@@ -1,4 +1,7 @@
+import { TDataFields } from "#components/app/data-view/types";
+import { DataView } from "#components/app/data-view/view/DataView";
 import { EntityView } from "#components/app/entity-view/view";
+import { getFormattedBytes } from "#libs/getFormattedBytes";
 import { APIFrontendService } from "#services/api-frontend/APIFrontendService";
 import { SwaggerParseService } from "#services/swagger-parse/SwaggerParseService";
 import { TAvailableCRUDPaths, TControllerPaths, TEntity, TSchemaEntity } from "#services/swagger-parse/types";
@@ -22,13 +25,26 @@ type TSProps = {
 
 const EntityPageView: React.FC<TProps> = ({ entity, schema, controllerPath, availableCRUDPaths, CRUDSchema, }): JSX.Element => {
 
+	const relationFields: TDataFields = {
+		images: {
+			field: "images",
+			getFormattedValue(entityValue: any): string[] {
+				console.log(entityValue);
+				return entityValue.map(imageFile => {
+					return [`http://api.electronly.dv:8081/${imageFile.path}`];
+				});
+			},
+		}
+	};
+
 	return (
 		<>
 			<Head>
 				<title>Просмотр сущности</title>
 			</Head>
 			<Container>
-				<EntityView
+				<DataView
+					relationFields={relationFields}
 					schema={schema}
 					entity={entity}
 					controllerPath={controllerPath}

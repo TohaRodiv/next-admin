@@ -1,8 +1,8 @@
 import { Link } from "#components/ui/Link";
 import { TSchemaCRUD } from "#types/TSchemaCRUD";
-import { getBaseFromattedEntityField } from "../getBaseFromattedEntityField";
+import { getBaseFromattedEntityField } from "#libs/getBaseFromattedEntityField";
 import { getFormattedField } from "./getFormattedPrimitiveField";
-import { getTypeField } from "../getTypeField";
+import { getTypeField } from "#libs/getTypeField";
 
 
 export function getFormattedEntityField(entityValue: any, schema: any, CRUDSchema: TSchemaCRUD): any {

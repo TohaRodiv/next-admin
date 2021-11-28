@@ -1,5 +1,7 @@
+import { getActionsCRUD } from "#libs/getActionsCRUD";
 import { TAvailableCRUD, TControllerPaths, TEntity, TSchemaEntity } from "#services/swagger-parse/types";
 import { TSchemaCRUD } from "#types/TSchemaCRUD";
+import { Button } from "antd";
 import { useState } from "react";
 import { ButtonEdit, ButtonView, ButtonDelete } from "../buttons";
 import { EntityViewsFooter } from "./EntityViewsFooter";
@@ -45,29 +47,16 @@ export const EntityViewsBody: React.FC<TProps> = ({
 							<input type="checkbox" name="selected-entity" />
 						</td> */}
 							<td colSpan={3} className="entity-views__operation">
-								{
-									availableCRUD.getPathUpdateOne && (
-										<ButtonEdit
-											path={availableCRUD.getPathUpdateOne(entity.id)}
-											text={false} />
-									)
-								}
-								{
-									availableCRUD.getPathGetOne && (
-										<ButtonView
-											path={availableCRUD.getPathGetOne(entity.id)}
-											text={false} />
-									)
-								}
-								{
-									availableCRUD.getPathDeleteOne && (
-										<ButtonDelete
-											controllerPath={controllerPath}
-											entityId={entity.id}
-											text={false}
-											onDelete={handleDelete} />
-									)
-								}
+								<Button.Group size="large">
+									{
+										getActionsCRUD({
+											availableCRUD,
+											controllerPath,
+											handleDelete,
+											id: entity.id,
+										})
+									}
+								</Button.Group>
 							</td>
 							<EntityViewsFormatted
 								entity={entity}

@@ -8,7 +8,10 @@
     "start": "next start"
   },
   "dependencies": {
+    "@ant-design/icons": "^4.7.0",
     "@nestjsx/crud-request": "^5.0.0-alpha.3",
+    "@next/bundle-analyzer": "^12.0.4",
+    "antd": "^4.17.2",
     "classnames": "^2.2.6",
     "form-data": "^4.0.0",
     "form-data-json-convert": "^2.0.0",
@@ -28,6 +31,7 @@
     "@babel/plugin-proposal-do-expressions": "^7.14.5",
     "@electronly/data-transfer": "^1.0.0",
     "@testing-library/react": "^11.2.5",
+    "@types/antd": "^1.0.0",
     "@types/classnames": "^2.3.1",
     "@types/formidable": "^1.2.4",
     "@types/jest": "^26.0.20",

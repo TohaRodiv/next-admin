@@ -23,7 +23,7 @@ type TSProps = Promise<{
 const EntityPageViews: NextPage<TProps> = ({ entities, schema, controllerPath, availableCRUDPaths, CRUDSchema, }) => {
 
 	function getComponentViews(controllerPath) {
-		console.log(controllerPath);
+		(controllerPath);
 		switch (controllerPath) {
 			case "/files":
 				return <FileViews

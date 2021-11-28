@@ -1,14 +1,13 @@
 import { TControllerPaths, TRelations, TSchemaEntity } from "#services/swagger-parse/types";
-import React, { HTMLInputTypeAttribute, SyntheticEvent } from "react";
-import { BackButton } from "../../button-back";
-import { getTypeField } from "../libs/getTypeField";
+import React, { SyntheticEvent } from "react";
 import { APIFrontendService } from "#services/api-frontend/APIFrontendService";
 import { ButtonGroup } from "#components/ui/button-group";
 import { ButtonSave } from "../buttons";
 import { useRouter } from "next/router";
-import { formToJSON } from "../libs/formToJSON";
+import { formToJSON } from "../../../../libs/formToJSON";
 import { TSchemaCRUD } from "#types/TSchemaCRUD";
-import { getFormattedEntityField } from "../libs/create-update/getFormattedEntityField";
+import { getFormattedEntityField } from "../../../../libs/create-update/getFormattedEntityField";
+import { ButtonCancel } from "../buttons/ButtonCancel";
 
 
 type TProps = {
@@ -62,8 +61,8 @@ export const EntityCreate: React.FC<TProps> = ({ schema, controllerPath, CRUDSch
 				})
 			}
 			<ButtonGroup>
+				<ButtonCancel />
 				<ButtonSave />
-				<BackButton value="Отменить" />
 			</ButtonGroup>
 		</form>
 	);

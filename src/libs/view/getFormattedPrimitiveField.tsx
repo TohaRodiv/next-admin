@@ -32,7 +32,7 @@ export function getFormattedField(type: string, value: any) {
 				timeZone: 'UTC',
 				hour: 'numeric',
 				minute: 'numeric',
-				second: 'numeric'
+				second: 'numeric',
 			});
 		case "checkbox":
 			return (

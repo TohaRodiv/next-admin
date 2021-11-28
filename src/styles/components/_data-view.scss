@@ -1,0 +1,54 @@
+.data-view {
+
+	margin: 1rem 0;
+
+	display: grid;
+	grid-template-columns: repeat(auto-fit, 250px);
+	grid-gap: 1rem;
+
+	&__image {
+		max-height: 250px;
+		object-fit: contain;
+	}
+
+	& .item-view__image {
+		max-height: 150px;
+		object-fit: contain;
+	}
+
+	&--list {
+		grid-template-columns: 1fr;
+
+		& .item-view__image {
+			max-width: 100px;
+			object-fit: contain;
+		}
+	}
+
+	&--table {
+		grid-template-columns: 1fr;
+	}
+
+	&__item {
+		& > .item-view {
+			width: 100%;
+		}
+	}
+}
+
+.data-view--list {
+	.item-view__card {
+		display: flex;
+	}
+}
+
+.item-view {
+	&__link {
+		display: block;
+	}
+
+	&__image {
+		display: block;
+		margin: 0 auto;
+	}
+}

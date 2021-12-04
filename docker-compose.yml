@@ -1,0 +1,12 @@
+version: "3.7"
+
+services:
+  next-admin:
+    container_name: next-admin
+    build:
+      context: .
+      dockerfile: ./deploy/app/Dockerfile
+    ports:
+      - 80:3000
+    volumes:
+      - .:/app

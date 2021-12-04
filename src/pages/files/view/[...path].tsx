@@ -37,7 +37,7 @@ const EntityPageView: React.FC<TProps> = ({ entity, schema, controllerPath, avai
 		images: {
 			field: "path",
 			getFormattedValue(entityValue: string): string[] {
-				return [`http://api.electronly.dv:8081/${entityValue}`];
+				return [`http://ec2-3-137-142-10.us-east-2.compute.amazonaws.com/${entityValue}`];
 			},
 		}
 	};

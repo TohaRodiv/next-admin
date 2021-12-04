@@ -1,4 +1,4 @@
-const API_URL = "http://todo.dv:8081";
+const API_URL = "http://ec2-3-137-142-10.us-east-2.compute.amazonaws.com";
 const LOCAL_API_URL = "http://localhost:3000";
 
 export const appConfig = {

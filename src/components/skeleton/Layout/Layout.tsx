@@ -1,7 +1,7 @@
 import { PropsWithChildren, } from "react";
 import { HTMLElementAttributes } from "#types/HTMLElementAttributes";
 import classNames from "classnames";
-import { BackButton } from "../../app/button-back";
+import { ButtonCancel } from "#components/app/entity-view/buttons/ButtonCancel";
 
 
 type TLayoutProps = PropsWithChildren<{}> & HTMLElementAttributes<HTMLElement>
@@ -10,7 +10,8 @@ export const Layout: React.FC<TLayoutProps> = ({ children, className, ...mainPro
 
 	return (
 		<>
-			<BackButton />
+			{/* TODO: Заменить на компонент кнопки "Назад" */}
+			<ButtonCancel /> 
 			<main className={classNames("main", className)} {...mainProps}>
 				{children}
 			</main>

@@ -12,7 +12,7 @@ export default async function API(req: NextApiRequest, res: NextApiResponse): Pr
 	const queryPath = req.query["path"] as string[];
 	let entityId = null;
 
-	if (isFinite(+queryPath.at(-1))) {
+	if (isFinite(+queryPath[queryPath.length - 1])) {
 		entityId = +(queryPath.pop());
 	}
 

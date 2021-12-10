@@ -1,12 +1,12 @@
 import { NextPage, NextPageContext } from "next";
 import Head from "next/head";
-import { EntityViews } from "#components/app/entity-view";
+import { EntityViews } from "#components/pages/entity-view";
 import { Container } from "react-grid-system";
 import { SwaggerParseService } from "#services/swagger-parse/SwaggerParseService";
 import { TAvailableCRUDPaths, TControllerPaths, TEntity, TSchemaEntity } from "#services/swagger-parse/types";
 import { APIFrontendService } from "#services/api-frontend/APIFrontendService";
 import { TSchemaCRUD } from "#types/TSchemaCRUD";
-import { FileViews } from "#components/app/file-view/FileViews";
+import { DataViewTable } from "#components/pages/data-view";
 
 type TProps = {
 	entities: TEntity[],
@@ -22,38 +22,19 @@ type TSProps = Promise<{
 
 const EntityPageViews: NextPage<TProps> = ({ entities, schema, controllerPath, availableCRUDPaths, CRUDSchema, }) => {
 
-	function getComponentViews(controllerPath) {
-		(controllerPath);
-		switch (controllerPath) {
-			case "/files":
-				return <FileViews
-					entities={entities}
-					schema={schema}
-					caption="Файлы"
-					availableCRUD={SwaggerParseService.getAvailableCRUD(availableCRUDPaths)}
-					controllerPath={controllerPath}
-					CRUDSchema={CRUDSchema} />;
-
-			default:
-				return <EntityViews
-					entities={entities}
-					schema={schema}
-					caption="Задачи"
-					availableCRUD={SwaggerParseService.getAvailableCRUD(availableCRUDPaths)}
-					controllerPath={controllerPath}
-					CRUDSchema={CRUDSchema} />
-		}
-	}
-
 	return (
 		<>
 			<Head>
 				<title>Просмотр списка экземпляров сущности</title>
 			</Head>
 			<Container>
-				<>
-					{getComponentViews(controllerPath)}
-				</>
+				<DataViewTable
+					entities={entities}
+					schema={schema}
+					caption="Задачи"
+					availableCRUD={SwaggerParseService.getAvailableCRUD(availableCRUDPaths)}
+					controllerPath={controllerPath}
+					CRUDSchema={CRUDSchema} />
 			</Container>
 		</>
 	);

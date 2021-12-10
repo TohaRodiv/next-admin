@@ -35,11 +35,11 @@
 		  "#commerce/*": [
 			  "./src/components/commerce/*"
 		  ],
-		  "#ui/*": [
-			  "./src/components/ui/*"
+		  "#atoms/*": [
+			  "src/components/atoms/*"
 		  ],
-		  "#skeleton/*": [
-			  "./src/components/skeleton/*"
+		  "#organisms/*": [
+			  "src/components/organisms/*"
 		  ],
 		  "#services/*": [
 			  "./src/services/*"

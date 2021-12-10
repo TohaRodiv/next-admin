@@ -1,14 +1,15 @@
 import { TAvailableCRUD, TControllerPaths, TEntity } from "#services/swagger-parse/types";
-import { ButtonEdit, ButtonView, ButtonDelete } from "../components/app/entity-view/buttons";
+import { ButtonEdit, ButtonView, ButtonDelete } from "../components/pages/entity-view/buttons";
 
 type TProps = {
 	availableCRUD: TAvailableCRUD
 	controllerPath: TControllerPaths
 	id: number
 	handleDelete: (entity: TEntity) => void
+	onBeforeDelete?: (entityId: number) => void
 }
 
-export const getActionsCRUD = ({ availableCRUD, controllerPath, id, handleDelete, }: TProps): JSX.Element[] => {
+export const getActionsCRUD = ({ availableCRUD, controllerPath, id, handleDelete, onBeforeDelete, }: TProps): JSX.Element[] => {
 
 	const actions = [];
 
@@ -37,7 +38,8 @@ export const getActionsCRUD = ({ availableCRUD, controllerPath, id, handleDelete
 				controllerPath={controllerPath}
 				entityId={id}
 				text={false}
-				onDelete={handleDelete} />
+				onDelete={handleDelete}
+				onBeforeDelete={onBeforeDelete} />
 		);
 	}
 

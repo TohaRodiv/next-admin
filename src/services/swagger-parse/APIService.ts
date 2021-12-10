@@ -3,6 +3,7 @@ import { TControllerPaths } from "./types";
 import FormData from "form-data";
 import { createReadStream } from "fs";
 import path from "path";
+import { RequestQueryBuilder } from "@nestjsx/crud-request";
 
 export class APIService implements IAPI {
 	protected readonly API_URL: string = `${process.env.EXTERNAL_API_URL}`;
@@ -11,16 +12,20 @@ export class APIService implements IAPI {
 		protected getControllerPaths: () => Promise<TControllerPaths>,
 	) { }
 
-	public async getMany(controllerPath: string): Promise<any> {
-		this.checkControllerPath(controllerPath);
-
-		return await this.fetch(this.getFormattedUrl(controllerPath));
+	public getQueryBuilder(): RequestQueryBuilder {
+		return RequestQueryBuilder.create();
 	}
 
-	public async getById(controllerPath: string, id: number): Promise<any> {
+	public async getMany(controllerPath: string, params?: string): Promise<any> {
 		this.checkControllerPath(controllerPath);
 
-		return await this.fetch(this.getFormattedUrl(controllerPath, id));
+		return await this.fetch(this.getFormattedUrl(controllerPath, null, params));
+	}
+
+	public async getById(controllerPath: string, id: number, params?: string): Promise<any> {
+		this.checkControllerPath(controllerPath);
+
+		return await this.fetch(this.getFormattedUrl(controllerPath, id, params));
 	}
 
 	public async updateById(controllerPath: string, id: number, data: object): Promise<any> {
@@ -51,7 +56,7 @@ export class APIService implements IAPI {
 		});
 	}
 
-	public async uploadFiles(controllerPath, files: { [fieldName: string]: File[] }): Promise<any> {
+	public async uploadFiles(controllerPath: TControllerPaths, files: { [fieldName: string]: File[] }): Promise<any> {
 		this.checkControllerPath(controllerPath);
 
 		const formData = new FormData();
@@ -135,7 +140,10 @@ export class APIService implements IAPI {
 		});
 	}
 
-	protected getFormattedUrl(controllerPath: TControllerPaths, id?: number): string {
-		return `${this.API_URL}${controllerPath}${id ? `/${id}` : ""}`;
+	protected getFormattedUrl(controllerPath: TControllerPaths, id?: number, params?: string): string {
+		const entityId = id ? `/${id}` : "";
+		const queryParams = params ? `?${params}` : "";
+
+		return `${this.API_URL}${controllerPath}${entityId}${queryParams}`;
 	}
 }

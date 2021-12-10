@@ -1,4 +1,4 @@
-import { EntityCreate } from "#components/app/entity-view/create";
+import { EntityCreate } from "#components/pages/entity-view/create";
 import { SwaggerParseService } from "#services/swagger-parse/SwaggerParseService";
 import { TControllerPaths, TRelations, TSchemaEntity } from "#services/swagger-parse/types";
 import { TSchemaCRUD } from "#types/TSchemaCRUD";

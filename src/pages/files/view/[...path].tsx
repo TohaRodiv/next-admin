@@ -1,6 +1,6 @@
-import { TDataFields } from "#components/app/data-view/types";
-import { DataView } from "#components/app/data-view/view/DataView";
-import { EntityView } from "#components/app/entity-view/view";
+import { TDataFields } from "#components/pages/data-view/types";
+import { DataView } from "#components/pages/data-view/view/DataView";
+import { EntityView } from "#components/pages/entity-view/view";
 import { getFormattedBytes } from "#libs/getFormattedBytes";
 import { APIFrontendService } from "#services/api-frontend/APIFrontendService";
 import { SwaggerParseService } from "#services/swagger-parse/SwaggerParseService";

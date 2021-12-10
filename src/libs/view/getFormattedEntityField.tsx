@@ -1,4 +1,4 @@
-import { Link } from "#components/ui/Link";
+import { Link } from "#components/atoms/Link";
 import { TSchemaCRUD } from "#types/TSchemaCRUD";
 import { getBaseFromattedEntityField } from "#libs/getBaseFromattedEntityField";
 import { getFormattedField } from "./getFormattedPrimitiveField";

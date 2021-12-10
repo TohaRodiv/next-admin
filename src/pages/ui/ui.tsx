@@ -1,12 +1,9 @@
-import { ButtonDelete, ButtonEdit, ButtonView } from "#components/app/entity-view/buttons";
-import { formToJSON } from "#libs/formToJSON";
-import { Section } from "#components/skeleton/Section";
-import { ButtonGroup } from "#components/ui/button-group";
+import { Section } from "#components/organisms/Section";
 import { NextPage } from "next";
 import Head from "next/head";
-import { SyntheticEvent, useState } from "react";
+import { useState } from "react";
 import { Container } from "react-grid-system";
-import { Button, Drawer, Input, notification } from "antd";
+import { Button, Drawer, Input, notification, Space } from "antd";
 import Modal from "antd/lib/modal/Modal";
 
 const UI: NextPage = () => {
@@ -51,7 +48,7 @@ const UI: NextPage = () => {
 			</Head>
 			<Container>
 				<Section>
-					<ButtonGroup>
+					<Space>
 						<Button type="primary" onClick={showModal}>
 							Open Modal
 						</Button>
@@ -61,7 +58,7 @@ const UI: NextPage = () => {
 						<Button type="primary" onClick={showDrawer}>
 							Open
 						</Button>
-					</ButtonGroup>
+					</Space>
 					<Modal title="Basic Modal" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
 						<p>Some contents...</p>
 						<p>Some contents...</p>

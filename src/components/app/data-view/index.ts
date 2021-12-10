@@ -1,1 +1,0 @@
-export { DataViewList } from "./DataViewList";

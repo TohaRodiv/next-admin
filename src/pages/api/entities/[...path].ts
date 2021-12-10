@@ -1,13 +1,34 @@
 import { SwaggerParseService } from "#services/swagger-parse";
 import { NextApiRequest, NextApiResponse } from "next";
+import { URLSearchParams } from "url";
+
+type TQueryParams = {
+	path?: string[]
+	[queryName: string]: any
+}
 
 
 export default async function API(req: NextApiRequest, res: NextApiResponse): Promise<any> {
-	const queryPath = req.query["path"] as string[];
+	const { path: queryPath, ...params }: TQueryParams = req.query;
 	let entityId = null;
+	let queryParams = new URLSearchParams();
 
+	/**
+	 * Достаем id из get запроса (должен идти самым последним)
+	 */
 	if (isFinite(+queryPath[queryPath.length - 1])) {
 		entityId = +(queryPath.pop());
+	}
+
+	/**
+	 * Преобразуем объект query в строку get запроса
+	 */
+	if (params) {
+		Object
+			.entries(params)
+			.forEach(([paramKey, paramValue]) => {
+				queryParams.append(paramKey, paramValue);
+			});
 	}
 
 	const controllerPath = SwaggerParseService.getControlerPathFromArray(queryPath);
@@ -15,11 +36,15 @@ export default async function API(req: NextApiRequest, res: NextApiResponse): Pr
 	switch (req.method) {
 		case "GET":
 			if (entityId) {
-				const response = await SwaggerParseService.APIService.getById(controllerPath, entityId);
+				const response = await SwaggerParseService.APIService.getById(
+					controllerPath,
+					entityId,
+					queryParams.toString(),
+				);
 				const result = await response.json();
 				res.status(response.status).send(result);
 			} else {
-				const response = await SwaggerParseService.APIService.getMany(controllerPath);
+				const response = await SwaggerParseService.APIService.getMany(controllerPath, queryParams.toString());
 				const result = await response.json();
 				res.status(response.status).send(result);
 			}

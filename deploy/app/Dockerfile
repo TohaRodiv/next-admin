@@ -14,7 +14,7 @@ RUN npm install
 COPY . .
 
 # Собираем приложение
-RUN npm run build
+# RUN npm run build
 
 # Запуск проекта
-CMD npm run start
+CMD npm run dev

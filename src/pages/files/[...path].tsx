@@ -5,14 +5,13 @@ import { SwaggerParseService } from "#services/swagger-parse/SwaggerParseService
 import { TAvailableCRUDPaths, TControllerPaths, TEntity, TSchemaEntity } from "#services/swagger-parse/types";
 import { APIFrontendService } from "#services/api-frontend/APIFrontendService";
 import { TSchemaCRUD } from "#types/TSchemaCRUD";
-import { DataViewList } from "#components/app/data-view";
+import { DataViewList } from "#components/pages/data-view";
 import { getFormattedBytes } from "#libs/getFormattedBytes";
-import { ButtonSave } from "#components/app/entity-view/buttons";
-import { SyntheticEvent, useState } from "react";
-import { ButtonGroup } from "#components/ui/button-group";
-import { Section } from "#components/skeleton/Section";
-import { message } from "antd";
-import { TDataFields } from "#components/app/data-view/types";
+import { ButtonSave } from "#components/pages/entity-view/buttons";
+import { SyntheticEvent } from "react";
+import { Section } from "#components/organisms/Section";
+import { message, Space } from "antd";
+import { TDataFields } from "#components/pages/data-view/types";
 
 type TProps = {
 	entities: TEntity[],
@@ -78,10 +77,10 @@ const FilesPageViews: NextPage<TProps> = ({ entities, schema, controllerPath, av
 					{
 						availableCRUD.getPathCreateOne &&
 						<form onSubmit={handleUploadFiles}>
-							<ButtonGroup>
+							<Space>
 								<input type="file" name="files" multiple={true} className="btn btn--light" />
 								<ButtonSave text="Загрузить" />
-							</ButtonGroup>
+							</Space>
 						</form>
 					}
 				</Section>

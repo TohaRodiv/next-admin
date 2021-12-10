@@ -1,6 +1,6 @@
 import { NextPage, NextPageContext } from "next";
 import Head from "next/head";
-import { EntityEdit } from "#components/app/file-view/edit/EntityEdit";
+import { EntityEdit } from "#components/pages/file-view/edit/EntityEdit";
 import { Container } from "react-grid-system";
 import { SwaggerParseService } from "#services/swagger-parse/SwaggerParseService";
 import { TControllerPaths, TEntity, } from "#services/swagger-parse/types";

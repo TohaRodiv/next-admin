@@ -1,1 +1,0 @@
-export { GridMenu } from "./GridMenu";

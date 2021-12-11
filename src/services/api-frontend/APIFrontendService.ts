@@ -27,7 +27,7 @@ export const APIFrontendService = new class implements IAPI {
 		});
 	}
 
-	public getQueryBuilder(): RequestQueryBuilder {
+	public createQueryBuilder(): RequestQueryBuilder {
 		return RequestQueryBuilder.create();
 	}
 

@@ -72,7 +72,7 @@ const FilesPageViews: NextPage<TProps> = ({ entities, schema, controllerPath, av
 			<Head>
 				<title>Просмотр списка экземпляров сущности</title>
 			</Head>
-			<Container>
+			<Container fluid>
 				<Section>
 					{
 						availableCRUD.getPathCreateOne &&

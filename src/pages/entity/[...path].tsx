@@ -27,7 +27,7 @@ const EntityPageViews: NextPage<TProps> = ({ entities, schema, controllerPath, a
 			<Head>
 				<title>Просмотр списка экземпляров сущности</title>
 			</Head>
-			<Container>
+			<Container fluid>
 				<DataViewTable
 					entities={entities}
 					schema={schema}

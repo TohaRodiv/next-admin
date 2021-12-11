@@ -1,0 +1,10 @@
+.dropdown-search {
+	display: grid;
+	grid-gap: .5rem;
+	padding: .5rem;
+
+	&__select-condition {
+		display: block;
+		width: 100%;
+	}
+}

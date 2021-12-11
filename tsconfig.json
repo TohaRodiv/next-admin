@@ -31,15 +31,17 @@
 		  "#config/*": [
 			  "./src/config/*"
 		  ],
-
-		  "#commerce/*": [
-			  "./src/components/commerce/*"
-		  ],
 		  "#atoms/*": [
 			  "src/components/atoms/*"
 		  ],
+		  "#molecules/*": [
+			  "src/components/molecules/*"
+		  ],
 		  "#organisms/*": [
 			  "src/components/organisms/*"
+		  ],
+		  "#pages/*": [
+			  "src/components/pages/*"
 		  ],
 		  "#services/*": [
 			  "./src/services/*"
@@ -49,6 +51,18 @@
 		  ]
 	  }
 	},
-	"exclude": ["node_modules", ".next", "out"],
-	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.js"]
+	"exclude": [
+		"node_modules",
+		".next",
+		".vscode",
+		"deploy",
+		"public",
+		"shell-scripts"
+	],
+	"include": [
+		"next-env.d.ts",
+		"**/*.ts",
+		"**/*.tsx",
+		"**/*.js"
+	]
   }

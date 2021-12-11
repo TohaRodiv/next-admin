@@ -11,7 +11,7 @@ type TProps = {
 	controllerPath: TControllerPaths
 	text?: string | boolean
 	loading: boolean
-	getQueryBuilder: () => RequestQueryBuilder
+	createQueryBuilder: () => RequestQueryBuilder
 	onUpdate?: (entity: TEntity) => void
 	onBeforeUpdate?: () => void
 } & TButtonProps
@@ -23,13 +23,13 @@ export const ButtonUpdateMany: React.FC<TProps> = ({
 		onUpdate,
 		loading,
 		onBeforeUpdate,
-		getQueryBuilder,
+		createQueryBuilder,
 	}): JSX.Element => {
 
 	const classes = classNames(className);
 
 	const handleClick = async (e: SyntheticEvent) => {
-		const queryBuilder = getQueryBuilder && getQueryBuilder();
+		const queryBuilder = createQueryBuilder && createQueryBuilder();
 		onBeforeUpdate && onBeforeUpdate();
 		const response = await APIFrontendService.getMany(controllerPath, queryBuilder);
 		const result = await response.json();

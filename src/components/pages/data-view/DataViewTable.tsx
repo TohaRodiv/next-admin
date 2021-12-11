@@ -2,9 +2,12 @@ import { getDataSource, getColumnsBySchema, getSortedEntities } from "#libs/data
 import { APIFrontendService } from "#services/api-frontend/APIFrontendService";
 import { TEntity, TSchemaEntity, TAvailableCRUD, TControllerPaths } from "#services/swagger-parse/types";
 import { TSchemaCRUD } from "#types/TSchemaCRUD";
-import { Divider, Space, Switch, Table } from "antd";
+import { ControlOutlined } from "@ant-design/icons";
+import { RequestQueryBuilder } from "@nestjsx/crud-request";
+import { Button, Divider, Drawer, Select, Space, Switch, Table } from "antd";
 import ButtonGroup from "antd/lib/button/button-group";
-import { useState } from "react";
+import type { SizeType } from "antd/lib/config-provider/SizeContext";
+import { useEffect, useState } from "react";
 import { ButtonCreate } from "../entity-view/buttons";
 import { ButtonUpdateMany } from "../entity-view/buttons/ButtonUpdateMany";
 
@@ -30,7 +33,20 @@ export const DataViewTable: React.FC<TProps> = ({
 	const [entities, setEntities] = useState(_entities);
 	const [loading, setLoading] = useState(false);
 	const [isSorted, setIsSorted] = useState(false);
-	const [queryBuilder] = useState(APIFrontendService.getQueryBuilder());
+	const [tableSize, setTableSize] = useState<SizeType>("middle");
+	const [isEllipsized, setIsEllipsized] = useState(false);
+	const [isSearched, setIsSearched] = useState(false);
+	const [visibleDrawer, setVisibleDrawer] = useState(false);
+	const [selectedFilterCondition, setSelectedFilterCondition] = useState("$cont");
+	const [queryBuilder] = useState(APIFrontendService.createQueryBuilder());
+
+	let isSearch = false;
+
+	const menuSizes: { label: string, value: SizeType }[] = [
+		{ label: "Маленький", value: "small" },
+		{ label: "Средний", value: "middle" },
+		{ label: "Большой", value: "large" },
+	];
 
 	const onBeforeDelete = (entityId: number): void => {
 		setLoading(true);
@@ -50,25 +66,58 @@ export const DataViewTable: React.FC<TProps> = ({
 		setLoading(false);
 	};
 
-	/**
-	 * @param pagination 
-	 * @param filters 
-	 * @param sorter 
-	 */
-	const handleTableChange = async (pagination: any, filters: any, sorter: any): Promise<void> => {
+	const handleTableChange = async (pagination: any, filters: any, sorters: any): Promise<void> => {
+		if (isSearch) {
+			return;
+		}
+
 		setLoading(true);
 
-
 		const result = await getSortedEntities({
-			sorter,
+			sorters,
 			controllerPath,
 			queryBuilder,
 		});
 
+		setEntities(result);
+
+		setLoading(false);
+	};
+
+	const handleSizeTableChange = (size: SizeType) => {
+		setTableSize(size);
+	};
+
+	const handleSearch = async (selectedKeys: string[], confirm: () => void, dataIndex: string, selectedFilterCondition: string): Promise<void> => {
+		isSearch = true;
+		setLoading(true);
+		confirm();
+
+		const params = queryBuilder.search({
+			[dataIndex]: {
+				[selectedFilterCondition]: selectedKeys[0]
+			},
+		});
+
+		const response = await APIFrontendService.getMany(controllerPath, params)
+		const result = await response.json();
 
 		setEntities(result);
 
 		setLoading(false);
+		isSearch = false;
+	};
+
+	const handleResetSearch = (clearFilters: () => void) => {
+		clearFilters();
+	};
+
+	const handleCloseDrawer = () => {
+		setVisibleDrawer(false);
+	};
+
+	const handleOpenDrawer = () => {
+		setVisibleDrawer(true);
 	};
 
 
@@ -84,6 +133,14 @@ export const DataViewTable: React.FC<TProps> = ({
 
 	const columns = getColumnsBySchema(schema, {
 		isSorted,
+		isEllipsized,
+		isSearched,
+		searchState: {
+			handleSearch,
+			handleReset: handleResetSearch,
+			selectedFilterCondition,
+			setSelectedFilterCondition
+		}
 	});
 
 	const rowSelection = {
@@ -100,34 +157,64 @@ export const DataViewTable: React.FC<TProps> = ({
 	return (
 		<>
 			<ButtonGroup>
-				<ButtonUpdateMany
-					getQueryBuilder={() => { console.log(queryBuilder); return queryBuilder; }}
-					controllerPath={controllerPath}
-					onBeforeUpdate={handleBeforeUpdateMany}
-					onUpdate={handleUpdateMany}
-					loading={loading} />
 				{
 					availableCRUD.getPathCreateOne &&
 					<ButtonCreate path={availableCRUD.getPathCreateOne()} />
 				}
+				<ButtonUpdateMany
+					createQueryBuilder={() => { return queryBuilder; }}
+					controllerPath={controllerPath}
+					onBeforeUpdate={handleBeforeUpdateMany}
+					onUpdate={handleUpdateMany}
+					loading={loading} />
+				<Button
+					size="large"
+					icon={<ControlOutlined />}
+					type="primary"
+					ghost
+					onClick={handleOpenDrawer}>
+					Настройки
+				</Button>
 			</ButtonGroup>
-			<Divider />
-
-			<label>
-				<Space>
-					<Switch onChange={(checked) => { setIsSorted(checked) }} />
-					<span>Сортировка</span>
-				</Space>
-			</label>
 
 			<Divider />
+
 			<Table
-				size="small"
+				scroll={{ x: "100vw", y: "100vh", }}
+				size={tableSize}
 				onChange={handleTableChange}
 				loading={loading}
-				rowSelection={rowSelection}
+				// rowSelection={rowSelection}
 				dataSource={dataSource}
 				columns={columns} />
+
+			<Drawer
+				title="Настройки"
+				visible={visibleDrawer}
+				onClose={handleCloseDrawer}
+				placement="right">
+				<div className="dropdown-search">
+					<label>
+						<Space>
+							<Switch onChange={(checked) => { setIsSorted(checked) }} />
+							<span>Сортировка</span>
+						</Space>
+					</label>
+					<label>
+						<Space>
+							<Switch onChange={(checked) => { setIsSearched(checked) }} />
+							<span>Поиск</span>
+						</Space>
+					</label>
+					<label>
+						<Space>
+							<Switch onChange={(checked) => { setIsEllipsized(checked) }} />
+							<span>Компактный вид</span>
+						</Space>
+					</label>
+					<Select options={menuSizes} onChange={handleSizeTableChange} defaultValue={tableSize} />
+				</div>
+			</Drawer>
 		</>
 	);
 };

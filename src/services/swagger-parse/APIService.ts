@@ -12,7 +12,7 @@ export class APIService implements IAPI {
 		protected getControllerPaths: () => Promise<TControllerPaths>,
 	) { }
 
-	public getQueryBuilder(): RequestQueryBuilder {
+	public createQueryBuilder(): RequestQueryBuilder {
 		return RequestQueryBuilder.create();
 	}
 

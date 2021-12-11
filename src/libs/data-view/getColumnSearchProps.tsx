@@ -61,18 +61,19 @@ export const getColumnSearchProps: CallableFunction = (dataIndex: string, {
 				<div className="dropdown-search__item">
 					<Space>
 						<Button
+							onClick={() => handleReset(clearFilters)}
+							size="middle"
+							style={{ width: 90 }}>
+							Сбросить
+						</Button>
+						<Button
 							type="primary"
 							onClick={() => handleSearch(selectedKeys, confirm, dataIndex, selectedFilterCondition)}
 							icon={<SearchOutlined />}
 							size="middle">
 							Найти
 						</Button>
-						<Button
-							onClick={() => handleReset(clearFilters)}
-							size="middle"
-							style={{ width: 90 }}>
-							Сбросить
-						</Button>
+
 					</Space>
 				</div>
 			</div>

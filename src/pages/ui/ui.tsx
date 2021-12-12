@@ -1,4 +1,4 @@
-import { Section } from "#components/organisms/Section";
+import { Section } from "#components/molecules/Section";
 import { NextPage } from "next";
 import Head from "next/head";
 import { useState } from "react";

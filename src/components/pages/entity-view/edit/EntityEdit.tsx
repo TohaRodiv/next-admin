@@ -1,16 +1,15 @@
-import { ButtonGroup } from "#components/ui/button-group";
 import { APIFrontendService } from "#services/api-frontend/APIFrontendService";
 import { TSchemaEntity, TEntity, TControllerPaths, TRelations } from "#services/swagger-parse/types";
 import { TSchemaCRUD } from "#types/TSchemaCRUD";
 import { useRouter } from "next/router";
-import { HTMLInputTypeAttribute, SyntheticEvent, useState, } from "react";
+import { HTMLInputTypeAttribute, SyntheticEvent, } from "react";
 import { ButtonSave } from "../buttons";
 import { getFormattedEntityField } from "#libs/create-update/getFormattedEntityField";
 import { formToJSON } from "#libs/formToJSON";
 import { getTypeField } from "#libs/getTypeField";
-import { message, Table } from "antd";
+import { message, } from "antd";
 import { ButtonCancel } from "../buttons/ButtonCancel";
-import Modal from "antd/lib/modal/Modal";
+import { Group } from "antd/lib/avatar";
 
 type TProps = {
 	schema: TSchemaEntity
@@ -87,10 +86,10 @@ export const EntityEdit: React.FC<TProps> = ({ schema, entity, controllerPath, C
 						);
 					})
 				}
-				<ButtonGroup>
+				<Group>
 					<ButtonCancel />
 					<ButtonSave />
-				</ButtonGroup>
+				</Group>
 			</form>
 		</>
 	);

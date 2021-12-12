@@ -4,7 +4,7 @@ import type { AppProps } from "next/dist/next-server/lib/router/router";
 import { NextPage } from "next";
 import React, { useEffect } from "react";
 import { SettingProvider } from "src/context";
-import { AntdLayout } from "#components/organisms/Layout/AntdLayout";
+import { AntdLayout } from "#components/templates/antd-layout";
 import NProgress from "nprogress";
 import { useRouter } from "next/router";
 

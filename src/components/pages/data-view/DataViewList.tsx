@@ -1,4 +1,4 @@
-import { Section } from "#components/organisms/Section";
+import { Section } from "#components/molecules/Section";
 import { Link } from "#components/atoms/Link";
 import { getStandartFieldsEntity } from "#libs/getStrandartFieldsEntity";
 import { TEntity, TSchemaEntity, TAvailableCRUD, TControllerPaths } from "#services/swagger-parse/types";

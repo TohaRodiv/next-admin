@@ -1,4 +1,4 @@
-import { SearchOutlined } from "@ant-design/icons";
+import { DeleteOutlined, SearchOutlined } from "@ant-design/icons";
 import { Input, Space, Button, Select } from "antd";
 
 type TProps = {
@@ -61,9 +61,9 @@ export const getColumnSearchProps: CallableFunction = (dataIndex: string, {
 				<div className="dropdown-search__item">
 					<Space>
 						<Button
+							icon={<DeleteOutlined />}
 							onClick={() => handleReset(clearFilters)}
-							size="middle"
-							style={{ width: 90 }}>
+							size="middle">
 							Сбросить
 						</Button>
 						<Button

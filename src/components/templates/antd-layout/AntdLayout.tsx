@@ -1,13 +1,14 @@
-import { UserOutlined, VideoCameraOutlined, UploadOutlined, LeftOutlined } from "@ant-design/icons";
-import { Layout, Menu, Button, } from "antd";
+import { UploadOutlined, HomeOutlined, ProfileOutlined } from "@ant-design/icons";
+import { Layout, Menu, } from "antd";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useRouter } from 'next/router'
+import { ButtonBack } from "#components/molecules/action-buttons";
 
 const { Header, Sider, Content, } = Layout;
 
 
-function getSider(collapsed: boolean, setCollapsed) {
+function getSider(collapsed: boolean, setCollapsed: (isCollapsed: boolean) => void) {
 	return <Sider
 		className="antd-layout__sider"
 		collapsible
@@ -15,10 +16,10 @@ function getSider(collapsed: boolean, setCollapsed) {
 		onCollapse={setCollapsed}
 		theme="dark">
 		<Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
-			<Menu.Item key="1" icon={<UserOutlined />}>
+			<Menu.Item key="1" icon={<HomeOutlined />}>
 				<Link href="/">Главная</Link>
 			</Menu.Item>
-			<Menu.Item key="2" icon={<VideoCameraOutlined />}>
+			<Menu.Item key="2" icon={<ProfileOutlined />}>
 				<Link href="/ui/ui">UI тесты</Link>
 			</Menu.Item>
 			<Menu.Item key="3" icon={<UploadOutlined />}>
@@ -45,13 +46,7 @@ export const AntdLayout: React.FC = ({ children, }): JSX.Element => {
 			<Layout>
 				<Header className="antd-layout__header">
 					{
-						router.pathname != "/" && <Button
-							onClick={() => { router.back() }}
-							icon={<LeftOutlined />}
-							type="primary"
-							ghost>
-							Назад
-						</Button>
+						router.pathname != "/" && <ButtonBack />
 					}
 				</Header>
 				<Content className="antd-layout__content">{children}</Content>

@@ -9,7 +9,7 @@ import { DataViewList } from "#components/pages/data-view";
 import { getFormattedBytes } from "#libs/getFormattedBytes";
 import { ButtonSave } from "#components/pages/entity-view/buttons";
 import { SyntheticEvent } from "react";
-import { Section } from "#components/organisms/Section";
+import { Section } from "#components/molecules/Section";
 import { message, Space } from "antd";
 import { TDataFields } from "#components/pages/data-view/types";
 

@@ -14,52 +14,54 @@ type TProps = {
 
 export const EntityList: React.FC<TProps> = ({ categories }): JSX.Element => {
 	return (
-		<List>
-			{
-				categories.map(({ title, path, availableCRUDPaths, }) => {
-					const availableCRUD = SwaggerParseService.getAvailableCRUD(availableCRUDPaths);
-					let categoryPath = "/entity";
-					let pathToView = `${categoryPath}${path}`;
+		<>
+			<List>
+				{
+					categories.map(({ title, path, availableCRUDPaths, }) => {
+						const availableCRUD = SwaggerParseService.getAvailableCRUD(availableCRUDPaths);
+						let categoryPath = "/entity";
+						let pathToView = `${categoryPath}${path}`;
 
-					Object
-						.entries(excludeEntityPaths)
-						.filter(([excludePath]) => excludePath === path)
-						.forEach(([path, getNewPath]) => {
-							if (typeof getNewPath === "function") {
+						Object
+							.entries(excludeEntityPaths)
+							.filter(([excludePath]) => excludePath === path)
+							.forEach(([path, getNewPath]) => {
+								if (typeof getNewPath === "function") {
 
-								pathToView = getNewPath(path);
+									pathToView = getNewPath(path);
 
-							} else {
-								throw new Error(`Property "${getNewPath}" for path "${path}" is not a function!`);
-							}
-						});
+								} else {
+									throw new Error(`Property "${getNewPath}" for path "${path}" is not a function!`);
+								}
+							});
 
-					if (pathToView === null) {
-						return null;
-					}
+						if (pathToView === null) {
+							return null;
+						}
 
-					const titleElement =
-						<Link href={pathToView} className="link">
-							<ProfileOutlined className="link__icon" />
-							<span className="link__text">{title}</span>
-						</Link>;
+						const titleElement =
+							<Link href={pathToView} className="link">
+								<ProfileOutlined className="link__icon" />
+								<span className="link__text">{title}</span>
+							</Link>;
 
-					const actions = [];
+						const actions = [];
 
-					availableCRUD.getPathCreateOne && actions.push(
-						<ButtonCreate path={availableCRUD.getPathCreateOne()} />
-					);
+						availableCRUD.getPathCreateOne && actions.push(
+							<ButtonCreate path={availableCRUD.getPathCreateOne()} />
+						);
 
-					return (
-						<List.Item
-							key={path}
-							actions={actions}>
-							<List.Item.Meta
-								title={titleElement} />
-						</List.Item>
-					);
-				})
-			}
-		</List>
+						return (
+							<List.Item
+								key={path}
+								actions={actions}>
+								<List.Item.Meta
+									title={titleElement} />
+							</List.Item>
+						);
+					})
+				}
+			</List>
+		</>
 	);
 };

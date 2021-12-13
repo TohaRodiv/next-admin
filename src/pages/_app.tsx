@@ -36,7 +36,7 @@ const Application: NextPage<TProps> = ({ Component, pageProps, }: TProps): JSX.E
 			router.events.off('routeChangeError', handleStop)
 		}
 
-	}, [router]);
+	}, []);
 
 	return (
 		<SettingProvider>

@@ -3,7 +3,7 @@ import { Link } from "#components/atoms/Link";
 import { getStandartFieldsEntity } from "#libs/getStrandartFieldsEntity";
 import { TEntity, TSchemaEntity, TAvailableCRUD, TControllerPaths } from "#services/swagger-parse/types";
 import { TSchemaCRUD } from "#types/TSchemaCRUD";
-import { Card } from "antd";
+import { Card, Pagination } from "antd";
 import classNames from "classnames";
 import { useState, SyntheticEvent } from "react";
 import { getActionsCRUD } from "#libs/getActionsCRUD";
@@ -112,6 +112,7 @@ export const DataViewList: React.FC<TProps> = ({
 						})
 					}
 				</ul>
+				{/* <Pagination defaultCurrent={1} total={50} /> */}
 			</Section>
 		</>
 	);

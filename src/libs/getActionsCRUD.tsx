@@ -1,5 +1,5 @@
+import { ButtonDelete, ButtonEdit, ButtonView } from "#components/molecules/action-buttons";
 import { TAvailableCRUD, TControllerPaths, TEntity } from "#services/swagger-parse/types";
-import { ButtonEdit, ButtonView, ButtonDelete } from "../components/pages/entity-view/buttons";
 
 type TProps = {
 	availableCRUD: TAvailableCRUD
@@ -13,33 +13,37 @@ export const getActionsCRUD = ({ availableCRUD, controllerPath, id, handleDelete
 
 	const actions = [];
 
-	if (availableCRUD.getPathUpdateOne) {
+	if (availableCRUD.getPathDeleteOne) {
 		actions.push(
-			<ButtonEdit
-				key="action-update-one"
-				path={availableCRUD.getPathUpdateOne(id)}
-				text={false} />
+			<ButtonDelete
+				title="Удалить"
+				danger
+				key="action-delete"
+				controllerPath={controllerPath}
+				entityId={id}
+				text={null}
+				onDelete={handleDelete}
+				onBeforeDelete={onBeforeDelete} />
 		);
 	}
 
 	if (availableCRUD.getPathGetOne) {
 		actions.push(
 			<ButtonView
+				title="Просмотр"
 				key="action-get-one"
 				path={availableCRUD.getPathGetOne(id)}
-				text={false} />
+				text={null} />
 		);
 	}
 
-	if (availableCRUD.getPathDeleteOne) {
+	if (availableCRUD.getPathUpdateOne) {
 		actions.push(
-			<ButtonDelete
-				key="action-delete"
-				controllerPath={controllerPath}
-				entityId={id}
-				text={false}
-				onDelete={handleDelete}
-				onBeforeDelete={onBeforeDelete} />
+			<ButtonEdit
+				title="Изменить"
+				key="action-update-one"
+				path={availableCRUD.getPathUpdateOne(id)}
+				text={null} />
 		);
 	}
 

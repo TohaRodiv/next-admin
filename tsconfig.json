@@ -1,5 +1,6 @@
 {
 	"compilerOptions": {
+	  "experimentalDecorators": true,
 	  "target": "ESNext",
 	  "lib": ["dom", "dom.iterable", "esnext"],
 	  "allowJs": true,
@@ -48,6 +49,12 @@
 		  ],
 		  "#data/*": [
 			  "./src/data/*"
+		  ],
+		  "#context/*": [
+			  "./src/context/*"
+		  ],
+		  "#stores/*": [
+			  "./src/stores/*"
 		  ]
 	  }
 	},

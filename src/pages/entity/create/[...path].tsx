@@ -1,3 +1,4 @@
+import { DataCreate } from "#components/pages/data-view/create";
 import { EntityCreate } from "#components/pages/entity-view/create";
 import { SwaggerParseService } from "#services/swagger-parse/SwaggerParseService";
 import { TControllerPaths, TRelations, TSchemaEntity } from "#services/swagger-parse/types";
@@ -25,7 +26,7 @@ const EntityPageViews: NextPage<TProps> = ({ schema, controllerPath, CRUDSchema,
 				<title>Создать новый экземпляр сущности</title>
 			</Head>
 			<Container>
-				<EntityCreate
+				<DataCreate
 					schema={schema}
 					controllerPath={controllerPath}
 					CRUDSchema={CRUDSchema}

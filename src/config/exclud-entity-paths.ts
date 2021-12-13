@@ -1,3 +1,5 @@
-export const excludeEntityPaths = {
-	"/files": (path: string) => `/files${path}`,
+export const excludeEntityPaths: {
+	[path: string]: (path: string) => string | null
+} = {
+	"/files": (path: string) => null,
 };

@@ -17,7 +17,7 @@ export const Link: React.FC <TProps> = ({
 }: TProps): JSX.Element => {
 	
 	return (
-		<LinkNext {...{href, as, replace, scroll, shallow, passHref, prefetch, locale}}>
+		<LinkNext {...{href, as, replace, scroll, shallow, passHref, prefetch, locale}} passHref>
 			<a { ...linkProps }>
 				{ children }
 			</a>

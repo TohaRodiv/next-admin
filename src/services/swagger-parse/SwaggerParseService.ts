@@ -3,6 +3,9 @@ import { APIService } from "./APIService";
 import { AvailableCRUDService } from "./AvailableCRUDService";
 import { RefService } from "./RefService";
 import { SchemaService } from "./SchemaService";
+
+import swaggerDocs from "#config/api-json.json";
+
 import type {
 	TCategoryEntity,
 	TAvailableCRUD,
@@ -217,9 +220,9 @@ export const SwaggerParseService = new class {
 	}
 
 	protected async getSwaggerDoc(): Promise<any> {
-		const response = await fetch(`${process.env.LOCAL_API_URL}/api/swagger-docs`);
-		const data = await response.json();
-		return data;
+		// const response = await fetch(`${process.env.LOCAL_API_URL}/api/swagger-docs`);
+		// const data = await response.json();
+		return swaggerDocs;
 	}
 
 	/**
@@ -227,10 +230,10 @@ export const SwaggerParseService = new class {
 	 */
 	protected async getControllerPaths(): Promise<TControllerPaths> {
 		if (typeof this["_controllerPaths"] === "undefined") {
-			const response = await fetch(`${process.env.LOCAL_API_URL}/api/swagger-docs`);
-			const data = await response.json();
-			this["_controllerPaths"] = data.paths;
-			return data.paths;
+			// const response = await fetch(`${process.env.LOCAL_API_URL}/api/swagger-docs`);
+			// const data = await response.json();
+			this["_controllerPaths"] = swaggerDocs.paths;
+			return swaggerDocs.paths;
 		} else {
 			return this["_controllerPaths"];
 		}

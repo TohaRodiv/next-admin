@@ -2,10 +2,10 @@ import type { TSchemaEntity, TEntity, TAvailableCRUD, TControllerPaths } from "#
 import { TSchemaCRUD } from "#types/TSchemaCRUD";
 import { useRouter } from "next/router";
 import { getFormattedEntityField } from "#libs/view/getFormattedEntityField";
-import { ButtonEdit, ButtonDelete } from "#components/pages/entity-view/buttons";
-import { ButtonCancel } from "#components/pages/entity-view/buttons/ButtonCancel";
 import { Card } from "antd";
 import { TDataFields } from "../types";
+import { ButtonBack, ButtonDelete, ButtonEdit } from "#components/molecules/action-buttons";
+import { CloseOutlined } from "@ant-design/icons";
 
 type TProps = {
 	schema: TSchemaEntity
@@ -37,18 +37,31 @@ export const DataView: React.FC<TProps> = ({
 	const actions: JSX.Element[] = [];
 
 	actions.push(
-		<ButtonCancel />
+		<ButtonBack
+			type="default"
+			ghost={false}
+			text="Отмена"
+			icon={<CloseOutlined />} />
 	);
 
 	if (availableCRUD.getPathDeleteOne) {
 		actions.push(
-			<ButtonDelete controllerPath={controllerPath} entityId={entity.id} onDelete={handleDelete} key="action-delete-one" />
+			<ButtonDelete
+				danger
+				controllerPath={controllerPath}
+				entityId={entity.id}
+				onDelete={handleDelete}
+				key="action-delete-one" />
 		);
 	}
 
 	if (availableCRUD.getPathUpdateOne) {
 		actions.push(
-			<ButtonEdit path={availableCRUD.getPathUpdateOne(entity.id)} key="action-update-one" />
+			<ButtonEdit
+				type="primary"
+				ghost={false}
+				path={availableCRUD.getPathUpdateOne(entity.id)}
+				key="action-update-one" />
 		);
 	}
 

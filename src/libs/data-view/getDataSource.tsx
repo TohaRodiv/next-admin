@@ -3,6 +3,7 @@ import { getFormattedEntityField } from "#libs/view/getFormattedEntityField"
 import type { TEntity, TAvailableCRUD, TControllerPaths, TSchemaEntity } from "#services/swagger-parse/types"
 import type { TSchemaCRUD } from "#types/TSchemaCRUD"
 import { Dropdown, Menu } from "antd"
+import ButtonGroup from "antd/lib/button/button-group"
 import { Button } from "antd/lib/radio"
 
 type TProps = {
@@ -33,13 +34,17 @@ export function getDataSource({
 		.map(([_propName, entity]) => {
 
 			const formattedFields = {
-				operation: getActionsCRUD({
-					availableCRUD,
-					controllerPath,
-					handleDelete,
-					onBeforeDelete,
-					id: entity.id,
-				}),
+				operation: <ButtonGroup size="large">
+					{
+						getActionsCRUD({
+							availableCRUD,
+							controllerPath,
+							handleDelete,
+							onBeforeDelete,
+							id: entity.id,
+						})
+					}
+				</ButtonGroup>,
 			};
 
 			Object

@@ -3,7 +3,8 @@ import { getBaseFromattedEntityField } from "#libs/getBaseFromattedEntityField";
 import { getFormattedPrimitiveField } from "./getFormattedPrimitiveField";
 import { getTypeField } from "#libs/getTypeField";
 import { TRelations } from "#services/swagger-parse/types";
-import { Button } from "antd";
+import { Select } from "antd";
+import FormItem from "antd/lib/form/FormItem";
 
 type TOptionProps = {
 	defaultValue: any
@@ -12,6 +13,8 @@ type TOptionProps = {
 	CRUDSchema: TSchemaCRUD
 	isRequired: boolean
 	relations: TRelations
+	title: string
+	Item: typeof FormItem
 }
 
 
@@ -22,21 +25,33 @@ export function getFormattedEntityField({
 	CRUDSchema,
 	isRequired,
 	relations,
+	title,
+	Item: FormItem
 }: TOptionProps): any {
 	return getBaseFromattedEntityField(schemaValue, defaultValue, {
+
 		formatingPrimitive(schemaValue, entityFieldValue) {
-			const type = getTypeField(schemaValue.type, schemaValue.format);
-			return [
-				<div key={type}>
-					{getFormattedPrimitiveField({
-						name: schemaKey,
-						type,
-						defaultValue: defaultValue || schemaValue.default || null,
-						isRequired,
-					})}
-				</div>
-			];
+			return (
+
+				<FormItem
+					initialValue={defaultValue || schemaValue.default || undefined}
+					valuePropName={getTypeField(schemaValue.type, schemaValue.format) == "checkbox" ? "checked" : "value"}
+					rules={[{
+						required: isRequired,
+					}]}
+					key={schemaKey}
+					name={schemaKey}
+					label={title}>
+					{
+						getFormattedPrimitiveField({
+							type: getTypeField(schemaValue.type, schemaValue.format),
+						})
+					}
+				</FormItem>
+
+			);
 		},
+
 		formatingOneRelation(schemaValue, entityValue) {
 			const options = [];
 
@@ -49,24 +64,41 @@ export function getFormattedEntityField({
 							.forEach(relationEntity => {
 								const id = relationEntity["id"];
 								const title = relationEntity["name"] || relationEntity["title"] || relationEntity["head"] || relationEntity["id"];
-								options.push(<option key={id} value={id}>{title}</option>);
+								options.push(<Select.Option key={id} value={id}>{title}</Select.Option>);
 
 							})
 					}
 				});
 
-			const props: React.DetailedHTMLProps<React.SelectHTMLAttributes<HTMLSelectElement>, HTMLSelectElement> = {};
+			const props: any = {};
 
 			if (defaultValue) {
 				props.defaultValue = defaultValue.id;
 			}
 
-			return [
-				<select key={schemaKey} name={schemaKey} required={isRequired} {...props}>
-					{options}
-				</select>
-			];
+			return (
+				<FormItem
+					initialValue={defaultValue && defaultValue.id || undefined}
+					rules={[{
+						required: isRequired,
+					}]}
+					key={schemaKey}
+					name={schemaKey}
+					label={title}>
+					<Select
+						allowClear
+						showSearch
+						optionFilterProp="children"
+						filterOption={(input, option) =>
+							option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+						}
+						key={schemaKey}>
+						{options}
+					</Select>
+				</FormItem>
+			);
 		},
+
 		formatingManyRelation(schemaValue, entityValue) {
 			if (typeof schemaValue.items !== "object") {
 				throw new Error(`Typeof schema.items must be an object, got ${typeof schemaValue.items}`);
@@ -83,7 +115,7 @@ export function getFormattedEntityField({
 							.forEach(relationEntity => {
 								const id = relationEntity["id"];
 								const title = relationEntity["name"] || relationEntity["title"] || relationEntity["head"] || relationEntity["id"];
-								options.push(<option key={id} value={id}>{title}</option>);
+								options.push(<Select.Option key={id} value={id}>{title}</Select.Option>);
 
 							})
 					}
@@ -91,15 +123,29 @@ export function getFormattedEntityField({
 
 			const props: React.DetailedHTMLProps<React.SelectHTMLAttributes<HTMLSelectElement>, HTMLSelectElement> = {};
 
-			if (Array.isArray(defaultValue)) {
-				props.defaultValue = defaultValue.map(value => value.id);
-			}
-
-			return [
-				<select key={schemaKey} name={schemaKey} required={isRequired} multiple={true} {...props}>
-					{options}
-				</select>
-			];
+			return (
+				<FormItem
+					initialValue={Array.isArray(defaultValue) ? defaultValue.map(value => value.id) : undefined}
+					rules={[{
+						required: isRequired,
+					}]}
+					key={schemaKey}
+					name={schemaKey}
+					label={title}>
+					<Select
+						allowClear
+						showSearch
+						optionFilterProp="children"
+						filterOption={(input, option) =>
+							option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+						}
+						mode="multiple"
+						key={schemaKey}>
+						{options}
+					</Select>
+				</FormItem>
+			);
 		},
+
 	});
 }

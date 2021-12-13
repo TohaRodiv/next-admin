@@ -1,15 +1,13 @@
+import { ButtonCreate, ButtonReloadMany } from "#components/molecules/action-buttons";
 import { getDataSource, getColumnsBySchema, getSortedEntities } from "#libs/data-view";
 import { APIFrontendService } from "#services/api-frontend/APIFrontendService";
 import { TEntity, TSchemaEntity, TAvailableCRUD, TControllerPaths } from "#services/swagger-parse/types";
 import { TSchemaCRUD } from "#types/TSchemaCRUD";
 import { ControlOutlined } from "@ant-design/icons";
-import { RequestQueryBuilder } from "@nestjsx/crud-request";
 import { Button, Divider, Drawer, Select, Space, Switch, Table } from "antd";
 import ButtonGroup from "antd/lib/button/button-group";
 import type { SizeType } from "antd/lib/config-provider/SizeContext";
-import { useEffect, useState } from "react";
-import { ButtonCreate } from "../entity-view/buttons";
-import { ButtonUpdateMany } from "../entity-view/buttons/ButtonUpdateMany";
+import { useState } from "react";
 
 type TProps = {
 	entities: TEntity[]
@@ -161,14 +159,14 @@ export const DataViewTable: React.FC<TProps> = ({
 					availableCRUD.getPathCreateOne &&
 					<ButtonCreate path={availableCRUD.getPathCreateOne()} />
 				}
-				<ButtonUpdateMany
+				<ButtonReloadMany
 					createQueryBuilder={() => { return queryBuilder; }}
 					controllerPath={controllerPath}
 					onBeforeUpdate={handleBeforeUpdateMany}
 					onUpdate={handleUpdateMany}
 					loading={loading} />
 				<Button
-					size="large"
+					size="middle"
 					icon={<ControlOutlined />}
 					type="primary"
 					ghost

@@ -1,21 +1,13 @@
 import { LeftOutlined } from "@ant-design/icons";
 import { Button } from "antd";
-import { ButtonType } from "antd/lib/button";
 import { useRouter } from "next/router";
-import { FC, ReactChildren, ReactNode } from "react";
+import { FC, } from "react";
+import { TButtonActionProps } from "./types";
 
-type TProps = {
-	icon?: ReactNode
-	buttonType?: ButtonType
-	ghost?: boolean
-	children?: ReactChildren | string | null | boolean
-}
-
-const ButtonBack: FC<TProps> = ({
-	icon,
-	buttonType,
-	ghost,
+const ButtonBack: FC<TButtonActionProps> = ({
+	text,
 	children,
+	...buttonProps
 }): JSX.Element => {
 	const router = useRouter();
 
@@ -27,18 +19,18 @@ const ButtonBack: FC<TProps> = ({
 		<Button
 			htmlType="button"
 			onClick={handleClick}
-			icon={icon}
-			type={buttonType}
-			ghost={ghost}>
-			{children || "Назад"}
+			{...buttonProps}>
+			{children || text}
 		</Button>
 	);
 };
 
 ButtonBack.defaultProps = {
 	icon: <LeftOutlined />,
-	buttonType: "default",
+	type: "primary",
 	ghost: true,
+	text: "Назад",
+	size: "middle",
 };
 
 export { ButtonBack };

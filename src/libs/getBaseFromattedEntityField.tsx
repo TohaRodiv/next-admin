@@ -1,7 +1,7 @@
 type TFormatOptions = {
-	formatingPrimitive?: (schema: any, entityFieldValue: any) => any[]
-	formatingManyRelation?: (schema: any, entityFieldValue: any) => any[]
-	formatingOneRelation?: (schema: any, entityFieldValue: any) => any[]
+	formatingPrimitive?: (schema: any, entityFieldValue: any) => any
+	formatingManyRelation?: (schema: any, entityFieldValue: any) => any
+	formatingOneRelation?: (schema: any, entityFieldValue: any) => any
 }
 
 export function getBaseFromattedEntityField (

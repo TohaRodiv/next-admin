@@ -40,17 +40,17 @@ export const AntdLayout: React.FC = ({ children, }): JSX.Element => {
 		setSider(getSider(collapsed, setCollapsed));
 	}, [collapsed]);
 
-	return (
-		<Layout className="antd-layout">
-			{sider}
-			<Layout>
-				<Header className="antd-layout__header">
-					{
-						router.pathname != "/" && <ButtonBack />
-					}
-				</Header>
-				<Content className="antd-layout__content">{children}</Content>
+		return (
+			<Layout className="antd-layout">
+				{sider}
+				<Layout>
+					<Header className="antd-layout__header">
+						{
+							router.pathname != "/" && <ButtonBack />
+						}
+					</Header>
+					<Content className="antd-layout__content">{children}</Content>
+				</Layout>
 			</Layout>
-		</Layout>
-	);
-}
+		);
+};

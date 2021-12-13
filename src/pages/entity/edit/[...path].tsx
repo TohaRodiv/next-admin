@@ -1,11 +1,11 @@
 import { NextPage, NextPageContext } from "next";
 import Head from "next/head";
-import { EntityEdit } from "#components/pages/entity-view/edit/EntityEdit";
 import { Container } from "react-grid-system";
 import { SwaggerParseService } from "#services/swagger-parse/SwaggerParseService";
 import { TControllerPaths, TEntity, TRelations, TSchemaEntity } from "#services/swagger-parse/types";
 import { APIFrontendService } from "#services/api-frontend/APIFrontendService";
 import { TSchemaCRUD } from "#types/TSchemaCRUD";
+import { DataEdit } from "#components/pages/data-view/edit";
 
 type TProps = {
 	entity: TEntity
@@ -29,7 +29,12 @@ const EntityPageViews: NextPage<TProps> = ({
 				<title>Редактор сущности</title>
 			</Head>
 			<Container>
-				<EntityEdit schema={schema} entity={entity} controllerPath={controllerPath} CRUDSchema={CRUDSchema} relations={relations} />
+				<DataEdit
+					schema={schema}
+					entity={entity}
+					controllerPath={controllerPath}
+					CRUDSchema={CRUDSchema}
+					relations={relations} />
 			</Container>
 		</>
 	);

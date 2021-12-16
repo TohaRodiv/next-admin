@@ -1,11 +1,10 @@
 import { AuthLayout } from "#components/templates/auth-layout";
+import { UserService } from "#services/user";
+import { TAccessProps } from "#types/TAccessProps";
 import { FC, ReactNode, } from "react";
 
 type TProps = {
-	access: {
-		isAuthorized: boolean
-		access_token?: string
-	}
+	access: TAccessProps
 	children: ReactNode
 }
 
@@ -15,7 +14,9 @@ export const AuthContainer: FC<TProps> = ({
 	children,
 }): JSX.Element => {
 
-	if (!access.isAuthorized) {
+	UserService.setAuthorized(access.isAuthorized);
+
+	if (UserService.checkAuthorized()) {
 		return (
 			<>
 				{children}

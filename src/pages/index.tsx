@@ -5,12 +5,11 @@ import { EntityList } from "#components/pages/entity-list";
 import { SwaggerParseService } from "#services/swagger-parse/SwaggerParseService";
 import type { TAvailableCRUDPaths, TCategoryEntity } from "#services/swagger-parse/types";
 import { AuthContainer } from "#components/organisms/auth-container";
+import { TAccessProps } from "#types/TAccessProps";
+import { checkAuthorized } from "#libs/auth/checkAuthorized";
 
 type TProps = {
-	access: {
-		isAuthorized: boolean
-		access_token?: string
-	}
+	access: TAccessProps
 	categoriesEntity: TCategoryEntity[]
 	categories: Array<{
 		availableCRUDPaths: TAvailableCRUDPaths
@@ -34,20 +33,29 @@ const Home: NextPage<TProps> = ({ categoriesEntity, categories, access }) => {
 	);
 };
 
-export const getServerSideProps = async (context: NextPageContext): Promise<TSProps> => {
+export const getServerSideProps = async ({ req, res }: NextPageContext): Promise<TSProps> => {
 	const props = {
 		categoriesEntity: null,
 		categories: null,
 		access: {
 			isAuthorized: false,
+			access_token: null,
 		}
 	};
+
+	props.access = await checkAuthorized(req);
+	
+	if (!props.access.isAuthorized) {
+		return {
+			props,
+		};
+	}
 
 	props.categoriesEntity = await SwaggerParseService.getCategoriesEntity();
 
 	const categories = Object
 		.values(props.categoriesEntity)
-		.map(async ({path, ...props}) => {
+		.map(async ({ path, ...props }) => {
 			let paths = path.split('/');
 			paths.shift();
 			const controllerPath = SwaggerParseService.getControlerPathFromArray(paths);

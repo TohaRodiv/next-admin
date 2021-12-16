@@ -2,7 +2,8 @@ import { Form, Input, Button, message } from 'antd';
 import { UserOutlined, LockOutlined, ImportOutlined } from '@ant-design/icons';
 import classNames from 'classnames';
 import { useState } from 'react';
-import { AuthFrontendService } from '#services/api-frontend/AuthFrontendService';
+import { UserService } from '#services/user';
+import router from 'next/router';
 
 export const FormLogin = ({ className, }) => {
 	const classes = classNames("login-form", className);
@@ -11,20 +12,16 @@ export const FormLogin = ({ className, }) => {
 	const onFinish = async ({ username, password }) => {
 		setLoading(true);
 
-		try {
-			const result = await AuthFrontendService.authorization(username, password);
-			// set cookies
-			if (result) {
-				message.success("Вы успешно авторизовались, переходим в админку...");
-			} else {
-				message.error("Неверный логин или пароль!");
-			}
-		} catch (error) {
-			console.error(error);
+		const isLoggedIn = await UserService.login({ username, password });
+
+		if (isLoggedIn) {
+			message.success("Вы успешно авторизовались, переходим в админку...");
+			router.push("/");
+		} else {
 			message.error("Неверный логин или пароль!");
-		} finally {
-			setLoading(false);
 		}
+
+		setLoading(false);
 	};
 
 	return (
@@ -34,8 +31,7 @@ export const FormLogin = ({ className, }) => {
 			initialValues={{
 				remember: true,
 			}}
-			onFinish={onFinish}
-		>
+			onFinish={onFinish}>
 			<Form.Item
 				name="username"
 				rules={[

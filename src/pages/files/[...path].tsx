@@ -12,6 +12,9 @@ import { SyntheticEvent } from "react";
 import { Section } from "#components/molecules/Section";
 import { message, Space } from "antd";
 import { TDataFields } from "#components/pages/data-view/types";
+import { checkAuthorized } from "#libs/auth/checkAuthorized";
+import type { TAccessProps } from "#types/TAccessProps";
+import { AuthContainer } from "#components/organisms/auth-container";
 
 type TProps = {
 	entities: TEntity[],
@@ -19,13 +22,14 @@ type TProps = {
 	controllerPath: TControllerPaths
 	availableCRUDPaths: TAvailableCRUDPaths
 	CRUDSchema: TSchemaCRUD
+	access: TAccessProps
 }
 
 type TSProps = Promise<{
 	props: TProps
 }>
 
-const FilesPageViews: NextPage<TProps> = ({ entities, schema, controllerPath, availableCRUDPaths, CRUDSchema, }) => {
+const FilesPageViews: NextPage<TProps> = ({ entities, schema, controllerPath, availableCRUDPaths, CRUDSchema, access, }) => {
 
 	const relationFields: TDataFields = {
 		subtitle: {
@@ -68,7 +72,7 @@ const FilesPageViews: NextPage<TProps> = ({ entities, schema, controllerPath, av
 	const availableCRUD = SwaggerParseService.getAvailableCRUD(availableCRUDPaths, "files");
 
 	return (
-		<>
+		<AuthContainer access={access}>
 			<Head>
 				<title>Просмотр списка экземпляров сущности</title>
 			</Head>
@@ -93,20 +97,32 @@ const FilesPageViews: NextPage<TProps> = ({ entities, schema, controllerPath, av
 					relationFields={relationFields}
 				/>
 			</Container>
-		</>
+		</AuthContainer>
 	);
 };
 
-export const getServerSideProps = async (context: NextPageContext): Promise<TSProps> => {
+export const getServerSideProps = async ({req, query}: NextPageContext): Promise<TSProps> => {
 	const props = {
 		entities: null,
 		schema: null,
 		controllerPath: null,
 		availableCRUDPaths: null,
 		CRUDSchema: null,
+		access: {
+			access_token: null,
+			isAuthorized: false,
+		}
 	};
 
-	const paths = context.query["path"] as string[];
+	props.access = await checkAuthorized(req);
+
+	if (!props.access.isAuthorized) {
+		return {
+			props,
+		};
+	}
+
+	const paths = query["path"] as string[];
 
 	if (Array.isArray(paths)) {
 		const controllerPath = SwaggerParseService.getControlerPathFromArray(paths);

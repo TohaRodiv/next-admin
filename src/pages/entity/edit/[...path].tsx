@@ -6,6 +6,9 @@ import { TControllerPaths, TEntity, TRelations, TSchemaEntity } from "#services/
 import { APIFrontendService } from "#services/api-frontend/APIFrontendService";
 import { TSchemaCRUD } from "#types/TSchemaCRUD";
 import { DataEdit } from "#components/pages/data-view/edit";
+import { TAccessProps } from "#types/TAccessProps";
+import { AuthContainer } from "#components/organisms/auth-container";
+import { checkAuthorized } from "#libs/auth/checkAuthorized";
 
 type TProps = {
 	entity: TEntity
@@ -13,6 +16,7 @@ type TProps = {
 	controllerPath: TControllerPaths
 	CRUDSchema: TSchemaCRUD
 	relations: TRelations
+	access: TAccessProps
 }
 
 type TSProps = {
@@ -20,11 +24,11 @@ type TSProps = {
 }
 
 const EntityPageViews: NextPage<TProps> = ({
-	entity, schema, controllerPath, CRUDSchema, relations,
+	entity, schema, controllerPath, CRUDSchema, relations, access,
 }) => {
 
 	return (
-		<>
+		<AuthContainer access={access}>
 			<Head>
 				<title>Редактор сущности</title>
 			</Head>
@@ -36,22 +40,34 @@ const EntityPageViews: NextPage<TProps> = ({
 					CRUDSchema={CRUDSchema}
 					relations={relations} />
 			</Container>
-		</>
+		</AuthContainer>
 	);
 };
 
-export const getServerSideProps = async (context: NextPageContext): Promise<TSProps> => {
+export const getServerSideProps = async ({ req, query }: NextPageContext): Promise<TSProps> => {
 	const props = {
 		entity: null,
 		schema: null,
 		controllerPath: null,
 		CRUDSchema: null,
 		relations: null,
+		access: {
+			access_token: null,
+			isAuthorized: false,
+		}
 	};
 
-	const paths = context.query["path"] as string[];
+	props.access = await checkAuthorized(req);
+
+	if (!props.access.isAuthorized) {
+		return {
+			props,
+		};
+	}
+
+	const paths = query["path"] as string[];
 	const entityId = +paths.pop();
-	
+
 	if (isFinite(entityId)) {
 		const controllerPath = SwaggerParseService.getControlerPathFromArray(paths);
 		props.controllerPath = controllerPath;

@@ -11,12 +11,16 @@ type TProps = {
 	createQueryBuilder: () => RequestQueryBuilder
 	onUpdate?: (entity: TEntity) => void
 	onBeforeUpdate?: () => void
+	onFinish?: () => void
+	onError?: (error: any) => void
 }
 
 const ButtonReloadMany: FC<TButtonActionProps & TProps & { loading: boolean }> = ({
 	text,
 	controllerPath,
 	onBeforeUpdate,
+	onFinish,
+	onError,
 	onUpdate,
 	createQueryBuilder,
 	children,
@@ -26,19 +30,27 @@ const ButtonReloadMany: FC<TButtonActionProps & TProps & { loading: boolean }> =
 	const reloadMany = async ({
 		controllerPath,
 		onBeforeUpdate,
+		onFinish,
 		onUpdate,
+		onError,
 		createQueryBuilder,
 	}: TProps) => {
 		const queryBuilder = createQueryBuilder && createQueryBuilder();
 		onBeforeUpdate && onBeforeUpdate();
-		const response = await APIFrontendService.getMany(controllerPath, queryBuilder);
-		const result = await response.json();
+		try {
+			const response = await APIFrontendService.getMany(controllerPath, queryBuilder);
+			const result = await response.json();
 
-		if (response.status === 200) {
-			onUpdate && onUpdate(result);
-			message.success("Данные обновленны!");
-		} else {
-			message.error(`Ошибка: ${result.statusCode} ${result.message}`)
+			if (response.status === 200) {
+				onUpdate && onUpdate(result);
+				message.success("Данные обновленны!");
+			} else {
+				message.error(`Ошибка: ${result.statusCode} ${result.message}`)
+			}
+		} catch (error) {
+			onError && onError(error);
+		} finally {
+			onFinish && onFinish();
 		}
 	};
 
@@ -49,6 +61,8 @@ const ButtonReloadMany: FC<TButtonActionProps & TProps & { loading: boolean }> =
 					controllerPath,
 					onBeforeUpdate,
 					onUpdate,
+					onFinish,
+					onError,
 					createQueryBuilder,
 				});
 			}}

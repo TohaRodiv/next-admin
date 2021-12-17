@@ -39,9 +39,7 @@ export const DataView: React.FC<TProps> = ({
 	actions.push(
 		<ButtonBack
 			type="default"
-			ghost={false}
-			text="Отмена"
-			icon={<CloseOutlined />} />
+			ghost={false} />
 	);
 
 	if (availableCRUD.getPathDeleteOne) {

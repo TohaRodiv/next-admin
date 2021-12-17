@@ -2,13 +2,12 @@ import { APIFrontendService } from "#services/api-frontend/APIFrontendService";
 import { TSchemaEntity, TEntity, TControllerPaths, TRelations } from "#services/swagger-parse/types";
 import { TSchemaCRUD } from "#types/TSchemaCRUD";
 import { useRouter } from "next/router";
-import { HTMLInputTypeAttribute, SyntheticEvent, useState, } from "react";
+import { HTMLInputTypeAttribute, useState, } from "react";
 import { getFormattedEntityField } from "#libs/create-update/getFormattedEntityField";
-import { formToJSON } from "#libs/formToJSON";
 import { getTypeField } from "#libs/getTypeField";
-import { Button, Checkbox, Divider, Form, Input, message, Space, Switch, } from "antd";
+import { Divider, Form, message, Space, Switch, } from "antd";
 import { ButtonBack, ButtonSubmit } from "#components/molecules/action-buttons";
-import { BorderHorizontalOutlined, BorderVerticleOutlined, CloseOutlined, SaveOutlined } from "@ant-design/icons";
+import { BorderHorizontalOutlined, BorderVerticleOutlined } from "@ant-design/icons";
 import { FormLayout, useForm } from "antd/lib/form/Form";
 
 type TProps = {

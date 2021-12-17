@@ -61,7 +61,6 @@ export const DataViewTable: React.FC<TProps> = ({
 
 	const handleUpdateMany = (entities: TEntity[]): void => {
 		setEntities(entities);
-		setLoading(false);
 	};
 
 	const handleTableChange = async (pagination: any, filters: any, sorters: any): Promise<void> => {
@@ -164,6 +163,7 @@ export const DataViewTable: React.FC<TProps> = ({
 					controllerPath={controllerPath}
 					onBeforeUpdate={handleBeforeUpdateMany}
 					onUpdate={handleUpdateMany}
+					onFinish={() => { setLoading(false); }}
 					loading={loading} />
 				<Button
 					size="middle"

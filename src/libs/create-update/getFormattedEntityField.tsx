@@ -100,6 +100,7 @@ export function getFormattedEntityField({
 		},
 
 		formatingManyRelation(schemaValue, entityValue) {
+			console.log(schemaKey);
 			if (typeof schemaValue.items !== "object") {
 				throw new Error(`Typeof schema.items must be an object, got ${typeof schemaValue.items}`);
 			}

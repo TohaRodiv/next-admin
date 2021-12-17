@@ -5,10 +5,14 @@ import { Container } from "react-grid-system";
 import { SwaggerParseService } from "#services/swagger-parse/SwaggerParseService";
 import { TControllerPaths, TEntity, } from "#services/swagger-parse/types";
 import { APIFrontendService } from "#services/api-frontend/APIFrontendService";
+import { TAccessProps } from "#types/TAccessProps";
+import { AuthContainer } from "#components/organisms/auth-container";
+import { checkAuthorized } from "#libs/auth/checkAuthorized";
 
 type TProps = {
 	entity: TEntity
 	controllerPath: TControllerPaths
+	access: TAccessProps
 }
 
 type TSProps = {
@@ -16,11 +20,11 @@ type TSProps = {
 }
 
 const EntityPageViews: NextPage<TProps> = ({
-	entity, controllerPath,
+	entity, controllerPath, access
 }) => {
 
 	return (
-		<>
+		<AuthContainer access={access}>
 			<Head>
 				<title>Редактор файла</title>
 			</Head>
@@ -29,17 +33,29 @@ const EntityPageViews: NextPage<TProps> = ({
 					entity={entity}
 					controllerPath={controllerPath} />
 			</Container>
-		</>
+		</AuthContainer>
 	);
 };
 
-export const getServerSideProps = async (context: NextPageContext): Promise<TSProps> => {
+export const getServerSideProps = async ({req, query}: NextPageContext): Promise<TSProps> => {
 	const props = {
 		entity: null,
 		controllerPath: null,
+		access: {
+			isAuthorized: false,
+			access_token: null,	
+		},
 	};
 
-	const paths = context.query["path"] as string[];
+	props.access = await checkAuthorized(req);
+
+	if (!props.access.isAuthorized) {
+		return {
+			props,
+		};
+	}
+
+	const paths = query["path"] as string[];
 	const entityId = +paths.pop();
 
 	if (isFinite(entityId)) {

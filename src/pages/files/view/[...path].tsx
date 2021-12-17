@@ -1,10 +1,13 @@
+import { AuthContainer } from "#components/organisms/auth-container";
 import { TDataFields } from "#components/pages/data-view/types";
 import { DataView } from "#components/pages/data-view/view/DataView";
 import { EntityView } from "#components/pages/entity-view/view";
+import { checkAuthorized } from "#libs/auth/checkAuthorized";
 import { getFormattedBytes } from "#libs/getFormattedBytes";
 import { APIFrontendService } from "#services/api-frontend/APIFrontendService";
 import { SwaggerParseService } from "#services/swagger-parse/SwaggerParseService";
 import { TAvailableCRUDPaths, TControllerPaths, TEntity, TSchemaEntity } from "#services/swagger-parse/types";
+import { TAccessProps } from "#types/TAccessProps";
 import { TSchemaCRUD } from "#types/TSchemaCRUD";
 import { NextPageContext } from "next";
 import Head from "next/head";
@@ -16,13 +19,14 @@ type TProps = {
 	controllerPath: TControllerPaths
 	availableCRUDPaths: TAvailableCRUDPaths
 	CRUDSchema: TSchemaCRUD
+	access: TAccessProps
 }
 
 type TSProps = {
 	props: TProps,
 }
 
-const EntityPageView: React.FC<TProps> = ({ entity, schema, controllerPath, availableCRUDPaths, CRUDSchema, }): JSX.Element => {
+const EntityPageView: React.FC<TProps> = ({ entity, schema, controllerPath, availableCRUDPaths, CRUDSchema, access, }): JSX.Element => {
 
 	const relationFields: TDataFields = {
 		subtitle: {
@@ -43,7 +47,7 @@ const EntityPageView: React.FC<TProps> = ({ entity, schema, controllerPath, avai
 	};
 
 	return (
-		<>
+		<AuthContainer access={access}>
 			<Head>
 				<title>Просмотр сущности</title>
 			</Head>
@@ -56,20 +60,32 @@ const EntityPageView: React.FC<TProps> = ({ entity, schema, controllerPath, avai
 					availableCRUD={SwaggerParseService.getAvailableCRUD(availableCRUDPaths, "files")}
 					CRUDSchema={CRUDSchema} />
 			</Container>
-		</>
+		</AuthContainer>
 	);
 };
 
-export const getServerSideProps = async (context: NextPageContext): Promise<TSProps> => {
+export const getServerSideProps = async ({ req, query }: NextPageContext): Promise<TSProps> => {
 	const props = {
 		entity: null,
 		schema: null,
 		controllerPath: null,
 		availableCRUDPaths: null,
 		CRUDSchema: null,
+		access: {
+			isAuthorized: false,
+			access_token: null,
+		}
 	};
 
-	const paths = context.query["path"] as string[];
+	props.access = await checkAuthorized(req);
+
+	if (!props.access.isAuthorized) {
+		return {
+			props,
+		};
+	}
+
+	const paths = query["path"] as string[];
 	const entityId = +paths.pop();
 
 	if (isFinite(entityId)) {

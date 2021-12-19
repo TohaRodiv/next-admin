@@ -1,8 +1,7 @@
 import { TControllerPaths, TRelations, TSchemaEntity } from "#services/swagger-parse/types";
-import React, { SyntheticEvent, useState } from "react";
+import React, { useState } from "react";
 import { APIFrontendService } from "#services/api-frontend/APIFrontendService";
 import { useRouter } from "next/router";
-import { formToJSON } from "../../../../libs/formToJSON";
 import { TSchemaCRUD } from "#types/TSchemaCRUD";
 import { getFormattedEntityField } from "../../../../libs/create-update/getFormattedEntityField";
 import { Divider, Form, message, Space, Switch } from "antd";

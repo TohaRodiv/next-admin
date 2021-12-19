@@ -30,7 +30,6 @@ const EntityPageView: React.FC<TProps> = ({ entity, schema, controllerPath, avai
 		images: {
 			field: "images",
 			getFormattedValue(entityValue: any): string[] {
-				console.log(entityValue);
 				return entityValue.map(imageFile => {
 					return [`http://ec2-3-144-151-70.us-east-2.compute.amazonaws.com/${imageFile.path}`];
 				});
@@ -76,6 +75,8 @@ export const getServerSideProps = async ({req, query}: NextPageContext): Promise
 			props,
 		};
 	}
+
+	APIFrontendService.ACCESS_TOKEN = props.access.access_token;
 
 	const paths = query["path"] as string[];
 	const entityId = +paths.pop();

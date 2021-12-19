@@ -1,4 +1,4 @@
-const API_URL = "http://ec2-3-144-151-70.us-east-2.compute.amazonaws.com-";
+const API_URL = "http://ec2-3-129-62-219.us-east-2.compute.amazonaws.com";
 const LOCAL_API_URL = "http://localhost:3000";
 
 export const appConfig = {

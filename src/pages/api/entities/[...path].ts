@@ -13,6 +13,8 @@ export default async function API(req: NextApiRequest, res: NextApiResponse): Pr
 	let entityId = null;
 	let queryParams = new URLSearchParams();
 
+	SwaggerParseService.APIService.ACCESS_TOKEN = req.headers.authorization || null;
+
 	/**
 	 * Достаем id из get запроса (должен идти самым последним)
 	 */

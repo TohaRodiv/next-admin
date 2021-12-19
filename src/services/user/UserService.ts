@@ -42,7 +42,6 @@ export const UserService = new class {
 
 	public setTokens({ access_token, }) {
 		let dateUTC = new Date((new Date(Date.now() + 1000 * 60 * 30)).toUTCString());
-		console.log(dateUTC);
 		setCookie("access_token", access_token, {
 			expires: dateUTC,
 		});

@@ -1,6 +1,7 @@
 import { AuthContainer } from "#components/organisms/auth-container";
 import { DataCreate } from "#components/pages/data-view/create";
 import { checkAuthorized } from "#libs/auth/checkAuthorized";
+import { APIFrontendService } from "#services/api-frontend/APIFrontendService";
 import { SwaggerParseService } from "#services/swagger-parse/SwaggerParseService";
 import { TControllerPaths, TRelations, TSchemaEntity } from "#services/swagger-parse/types";
 import { TAccessProps } from "#types/TAccessProps";
@@ -59,6 +60,8 @@ export const getServerSideProps = async ({req, query}: NextPageContext): Promise
 		};
 	}
 
+	APIFrontendService.ACCESS_TOKEN = props.access.access_token;
+	SwaggerParseService.APIService.ACCESS_TOKEN = props.access.access_token;
 
 	const paths = query["path"] as string[];
 

@@ -15,6 +15,7 @@ import { TDataFields } from "#components/pages/data-view/types";
 import { checkAuthorized } from "#libs/auth/checkAuthorized";
 import type { TAccessProps } from "#types/TAccessProps";
 import { AuthContainer } from "#components/organisms/auth-container";
+import { appConfig } from "#config/app-config";
 
 type TProps = {
 	entities: TEntity[],
@@ -44,7 +45,7 @@ const FilesPageViews: NextPage<TProps> = ({ entities, schema, controllerPath, av
 		images: {
 			field: "path",
 			getFormattedValue(entityValue: string): string[] {
-				return [`http://ec2-3-144-151-70.us-east-2.compute.amazonaws.com/${entityValue}`];
+				return [`${appConfig.API_URL}/${entityValue}`];
 			},
 		}
 	};
@@ -121,6 +122,8 @@ export const getServerSideProps = async ({req, query}: NextPageContext): Promise
 			props,
 		};
 	}
+
+	APIFrontendService.ACCESS_TOKEN = props.access.access_token;
 
 	const paths = query["path"] as string[];
 

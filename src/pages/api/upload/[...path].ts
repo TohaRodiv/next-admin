@@ -9,6 +9,9 @@ export const config = {
 };
 
 export default async function API(req: NextApiRequest, res: NextApiResponse): Promise<any> {
+	
+	SwaggerParseService.APIService.ACCESS_TOKEN = req.headers.authorization || null;
+
 	const queryPath = req.query["path"] as string[];
 	let entityId = null;
 

@@ -85,6 +85,8 @@ export const getServerSideProps = async ({ req, query }: NextPageContext): Promi
 		};
 	}
 
+	APIFrontendService.ACCESS_TOKEN = props.access.access_token;
+
 	const paths = query["path"] as string[];
 	const entityId = +paths.pop();
 

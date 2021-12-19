@@ -64,6 +64,8 @@ export const getServerSideProps = async ({ req, res, query, }: NextPageContext):
 		};
 	}
 
+	APIFrontendService.ACCESS_TOKEN = props.access.access_token;
+
 	const paths = query["path"] as string[];
 
 	if (Array.isArray(paths)) {

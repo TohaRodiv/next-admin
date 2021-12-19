@@ -18,9 +18,7 @@
 	background-color: #000;
 
 	&__inner {
-		filter: blur(2px);
 		height: 50%;
-		// background-color: #F0F;
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -53,12 +51,9 @@
 		box-shadow: 0 0 10px #FFF;
 		border-radius: 5px;
 		transition: 350ms;
-	}
 
-	&__btn:hover + &__form,
-	&__btn:focus + &__form,
-	&__btn:active + &__form,
-	&__form:hover {
-		@include show-form;
+		&.active {
+			@include show-form;
+		}
 	}
 }

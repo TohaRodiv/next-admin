@@ -1,12 +1,15 @@
 import { appConfig } from "#config/app-config";
 import { IAPI } from "#services/interfaces/IAPI";
 import { TControllerPaths } from "#services/swagger-parse/types";
+import { UserService } from "#services/user";
 import { RequestQueryBuilder } from "@nestjsx/crud-request";
 
 export const APIFrontendService = new class implements IAPI {
 
-	protected API_URL: string = appConfig.LOCAL_API_ENTITIES_URL;
-	protected API_URL_UPLOAD = appConfig.LOCAL_API_UPLOAD_URL;
+	private API_URL: string = appConfig.LOCAL_API_ENTITIES_URL;
+	private API_URL_UPLOAD = appConfig.LOCAL_API_UPLOAD_URL;
+
+	public ACCESS_TOKEN: string | null = null;
 
 	constructor() {
 		RequestQueryBuilder.setOptions({
@@ -43,7 +46,7 @@ export const APIFrontendService = new class implements IAPI {
 		return await this.fetch(this.getFormattedUrl(controllerPath, id), {
 			method: "PATCH",
 			body: JSON.stringify(data),
-			headers: new Headers({ "Content-Type": "application/json" }),
+			headers: { "Content-Type": "application/json" },
 		});
 	}
 
@@ -51,7 +54,7 @@ export const APIFrontendService = new class implements IAPI {
 		return await this.fetch(this.getFormattedUrl(controllerPath), {
 			method: "POST",
 			body: JSON.stringify(data),
-			headers: new Headers({ "Content-Type": "application/json" }),
+			headers: { "Content-Type": "application/json" },
 		});
 	}
 
@@ -76,7 +79,27 @@ export const APIFrontendService = new class implements IAPI {
 	}
 
 	protected async fetch(url: RequestInfo, body?: RequestInit): Promise<any> {
-		return await fetch(url, body);
+
+		if (!this.ACCESS_TOKEN) {
+			const tokens = UserService.getTokens();
+			if (tokens && tokens.access_token) {
+				this.ACCESS_TOKEN = tokens.access_token;
+			} else {
+				throw new Error("Access token is required!");
+			}
+		}
+
+		const { headers, ...bodyFields } = body || { headers: {}, };
+
+		const fetchOptions = {
+			...bodyFields,
+			headers: new Headers({
+				...headers,
+				"Authorization": `Bearer ${this.ACCESS_TOKEN}`,
+			}),
+		}
+
+		return await fetch(url, fetchOptions);
 	}
 
 	protected getFormattedUrl(controllerPath: TControllerPaths, id?: number, params?: RequestQueryBuilder): string {

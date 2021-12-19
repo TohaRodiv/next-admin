@@ -5,6 +5,7 @@ import { getTypeField } from "#libs/getTypeField";
 import { TRelations } from "#services/swagger-parse/types";
 import { Select } from "antd";
 import FormItem from "antd/lib/form/FormItem";
+import { appConfig } from "#config/app-config";
 
 type TOptionProps = {
 	defaultValue: any
@@ -63,7 +64,11 @@ export function getFormattedEntityField({
 						relationCurrentEntity
 							.forEach(relationEntity => {
 								const id = relationEntity["id"];
-								const title = relationEntity["name"] || relationEntity["title"] || relationEntity["head"] || relationEntity["id"];
+								const title = relationEntity["name"] ||
+									relationEntity["title"] ||
+									relationEntity["head"] ||
+									relationEntity["id"];
+									
 								options.push(<Select.Option key={id} value={id}>{title}</Select.Option>);
 
 							})
@@ -100,7 +105,6 @@ export function getFormattedEntityField({
 		},
 
 		formatingManyRelation(schemaValue, entityValue) {
-			console.log(schemaKey);
 			if (typeof schemaValue.items !== "object") {
 				throw new Error(`Typeof schema.items must be an object, got ${typeof schemaValue.items}`);
 			}
@@ -116,7 +120,15 @@ export function getFormattedEntityField({
 							.forEach(relationEntity => {
 								const id = relationEntity["id"];
 								const title = relationEntity["name"] || relationEntity["title"] || relationEntity["head"] || relationEntity["id"];
-								options.push(<Select.Option key={id} value={id}>{title}</Select.Option>);
+								options.push(
+									<Select.Option key={id} value={id}>
+										{
+											schemaKey === "images" ?
+												<img src={`${appConfig.API_URL}/${relationEntity["path"]}`} alt={`${title}`} title={`${title}`} width={100} height={100} style={{ objectFit: "contain" }} /> :
+												title
+										}
+									</Select.Option>
+								);
 
 							})
 					}

@@ -3,7 +3,6 @@ import { UserOutlined, LockOutlined, ImportOutlined } from '@ant-design/icons';
 import classNames from 'classnames';
 import { useState } from 'react';
 import { UserService } from '#services/user';
-import router from 'next/router';
 
 export const FormLogin = ({ className, }) => {
 	const classes = classNames("login-form", className);
@@ -16,7 +15,7 @@ export const FormLogin = ({ className, }) => {
 
 		if (isLoggedIn) {
 			message.success("Вы успешно авторизовались, переходим в админку...");
-			router.push("/");
+			location.reload();
 		} else {
 			message.error("Неверный логин или пароль!");
 		}

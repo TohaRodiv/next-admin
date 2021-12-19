@@ -31,7 +31,6 @@ export const FileViews: React.FC<TProps> = ({
 		}
 
 		const result = await APIFrontendService.uploadFiles(controllerPath, data);
-		console.log(await result.json());
 	};
 
 	return (

@@ -3,6 +3,7 @@ import { TSchemaCRUD } from "#types/TSchemaCRUD";
 import { getBaseFromattedEntityField } from "#libs/getBaseFromattedEntityField";
 import { getFormattedField } from "./getFormattedPrimitiveField";
 import { getTypeField } from "#libs/getTypeField";
+import { appConfig } from "#config/app-config";
 
 
 export function getFormattedEntityField(entityValue: any, schema: any, CRUDSchema: TSchemaCRUD): any {
@@ -20,14 +21,14 @@ export function getFormattedEntityField(entityValue: any, schema: any, CRUDSchem
 			if (!entityValue) {
 				return ["NULL"];
 			}
-			
+
 			const id = entityValue["id"];
 			const head = entityValue["head"] || entityValue["title"] || entityValue["name"] || entityValue["id"];
 			const controllerPath = CRUDSchema[schema.allOf[0].$ref].get.replace("{id}", id);
 			return [<Link href={`/entity/view${controllerPath}`} key={controllerPath}>{head}</Link>];
 		},
 		formatingManyRelation(schema, entityValue) {
-			
+
 			if (typeof schema.items !== "object") {
 				throw new Error(`Typeof schema.items must be an object, got ${typeof schema.items}`);
 			}
@@ -44,7 +45,13 @@ export function getFormattedEntityField(entityValue: any, schema: any, CRUDSchem
 				const head = entityItem["head"] || entityItem["title"] || entityItem["name"] || entityItem["id"];
 
 				formattedField.push(
-					<Link href={`/entity/view${getControllerPath(id)}`} key={`${getControllerPath(id)}`}>{head}</Link>
+					<Link href={`/entity/view${getControllerPath(id)}`} key={`${getControllerPath(id)}`}>
+						{
+							"mimetype" in entityItem && entityItem["path"] ?
+								<img src={`${appConfig.API_URL}/${entityItem["path"]}`} alt={head} title={head} /> :
+								head
+						}
+					</Link>
 				);
 
 				if (index < entityValue.length - 1) {

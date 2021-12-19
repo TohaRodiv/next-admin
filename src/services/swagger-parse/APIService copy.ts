@@ -4,10 +4,39 @@ import FormData from "form-data";
 import { createReadStream } from "fs";
 import path from "path";
 import { RequestQueryBuilder } from "@nestjsx/crud-request";
+import { TTokens } from "#types/TTokens";
+
+type TTokenProps = {
+	tokens: TTokens
+}
+
+type TBaseProps = {
+	controllerPath: TControllerPaths
+	params?: string
+} & TTokenProps
+
+type TDeleteById = {
+	controllerPath: TControllerPaths
+	id: number
+} & TTokenProps
+
+type TUploadFiles = {
+	controllerPath: TControllerPaths
+	files: {
+		[fieldName: string]: File[]
+	}
+} & TTokenProps
+
+type TUploadFile = {
+	controllerPath: TControllerPaths
+	file: {
+		[fieldName: string]: File[]
+	}
+	fileId: number
+} & TTokenProps
 
 export class APIService implements IAPI {
 	protected readonly API_URL: string = `${process.env.EXTERNAL_API_URL}`;
-	public ACCESS_TOKEN: string = null;
 
 	constructor(
 		protected getControllerPaths: () => Promise<TControllerPaths>,
@@ -17,19 +46,21 @@ export class APIService implements IAPI {
 		return RequestQueryBuilder.create();
 	}
 
-	public async getMany(controllerPath: string, params?: string): Promise<any> {
+	public async getMany({ controllerPath, params, }: TBaseProps): Promise<any> {
 		this.checkControllerPath(controllerPath);
 
 		return await this.fetch(this.getFormattedUrl(controllerPath, null, params));
 	}
 
-	public async getById(controllerPath: string, id: number, params?: string): Promise<any> {
+	public async getById({ controllerPath, id, params }: TBaseProps & { id: number }): Promise<any> {
 		this.checkControllerPath(controllerPath);
 
 		return await this.fetch(this.getFormattedUrl(controllerPath, id, params));
 	}
 
-	public async updateById(controllerPath: string, id: number, data: object): Promise<any> {
+	public async updateById({
+		controllerPath, id, data,
+	}: TBaseProps & { id: number, data: object }): Promise<any> {
 		this.checkControllerPath(controllerPath);
 
 		return await this.fetchJSON({
@@ -39,7 +70,7 @@ export class APIService implements IAPI {
 		});
 	}
 
-	public async createOne(controllerPath: string, data: object): Promise<any> {
+	public async createOne({ controllerPath, data }: TBaseProps & { data: object }): Promise<any> {
 		this.checkControllerPath(controllerPath);
 
 		return await this.fetchJSON({
@@ -49,7 +80,7 @@ export class APIService implements IAPI {
 		});
 	}
 
-	public async deleteById(controllerPath: string, id: number): Promise<any> {
+	public async deleteById({ controllerPath, id }: TDeleteById): Promise<any> {
 		this.checkControllerPath(controllerPath);
 
 		return await this.fetch(this.getFormattedUrl(controllerPath, id), {
@@ -57,7 +88,7 @@ export class APIService implements IAPI {
 		});
 	}
 
-	public async uploadFiles(controllerPath: TControllerPaths, files: { [fieldName: string]: File[] }): Promise<any> {
+	public async uploadFiles({controllerPath, files}: TUploadFiles): Promise<any> {
 		this.checkControllerPath(controllerPath);
 
 		const formData = new FormData();
@@ -70,14 +101,13 @@ export class APIService implements IAPI {
 						formData.append(
 							fieldName,
 							createReadStream(path.resolve(file["path"])),
-							file["name"],
+							file.name
 						);
 					});
 				} else {
 					formData.append(
 						fieldName,
-						createReadStream(path.resolve(files["path"])),
-						files["name"],
+						createReadStream(path.resolve(files["path"]))
 					);
 				}
 			});
@@ -89,7 +119,7 @@ export class APIService implements IAPI {
 		});
 	}
 
-	public async updateFileById(controllerPath: TControllerPaths, fileId: number, file: { [prop: string]: File }): Promise<any> {
+	public async updateFileById({controllerPath, fileId, file}: TUploadFile): Promise<any> {
 		this.checkControllerPath(controllerPath);
 
 		const formData = new FormData();
@@ -120,21 +150,7 @@ export class APIService implements IAPI {
 	}
 
 	protected async fetch(url: RequestInfo, body?: RequestInit): Promise<any> {
-		if (!this.ACCESS_TOKEN) {
-			throw new Error("Access token is required!");
-		}
-
-		const { headers, ...bodyFields } = body || { headers: {}, };
-
-		const fetchOptions = {
-			...bodyFields,
-			headers: new Headers({
-				...headers,
-				"Authorization": "Bearer " + this.ACCESS_TOKEN.replace(/Bearer\W?/, ""),
-			}),
-		}
-
-		return await fetch(url, fetchOptions);
+		return await fetch(url, body);
 	}
 
 	protected async fetchJSON({ url, method, data, }: {
@@ -142,29 +158,17 @@ export class APIService implements IAPI {
 		method: string
 		data: any
 	}): Promise<any> {
-		if (!this.ACCESS_TOKEN) {
-			throw new Error("Access token is required!");
-		}
-		
 		return await fetch(url, {
 			method,
 			body: JSON.stringify(data),
-			headers: {
-				"Content-Type": "application/json",
-				"Authorization": "Bearer " + this.ACCESS_TOKEN.replace(/Bearer\W?/, ""),
-			},
+			headers: new Headers({ "Content-Type": "application/json" }),
 		});
 	}
 
 	protected async fetchFormData({ url, method, body, }): Promise<any> {
-		if (!this.ACCESS_TOKEN) {
-			throw new Error("Access token is required!");
-		}
-
 		return await fetch(url, {
 			method,
 			body,
-			headers: new Headers({ "Authorization": "Bearer " + this.ACCESS_TOKEN.replace(/Bearer\W?/, ""), })
 		});
 	}
 

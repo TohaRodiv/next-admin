@@ -73,14 +73,7 @@ export const EntityEdit: React.FC<TProps> = ({ schema, entity, controllerPath, C
 							<div className="entity-view__item" key={schemaKey}>
 								<div className="entity-view__title">{title}</div>
 								<div className="entity-view__value">
-									{getFormattedEntityField({
-										CRUDSchema,
-										defaultValue: value,
-										schemaKey,
-										schemaValue,
-										isRequired: false,
-										relations,
-									})}
+									{/*  */}
 								</div>
 							</div>
 						);

@@ -1,4 +1,4 @@
-import { TButtonProps } from "#components/ui/Button/Button";
+
 import { APIFrontendService } from "#services/api-frontend/APIFrontendService";
 import { TControllerPaths, TEntity } from "#services/swagger-parse/types";
 import { DeleteOutlined } from "@ant-design/icons";
@@ -12,7 +12,8 @@ type TProps = {
 	text?: string | boolean
 	onDelete?: (entity: TEntity) => void
 	onBeforeDelete?: (entityId: number) => void
-} & TButtonProps
+	className?: string
+}
 
 export const ButtonDelete: React.FC<TProps> = ({
 	className,

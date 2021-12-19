@@ -1,4 +1,3 @@
-import { TButtonProps } from "#components/ui/Button/Button";
 import { APIFrontendService } from "#services/api-frontend/APIFrontendService";
 import { TControllerPaths, TEntity } from "#services/swagger-parse/types";
 import { RedoOutlined } from "@ant-design/icons";
@@ -14,7 +13,8 @@ type TProps = {
 	createQueryBuilder: () => RequestQueryBuilder
 	onUpdate?: (entity: TEntity) => void
 	onBeforeUpdate?: () => void
-} & TButtonProps
+	className?: string
+}
 
 export const ButtonUpdateMany: React.FC<TProps> = ({
 		className,

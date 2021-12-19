@@ -1,4 +1,3 @@
-import { TButtonProps } from "#components/ui/Button/Button";
 import { EyeOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import classNames from "classnames";
@@ -8,7 +7,8 @@ import { SyntheticEvent } from "react";
 type TProps = {
 	path: string
 	text?: string | boolean
-} & TButtonProps
+	className?: string
+}
 
 export const ButtonView: React.FC<TProps> = ({ className, path, text, }): JSX.Element => {
 

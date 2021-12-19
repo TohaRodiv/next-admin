@@ -64,11 +64,7 @@ export function getFormattedEntityField({
 						relationCurrentEntity
 							.forEach(relationEntity => {
 								const id = relationEntity["id"];
-								const title = relationEntity["name"] ||
-									relationEntity["title"] ||
-									relationEntity["head"] ||
-									relationEntity["id"];
-									
+								const title = relationEntity["name"] || relationEntity["title"] || relationEntity["head"] || relationEntity["id"];
 								options.push(<Select.Option key={id} value={id}>{title}</Select.Option>);
 
 							})
@@ -124,7 +120,7 @@ export function getFormattedEntityField({
 									<Select.Option key={id} value={id}>
 										{
 											schemaKey === "images" ?
-												<img src={`${appConfig.API_URL}/${relationEntity["path"]}`} alt={`${title}`} title={`${title}`} width={100} height={100} style={{ objectFit: "contain" }} /> :
+												<img src={`${appConfig.API_URL}/${relationEntity["path"]}`} alt={`${title}`} title={`${title}`} width={100} height={100} style={{objectFit: "contain"}} /> :
 												title
 										}
 									</Select.Option>

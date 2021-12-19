@@ -27,7 +27,7 @@ export const UserService = new class {
 
 				return true;
 			} else {
-				throw new Error("Access token not found in api response! Result:", result);
+				throw new Error(`Access token not found in api response! Result: ${result}`);
 			}
 		} else {
 			return false;

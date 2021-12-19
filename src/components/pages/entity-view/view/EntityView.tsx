@@ -1,10 +1,10 @@
-import { ButtonGroup } from "#components/ui/button-group";
 import type { TSchemaEntity, TEntity, TAvailableCRUD, TControllerPaths } from "#services/swagger-parse/types";
 import { TSchemaCRUD } from "#types/TSchemaCRUD";
 import { useRouter } from "next/router";
 import { ButtonDelete, ButtonEdit } from "../buttons";
 import { getFormattedEntityField } from "#libs/view/getFormattedEntityField";
 import { ButtonCancel } from "../buttons/ButtonCancel";
+import ButtonGroup from "antd/lib/button/button-group";
 
 type TProps = {
 	schema: TSchemaEntity

@@ -1,11 +1,11 @@
-import { TButtonProps } from "#components/ui/Button/Button";
 import { SaveOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import classNames from "classnames";
 
 type TProps = {
 	text?: string | boolean
-} & TButtonProps
+	className?: string
+}
 
 export const ButtonSave: React.FC<TProps> = ({ className, text, }): JSX.Element => {
 

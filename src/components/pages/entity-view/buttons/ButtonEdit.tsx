@@ -1,4 +1,3 @@
-import { TButtonProps } from "#components/ui/Button/Button";
 import { EditOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import classNames from "classnames";
@@ -8,7 +7,8 @@ import { SyntheticEvent } from "react";
 type TProps = {
 	path: string
 	text?: string | boolean
-} & TButtonProps
+	className?: string
+}
 
 export const ButtonEdit: React.FC<TProps> = ({ className, path, text, }): JSX.Element => {
 
@@ -26,9 +26,9 @@ export const ButtonEdit: React.FC<TProps> = ({ className, path, text, }): JSX.El
 			type="default"
 			className={classes}
 			onClick={handleClick}>
-				{
-					typeof text === "undefined" ? "Редактировать" : text
-				}
+			{
+				typeof text === "undefined" ? "Редактировать" : text
+			}
 		</Button>
 	);
 };

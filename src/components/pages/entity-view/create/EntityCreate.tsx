@@ -48,14 +48,7 @@ export const EntityCreate: React.FC<TProps> = ({ schema, controllerPath, CRUDSch
 						<label className="entity-view__item" key={schemaKey}>
 							<div className="entity-view__title">{title}</div>
 							<div className="entity-view__value">
-								{getFormattedEntityField({
-									CRUDSchema,
-									defaultValue: null,
-									schemaKey,
-									schemaValue,
-									isRequired: schema.required.includes(schemaKey),
-									relations,
-								})}
+								{/*  */}
 							</div>
 						</label>
 					);

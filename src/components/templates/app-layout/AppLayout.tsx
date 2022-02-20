@@ -1,14 +1,15 @@
 import { Layout, Menu } from "antd";
 import { BasicProps, } from "antd/lib/layout/layout";
-import React from "react";
+import React, { useState } from "react";
 import { FC } from "react";
 import styles from "./style.module.scss";
 import { AppHeader } from "#organisms/app-header";
 import { AppContent } from "#organisms/app-content";
 import Head from "next/head";
 import Sider from "antd/lib/layout/Sider";
-import { PieChartOutlined, DesktopOutlined, UserOutlined, TeamOutlined, FileOutlined } from "@ant-design/icons";
+import { PieChartOutlined, DesktopOutlined, UserOutlined, TeamOutlined, FileOutlined, ThunderboltOutlined } from "@ant-design/icons";
 import SubMenu from "antd/lib/menu/SubMenu";
+import { AppLogo } from "#components/molecules/app-logo";
 
 type TProps = BasicProps & {}
 
@@ -16,6 +17,8 @@ const AppLayout: FC<TProps> = ({
 	children,
 	...props
 }) => {
+	const [collapsed, setCollapsed] = useState(false);
+
 	return (
 		<>
 			<Head>
@@ -33,10 +36,14 @@ const AppLayout: FC<TProps> = ({
 				<meta name="theme-color" content="#000000" />
 			</Head>
 			<Layout {...props} className={styles["app-layout"]}>
-				<Sider collapsible>
+				<Sider
+					className={styles["app-layout__sider"]}
+					collapsible
+					collapsed={collapsed}
+					onCollapse={() => setCollapsed(!collapsed)}>
 					<Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
-						<Menu.Item key="1" icon={<PieChartOutlined />}>
-							Option 1
+						<Menu.Item key="1" icon={<ThunderboltOutlined />}>
+							<AppLogo withoutIcon />
 						</Menu.Item>
 						<Menu.Item key="2" icon={<DesktopOutlined />}>
 							Option 2

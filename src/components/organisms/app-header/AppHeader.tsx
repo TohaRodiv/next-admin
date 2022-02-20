@@ -30,7 +30,7 @@ const AppHeader: FC<TProps> = ({
 			<Header className={classes} {...props}>
 				<Container>
 					<div className={styles["app-header__inner"]}>
-						<AppLogo />
+						
 					</div>
 				</Container>
 			</Header>

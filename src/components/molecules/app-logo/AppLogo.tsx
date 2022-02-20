@@ -3,25 +3,30 @@ import classNames from "classnames";
 import styles from "./style.module.scss";
 import { Link } from "#atoms/link";
 import { ThunderboltOutlined } from "@ant-design/icons";
-import { Space } from "antd";
 
 type TProps = {
 	className?: string
+	withoutIcon?: boolean
 }
 
 const AppLogo: FC <TProps> = ({
-	className
+	className,
+	withoutIcon
 }) => {
 	const classes = classNames(styles["logo"], className);
 
 	return (
 		<Link href="/" className={classes}>
 			<span className={styles["logo__inner"]}>
-				<ThunderboltOutlined className={styles["logo__icon"]} />
+				{!withoutIcon && <ThunderboltOutlined className={styles["logo__icon"]} />}
 				Electronly
 			</span>
 		</Link>
 	);
 };
+
+AppLogo.defaultProps = {
+	withoutIcon: false,
+}
 
 export { AppLogo };

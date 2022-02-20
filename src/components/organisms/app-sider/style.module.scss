@@ -1,0 +1,8 @@
+.app-sider {
+	background-color: var(--ant-primary-color) !important;
+
+	&__menu {
+		position: sticky;
+		top: 0;
+	}
+}

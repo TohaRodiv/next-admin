@@ -2,7 +2,7 @@ import { Form, Input, Button, message } from 'antd';
 import { UserOutlined, LockOutlined, ImportOutlined } from '@ant-design/icons';
 import classNames from 'classnames';
 import { useState } from 'react';
-import { UserService } from '#services/user';
+import { UserService } from '#services/user-service';
 
 export const FormLogin = ({ className, }) => {
 	const classes = classNames("login-form", className);

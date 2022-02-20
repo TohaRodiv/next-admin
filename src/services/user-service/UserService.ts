@@ -7,11 +7,12 @@ export const UserService = new class {
 	private isAuthorized: boolean = false;
 
 	public async login({ username, password }: TLogin): Promise<boolean> {
-		const response = await fetch("/api/authorizations", {
+		const response = await fetch("https://api.electronly.ru/auth/login", {
 			method: "POST",
 			body: JSON.stringify({
 				username, password,
 			}),
+			headers: { "Accept": "application/json", "Content-Type": "application/json" },
 		});
 
 		if (response.ok) {

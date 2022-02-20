@@ -1,25 +1,23 @@
 import { Container } from "#components/atoms/container";
-import { Link } from "#components/atoms/link";
 import { Section } from "#components/molecules/section";
 import Title from "antd/lib/typography/Title";
-import { NextPage } from "next";
+import { GetServerSideProps, NextPage, NextPageContext } from "next";
 import Head from "next/head";
 
 type TProps = {};
 
-const ViewEntities: NextPage<TProps> = ({}) => {
+const CreateEntity: NextPage<TProps> = ({ }) => {
 	return (
 		<>
 			<Head>
-				<title>Просмотр</title>
+				<title>Добавить</title>
 			</Head>
 			<Section>
 				<Container>
 					<Section.Header>
-						<Title level={2}>Просмотр</Title>
+						<Title level={2}>Добавить</Title>
 					</Section.Header>
 					<Section.Body>
-						<Link href="/entity/create/shop/products">Добавить</Link>
 					</Section.Body>
 				</Container>
 			</Section>
@@ -27,4 +25,16 @@ const ViewEntities: NextPage<TProps> = ({}) => {
 	);
 };
 
-export default ViewEntities;
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+	const props: TProps= {
+		endpoint: null,
+	};
+
+	//
+
+	return {
+		props,
+	};
+};
+
+export default CreateEntity;

@@ -1,0 +1,64 @@
+@import "./../../_settings/settings";
+
+.section {
+  //   border-top: 1px solid var(--ant-primary-1);
+  padding: 1.5rem 0;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid;
+	@include custom-head();
+  }
+
+  &__head {
+    margin: 0 !important;
+
+    &-inner {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+  }
+
+  &__icon {
+    font-size: 1.5rem;
+  }
+
+  &__header + &__article {
+    padding: 1rem 0;
+  }
+
+  &__article {
+  }
+
+  &__footer {
+    padding: 0.5rem;
+  }
+
+  &--theme {
+    &--light {
+      background-color: var(--ant-primary-1);
+
+      & .section__header {
+        border-bottom-color: #EEE;
+      }
+    }
+
+    &--dark {
+      background-color: var(--ant-primary-color);
+	  color: var(--ant-primary-1);
+
+      & .section__header {
+        border-bottom-color: #111;
+      }
+
+      & h2,
+      & h3,
+      & h4 {
+        color: var(--ant-primary-1);
+      }
+    }
+  }
+}

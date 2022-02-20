@@ -1,1 +1,0 @@
-export { DataCreate } from "./DataCreate";

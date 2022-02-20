@@ -1,0 +1,19 @@
+@function _abstract-props($map, $id)
+{
+    @if true == map-has-key($map, $id) {
+        @return map-get($map, $id);
+    }
+    @else {
+		@error "(_abstract-props): Value is not include in list.";
+    }
+}
+
+@function z-index($id)
+{
+    @return _abstract-props($z-indexes, $id);
+}
+
+@function transition($id)
+{
+    @return _abstract-props($transitions, $id);
+}

@@ -1,0 +1,35 @@
+@import "./../../_settings/settings";
+
+.app-header {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  z-index: z-index("header");
+  height: auto !important;
+  padding: 0 !important;
+  background-color: var(--ant-primary-color) !important;
+  color: var(--ant-primary-1) !important;
+  line-height: 50px !important;
+
+  &__inner {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0;
+    color: var(--ant-primary-1);
+  }
+
+  &__menu-icon {
+	  font-size: 1.3rem;
+  }
+
+  &__toggle-menu {
+	flex: 1;
+	text-align: left !important;
+  }
+
+  &__main-menu {
+	  flex: 2;
+	  justify-content: flex-end;
+  }
+}

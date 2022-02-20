@@ -1,3 +1,3 @@
-function getControlerPathFromArray(path: string[]): string {
+export function getControlerPathFromArray(path: string[]): string {
 	return `/${path.join("/")}`;
 }

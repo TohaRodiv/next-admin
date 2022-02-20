@@ -4,7 +4,7 @@ export type TFieldType =
     "email"     |
     "tel"       |
     "date"      |
-    "datetime" |
+    "datetime"  |
     "password"  |
     "binary"    |
     "byte"      |

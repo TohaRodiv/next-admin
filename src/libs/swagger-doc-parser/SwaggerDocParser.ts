@@ -273,7 +273,11 @@ export const SwaggerDocParser = new class {
                 return "byte";
             } else if (format == "binary") {
                 return "binary";
-            }
+            } else if (format == "text") {
+				return "text";
+			} else if (!!!format) {
+				return "string";
+			}
         } else if (type == "boolean") {
             return "boolean";
         } else if (Array.isArray(allOf)) {

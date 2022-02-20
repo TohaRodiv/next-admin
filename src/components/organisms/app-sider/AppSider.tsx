@@ -18,14 +18,13 @@ const AppSider: FC<TProps> = ({
 	className,
 	...props
 }) => {
-	const [collapsed, setCollapsed] = useState(false);
+	const [collapsed, setCollapsed] = useState(true);
 	const [endpoints, setEndpoints] = useState([]);
 
 	useEffect(() => {
 		(async () => {
 			const endpoints = await SwaggerDocParser.getEndpoints();
 			setEndpoints(endpoints);
-			console.log(endpoints);
 		})();
 	}, []);
 	

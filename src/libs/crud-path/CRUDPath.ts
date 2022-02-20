@@ -1,28 +1,30 @@
 export class CRUDPath {
-    public static getPathFindAll(path: string) {
-      return this.createPath(path, "view");
+    
+	public static getPathFindAll(path: string) {
+      return this.createPath({path, method: "view-all"});
     }
   
     public static getPathFindById(path: string, id: number) {
-      return this.createPath(path, "view", id);
+      return this.createPath({path, id, method: "view"});
     }
   
     public static getPathCreate(path: string) {
-      return this.createPath(path, "create");
+      return this.createPath({path, method: "create"});
     }
   
     public static getPathUpdate(path: string, id: number) {
-      return this.createPath(path, "edit", id);
+      return this.createPath({path, id, method: "edit"});
     }
-  
-    /**
-     * TODO: http://localhost:3000 - заменить!
-     * @param path 
-     * @param method 
-     * @param id 
-     * @returns 
-     */
-    private static createPath(path: string, method: "view" | "edit" | "create", id?: number) {
-      return `http://localhost:3000/entity/${method}${id ? path.replace("{id}", `${id}`) : path}`;
-    }
+
+	private static createPath({path, method, id}: { path: string, method: "view" | "view-all" | "edit" | "create", id?: number}): string {
+		let crudPath = null;
+
+		if (method == "view-all") {
+			crudPath = path;
+		} else {
+			crudPath = `${method}${id ? path.replace("{id}", `${id}`) : path}`;
+		}
+
+		return `http://localhost:3000/entity/${crudPath}`;
+	}
   }

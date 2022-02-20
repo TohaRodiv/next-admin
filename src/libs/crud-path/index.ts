@@ -1,0 +1,1 @@
+export { CRUDPath } from "./CRUDPath";

@@ -1,0 +1,4215 @@
+{
+    "openapi": "3.0.0",
+    "paths": {
+        "/users": {
+            "post": {
+                "operationId": "UserController_register",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateUserDTO"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Пользователи"
+                ]
+            },
+            "get": {
+                "operationId": "getManyBaseUserControllerUser",
+                "summary": "Retrieve multiple Users",
+                "parameters": [
+                    {
+                        "name": "fields",
+                        "description": "Selects resource fields. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#select\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "style": "form",
+                        "explode": false
+                    },
+                    {
+                        "name": "s",
+                        "description": "Adds search condition. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#search\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter",
+                        "description": "Adds filter condition. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#filter\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "style": "form",
+                        "explode": true
+                    },
+                    {
+                        "name": "or",
+                        "description": "Adds OR condition. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#or\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "style": "form",
+                        "explode": true
+                    },
+                    {
+                        "name": "sort",
+                        "description": "Adds sort by field. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#sort\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "style": "form",
+                        "explode": true
+                    },
+                    {
+                        "name": "join",
+                        "description": "Adds relational resources. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#join\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "style": "form",
+                        "explode": true
+                    },
+                    {
+                        "name": "limit",
+                        "description": "Limit amount of resources. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#limit\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "offset",
+                        "description": "Offset amount of resources. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#offset\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "description": "Page portion of resources. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#page\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "cache",
+                        "description": "Reset cache (if was enabled). <a href=\"https://github.com/nestjsx/crud/wiki/Requests#cache\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get many base response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/GetManyUserResponseDto"
+                                        },
+                                        {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/User"
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Пользователи"
+                ]
+            }
+        },
+        "/users/{id}": {
+            "patch": {
+                "operationId": "UserController_updateOne",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateUserDTO"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Пользователи"
+                ]
+            },
+            "get": {
+                "operationId": "getOneBaseUserControllerUser",
+                "summary": "Retrieve a single User",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "fields",
+                        "description": "Selects resource fields. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#select\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "style": "form",
+                        "explode": false
+                    },
+                    {
+                        "name": "join",
+                        "description": "Adds relational resources. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#join\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "style": "form",
+                        "explode": true
+                    },
+                    {
+                        "name": "cache",
+                        "description": "Reset cache (if was enabled). <a href=\"https://github.com/nestjsx/crud/wiki/Requests#cache\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get one base response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Пользователи"
+                ]
+            },
+            "delete": {
+                "operationId": "deleteOneBaseUserControllerUser",
+                "summary": "Delete a single User",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Delete one base response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Пользователи"
+                ]
+            }
+        },
+        "/auth/login": {
+            "post": {
+                "operationId": "AuthController_login",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/loginPayload"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Авторизация"
+                ]
+            }
+        },
+        "/auth/profile": {
+            "get": {
+                "operationId": "AuthController_getProfile",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Авторизация"
+                ]
+            }
+        },
+        "/blog/articles": {
+            "post": {
+                "operationId": "ArticleController_createAndSave",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateArticleDTO"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Материалы блога"
+                ]
+            },
+            "get": {
+                "operationId": "getManyBaseArticleControllerArticle",
+                "summary": "Retrieve multiple Articles",
+                "parameters": [
+                    {
+                        "name": "fields",
+                        "description": "Selects resource fields. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#select\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "style": "form",
+                        "explode": false
+                    },
+                    {
+                        "name": "s",
+                        "description": "Adds search condition. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#search\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter",
+                        "description": "Adds filter condition. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#filter\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "style": "form",
+                        "explode": true
+                    },
+                    {
+                        "name": "or",
+                        "description": "Adds OR condition. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#or\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "style": "form",
+                        "explode": true
+                    },
+                    {
+                        "name": "sort",
+                        "description": "Adds sort by field. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#sort\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "style": "form",
+                        "explode": true
+                    },
+                    {
+                        "name": "join",
+                        "description": "Adds relational resources. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#join\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "style": "form",
+                        "explode": true
+                    },
+                    {
+                        "name": "limit",
+                        "description": "Limit amount of resources. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#limit\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "offset",
+                        "description": "Offset amount of resources. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#offset\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "description": "Page portion of resources. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#page\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "cache",
+                        "description": "Reset cache (if was enabled). <a href=\"https://github.com/nestjsx/crud/wiki/Requests#cache\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get many base response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/GetManyArticleResponseDto"
+                                        },
+                                        {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Article"
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Материалы блога"
+                ]
+            }
+        },
+        "/blog/articles/{id}": {
+            "patch": {
+                "operationId": "ArticleController_udpate",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateArticleDTO"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Материалы блога"
+                ]
+            },
+            "get": {
+                "operationId": "getOneBaseArticleControllerArticle",
+                "summary": "Retrieve a single Article",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "fields",
+                        "description": "Selects resource fields. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#select\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "style": "form",
+                        "explode": false
+                    },
+                    {
+                        "name": "join",
+                        "description": "Adds relational resources. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#join\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "style": "form",
+                        "explode": true
+                    },
+                    {
+                        "name": "cache",
+                        "description": "Reset cache (if was enabled). <a href=\"https://github.com/nestjsx/crud/wiki/Requests#cache\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get one base response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Article"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Материалы блога"
+                ]
+            },
+            "delete": {
+                "operationId": "deleteOneBaseArticleControllerArticle",
+                "summary": "Delete a single Article",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Delete one base response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Article"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Материалы блога"
+                ]
+            }
+        },
+        "/files": {
+            "post": {
+                "operationId": "FileController_uploadFiles",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "files": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "format": "binary"
+                                        }
+                                    }
+                                },
+                                "$ref": "#/components/schemas/"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Файлы"
+                ]
+            },
+            "get": {
+                "operationId": "getManyBaseFileControllerFile",
+                "summary": "Retrieve multiple Files",
+                "parameters": [
+                    {
+                        "name": "fields",
+                        "description": "Selects resource fields. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#select\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "style": "form",
+                        "explode": false
+                    },
+                    {
+                        "name": "s",
+                        "description": "Adds search condition. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#search\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter",
+                        "description": "Adds filter condition. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#filter\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "style": "form",
+                        "explode": true
+                    },
+                    {
+                        "name": "or",
+                        "description": "Adds OR condition. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#or\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "style": "form",
+                        "explode": true
+                    },
+                    {
+                        "name": "sort",
+                        "description": "Adds sort by field. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#sort\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "style": "form",
+                        "explode": true
+                    },
+                    {
+                        "name": "join",
+                        "description": "Adds relational resources. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#join\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "style": "form",
+                        "explode": true
+                    },
+                    {
+                        "name": "limit",
+                        "description": "Limit amount of resources. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#limit\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "offset",
+                        "description": "Offset amount of resources. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#offset\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "description": "Page portion of resources. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#page\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "cache",
+                        "description": "Reset cache (if was enabled). <a href=\"https://github.com/nestjsx/crud/wiki/Requests#cache\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get many base response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/GetManyFileResponseDto"
+                                        },
+                                        {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/File"
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Файлы"
+                ]
+            }
+        },
+        "/files/{id}": {
+            "patch": {
+                "operationId": "FileController_updateFile",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "file": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "format": "binary"
+                                        }
+                                    }
+                                },
+                                "$ref": "#/components/schemas/"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Файлы"
+                ]
+            },
+            "delete": {
+                "operationId": "FileController_deleteOneFile",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Файлы"
+                ]
+            },
+            "get": {
+                "operationId": "getOneBaseFileControllerFile",
+                "summary": "Retrieve a single File",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "fields",
+                        "description": "Selects resource fields. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#select\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "style": "form",
+                        "explode": false
+                    },
+                    {
+                        "name": "join",
+                        "description": "Adds relational resources. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#join\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "style": "form",
+                        "explode": true
+                    },
+                    {
+                        "name": "cache",
+                        "description": "Reset cache (if was enabled). <a href=\"https://github.com/nestjsx/crud/wiki/Requests#cache\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get one base response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/File"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Файлы"
+                ]
+            }
+        },
+        "/blog/categories": {
+            "post": {
+                "operationId": "CategoryController_createAndSave",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/BlogCreateCategoryDTO"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Категории блога"
+                ]
+            },
+            "get": {
+                "operationId": "getManyBaseCategoryControllerBlogCategory",
+                "summary": "Retrieve multiple BlogCategories",
+                "parameters": [
+                    {
+                        "name": "fields",
+                        "description": "Selects resource fields. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#select\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "style": "form",
+                        "explode": false
+                    },
+                    {
+                        "name": "s",
+                        "description": "Adds search condition. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#search\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter",
+                        "description": "Adds filter condition. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#filter\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "style": "form",
+                        "explode": true
+                    },
+                    {
+                        "name": "or",
+                        "description": "Adds OR condition. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#or\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "style": "form",
+                        "explode": true
+                    },
+                    {
+                        "name": "sort",
+                        "description": "Adds sort by field. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#sort\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "style": "form",
+                        "explode": true
+                    },
+                    {
+                        "name": "join",
+                        "description": "Adds relational resources. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#join\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "style": "form",
+                        "explode": true
+                    },
+                    {
+                        "name": "limit",
+                        "description": "Limit amount of resources. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#limit\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "offset",
+                        "description": "Offset amount of resources. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#offset\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "description": "Page portion of resources. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#page\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "cache",
+                        "description": "Reset cache (if was enabled). <a href=\"https://github.com/nestjsx/crud/wiki/Requests#cache\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get many base response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/GetManyBlogCategoryResponseDto"
+                                        },
+                                        {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/BlogCategory"
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Категории блога"
+                ]
+            }
+        },
+        "/blog/categories/{id}": {
+            "patch": {
+                "operationId": "CategoryController_update",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/BlogUpdateCategoryDTO"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Категории блога"
+                ]
+            },
+            "get": {
+                "operationId": "getOneBaseCategoryControllerBlogCategory",
+                "summary": "Retrieve a single BlogCategory",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "fields",
+                        "description": "Selects resource fields. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#select\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "style": "form",
+                        "explode": false
+                    },
+                    {
+                        "name": "join",
+                        "description": "Adds relational resources. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#join\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "style": "form",
+                        "explode": true
+                    },
+                    {
+                        "name": "cache",
+                        "description": "Reset cache (if was enabled). <a href=\"https://github.com/nestjsx/crud/wiki/Requests#cache\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get one base response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BlogCategory"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Категории блога"
+                ]
+            },
+            "delete": {
+                "operationId": "deleteOneBaseCategoryControllerBlogCategory",
+                "summary": "Delete a single BlogCategory",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Delete one base response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BlogCategory"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Категории блога"
+                ]
+            }
+        },
+        "/shop/products": {
+            "post": {
+                "operationId": "ProductController_createAndSave",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateProductDTO"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Товары"
+                ]
+            },
+            "get": {
+                "operationId": "getManyBaseProductControllerProduct",
+                "summary": "Retrieve multiple Products",
+                "parameters": [
+                    {
+                        "name": "fields",
+                        "description": "Selects resource fields. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#select\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "style": "form",
+                        "explode": false
+                    },
+                    {
+                        "name": "s",
+                        "description": "Adds search condition. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#search\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter",
+                        "description": "Adds filter condition. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#filter\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "style": "form",
+                        "explode": true
+                    },
+                    {
+                        "name": "or",
+                        "description": "Adds OR condition. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#or\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "style": "form",
+                        "explode": true
+                    },
+                    {
+                        "name": "sort",
+                        "description": "Adds sort by field. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#sort\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "style": "form",
+                        "explode": true
+                    },
+                    {
+                        "name": "join",
+                        "description": "Adds relational resources. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#join\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "style": "form",
+                        "explode": true
+                    },
+                    {
+                        "name": "limit",
+                        "description": "Limit amount of resources. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#limit\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "offset",
+                        "description": "Offset amount of resources. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#offset\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "description": "Page portion of resources. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#page\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "cache",
+                        "description": "Reset cache (if was enabled). <a href=\"https://github.com/nestjsx/crud/wiki/Requests#cache\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get many base response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/GetManyProductResponseDto"
+                                        },
+                                        {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Product"
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Товары"
+                ]
+            }
+        },
+        "/shop/products/{id}": {
+            "patch": {
+                "operationId": "ProductController_udpate",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateProductDTO"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Товары"
+                ]
+            },
+            "get": {
+                "operationId": "getOneBaseProductControllerProduct",
+                "summary": "Retrieve a single Product",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "fields",
+                        "description": "Selects resource fields. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#select\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "style": "form",
+                        "explode": false
+                    },
+                    {
+                        "name": "join",
+                        "description": "Adds relational resources. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#join\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "style": "form",
+                        "explode": true
+                    },
+                    {
+                        "name": "cache",
+                        "description": "Reset cache (if was enabled). <a href=\"https://github.com/nestjsx/crud/wiki/Requests#cache\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get one base response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Product"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Товары"
+                ]
+            },
+            "delete": {
+                "operationId": "deleteOneBaseProductControllerProduct",
+                "summary": "Delete a single Product",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Delete one base response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Product"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Товары"
+                ]
+            }
+        },
+        "/shop/categories": {
+            "post": {
+                "operationId": "createOneBaseCategoryControllerShopCategory",
+                "summary": "Create a single ShopCategory",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ShopCreateCategoryDTO"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Get create one base response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ShopCategory"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Категории магазина"
+                ]
+            },
+            "get": {
+                "operationId": "getManyBaseCategoryControllerShopCategory",
+                "summary": "Retrieve multiple ShopCategories",
+                "parameters": [
+                    {
+                        "name": "fields",
+                        "description": "Selects resource fields. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#select\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "style": "form",
+                        "explode": false
+                    },
+                    {
+                        "name": "s",
+                        "description": "Adds search condition. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#search\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter",
+                        "description": "Adds filter condition. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#filter\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "style": "form",
+                        "explode": true
+                    },
+                    {
+                        "name": "or",
+                        "description": "Adds OR condition. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#or\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "style": "form",
+                        "explode": true
+                    },
+                    {
+                        "name": "sort",
+                        "description": "Adds sort by field. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#sort\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "style": "form",
+                        "explode": true
+                    },
+                    {
+                        "name": "join",
+                        "description": "Adds relational resources. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#join\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "style": "form",
+                        "explode": true
+                    },
+                    {
+                        "name": "limit",
+                        "description": "Limit amount of resources. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#limit\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "offset",
+                        "description": "Offset amount of resources. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#offset\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "description": "Page portion of resources. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#page\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "cache",
+                        "description": "Reset cache (if was enabled). <a href=\"https://github.com/nestjsx/crud/wiki/Requests#cache\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get many base response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/GetManyShopCategoryResponseDto"
+                                        },
+                                        {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/ShopCategory"
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Категории магазина"
+                ]
+            }
+        },
+        "/shop/categories/{id}": {
+            "patch": {
+                "operationId": "updateOneBaseCategoryControllerShopCategory",
+                "summary": "Update a single ShopCategory",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ShopUpdateCategoryDTO"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ShopCategory"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Категории магазина"
+                ]
+            },
+            "get": {
+                "operationId": "getOneBaseCategoryControllerShopCategory",
+                "summary": "Retrieve a single ShopCategory",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "fields",
+                        "description": "Selects resource fields. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#select\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "style": "form",
+                        "explode": false
+                    },
+                    {
+                        "name": "join",
+                        "description": "Adds relational resources. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#join\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "style": "form",
+                        "explode": true
+                    },
+                    {
+                        "name": "cache",
+                        "description": "Reset cache (if was enabled). <a href=\"https://github.com/nestjsx/crud/wiki/Requests#cache\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get one base response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ShopCategory"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Категории магазина"
+                ]
+            },
+            "put": {
+                "operationId": "replaceOneBaseCategoryControllerShopCategory",
+                "summary": "Replace a single ShopCategory",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ShopCategory"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ShopCategory"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Категории магазина"
+                ]
+            },
+            "delete": {
+                "operationId": "deleteOneBaseCategoryControllerShopCategory",
+                "summary": "Delete a single ShopCategory",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Delete one base response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ShopCategory"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Категории магазина"
+                ]
+            }
+        },
+        "/shop/categories/bulk": {
+            "post": {
+                "operationId": "createManyBaseCategoryControllerShopCategory",
+                "summary": "Create multiple ShopCategories",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateManyShopCategoryDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Get create many base response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/ShopCategory"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Категории магазина"
+                ]
+            }
+        },
+        "/shop/orders": {
+            "post": {
+                "operationId": "OrderController_createAndSaveOne",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateOrderDTO"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Заказы"
+                ]
+            },
+            "get": {
+                "operationId": "getManyBaseOrderControllerOrder",
+                "summary": "Retrieve multiple Orders",
+                "parameters": [
+                    {
+                        "name": "fields",
+                        "description": "Selects resource fields. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#select\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "style": "form",
+                        "explode": false
+                    },
+                    {
+                        "name": "s",
+                        "description": "Adds search condition. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#search\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter",
+                        "description": "Adds filter condition. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#filter\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "style": "form",
+                        "explode": true
+                    },
+                    {
+                        "name": "or",
+                        "description": "Adds OR condition. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#or\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "style": "form",
+                        "explode": true
+                    },
+                    {
+                        "name": "sort",
+                        "description": "Adds sort by field. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#sort\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "style": "form",
+                        "explode": true
+                    },
+                    {
+                        "name": "join",
+                        "description": "Adds relational resources. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#join\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "style": "form",
+                        "explode": true
+                    },
+                    {
+                        "name": "limit",
+                        "description": "Limit amount of resources. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#limit\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "offset",
+                        "description": "Offset amount of resources. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#offset\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "description": "Page portion of resources. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#page\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "cache",
+                        "description": "Reset cache (if was enabled). <a href=\"https://github.com/nestjsx/crud/wiki/Requests#cache\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get many base response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/GetManyOrderResponseDto"
+                                        },
+                                        {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Order"
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Заказы"
+                ]
+            }
+        },
+        "/shop/orders/{id}": {
+            "patch": {
+                "operationId": "OrderController_update",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateOrderDTO"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Заказы"
+                ]
+            },
+            "get": {
+                "operationId": "getOneBaseOrderControllerOrder",
+                "summary": "Retrieve a single Order",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "fields",
+                        "description": "Selects resource fields. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#select\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "style": "form",
+                        "explode": false
+                    },
+                    {
+                        "name": "join",
+                        "description": "Adds relational resources. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#join\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "style": "form",
+                        "explode": true
+                    },
+                    {
+                        "name": "cache",
+                        "description": "Reset cache (if was enabled). <a href=\"https://github.com/nestjsx/crud/wiki/Requests#cache\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get one base response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Order"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Заказы"
+                ]
+            },
+            "put": {
+                "operationId": "replaceOneBaseOrderControllerOrder",
+                "summary": "Replace a single Order",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Order"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Order"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Заказы"
+                ]
+            },
+            "delete": {
+                "operationId": "deleteOneBaseOrderControllerOrder",
+                "summary": "Delete a single Order",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Delete one base response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Order"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Заказы"
+                ]
+            }
+        },
+        "/shop/status-orders/{id}": {
+            "get": {
+                "operationId": "getOneBaseStatusOrderControllerStatusOrder",
+                "summary": "Retrieve a single StatusOrder",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "fields",
+                        "description": "Selects resource fields. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#select\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "style": "form",
+                        "explode": false
+                    },
+                    {
+                        "name": "join",
+                        "description": "Adds relational resources. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#join\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "style": "form",
+                        "explode": true
+                    },
+                    {
+                        "name": "cache",
+                        "description": "Reset cache (if was enabled). <a href=\"https://github.com/nestjsx/crud/wiki/Requests#cache\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get one base response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/StatusOrder"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Статусы заказов"
+                ]
+            },
+            "patch": {
+                "operationId": "updateOneBaseStatusOrderControllerStatusOrder",
+                "summary": "Update a single StatusOrder",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateStatusOrderDTO"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/StatusOrder"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Статусы заказов"
+                ]
+            },
+            "put": {
+                "operationId": "replaceOneBaseStatusOrderControllerStatusOrder",
+                "summary": "Replace a single StatusOrder",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StatusOrder"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/StatusOrder"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Статусы заказов"
+                ]
+            },
+            "delete": {
+                "operationId": "deleteOneBaseStatusOrderControllerStatusOrder",
+                "summary": "Delete a single StatusOrder",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Delete one base response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/StatusOrder"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Статусы заказов"
+                ]
+            }
+        },
+        "/shop/status-orders": {
+            "get": {
+                "operationId": "getManyBaseStatusOrderControllerStatusOrder",
+                "summary": "Retrieve multiple StatusOrders",
+                "parameters": [
+                    {
+                        "name": "fields",
+                        "description": "Selects resource fields. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#select\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "style": "form",
+                        "explode": false
+                    },
+                    {
+                        "name": "s",
+                        "description": "Adds search condition. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#search\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter",
+                        "description": "Adds filter condition. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#filter\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "style": "form",
+                        "explode": true
+                    },
+                    {
+                        "name": "or",
+                        "description": "Adds OR condition. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#or\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "style": "form",
+                        "explode": true
+                    },
+                    {
+                        "name": "sort",
+                        "description": "Adds sort by field. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#sort\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "style": "form",
+                        "explode": true
+                    },
+                    {
+                        "name": "join",
+                        "description": "Adds relational resources. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#join\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "style": "form",
+                        "explode": true
+                    },
+                    {
+                        "name": "limit",
+                        "description": "Limit amount of resources. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#limit\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "offset",
+                        "description": "Offset amount of resources. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#offset\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "description": "Page portion of resources. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#page\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "cache",
+                        "description": "Reset cache (if was enabled). <a href=\"https://github.com/nestjsx/crud/wiki/Requests#cache\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get many base response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/GetManyStatusOrderResponseDto"
+                                        },
+                                        {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/StatusOrder"
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Статусы заказов"
+                ]
+            },
+            "post": {
+                "operationId": "createOneBaseStatusOrderControllerStatusOrder",
+                "summary": "Create a single StatusOrder",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateStatusOrderDTO"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Get create one base response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/StatusOrder"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Статусы заказов"
+                ]
+            }
+        },
+        "/shop/status-orders/bulk": {
+            "post": {
+                "operationId": "createManyBaseStatusOrderControllerStatusOrder",
+                "summary": "Create multiple StatusOrders",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateManyStatusOrderDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Get create many base response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/StatusOrder"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Статусы заказов"
+                ]
+            }
+        },
+        "/shop/promos/banners": {
+            "post": {
+                "operationId": "BannerController_createAndSave",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateBannerDTO"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Баннера"
+                ]
+            },
+            "get": {
+                "operationId": "getManyBaseBannerControllerBanner",
+                "summary": "Retrieve multiple Banners",
+                "parameters": [
+                    {
+                        "name": "fields",
+                        "description": "Selects resource fields. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#select\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "style": "form",
+                        "explode": false
+                    },
+                    {
+                        "name": "s",
+                        "description": "Adds search condition. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#search\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter",
+                        "description": "Adds filter condition. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#filter\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "style": "form",
+                        "explode": true
+                    },
+                    {
+                        "name": "or",
+                        "description": "Adds OR condition. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#or\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "style": "form",
+                        "explode": true
+                    },
+                    {
+                        "name": "sort",
+                        "description": "Adds sort by field. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#sort\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "style": "form",
+                        "explode": true
+                    },
+                    {
+                        "name": "join",
+                        "description": "Adds relational resources. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#join\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "style": "form",
+                        "explode": true
+                    },
+                    {
+                        "name": "limit",
+                        "description": "Limit amount of resources. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#limit\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "offset",
+                        "description": "Offset amount of resources. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#offset\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "description": "Page portion of resources. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#page\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "cache",
+                        "description": "Reset cache (if was enabled). <a href=\"https://github.com/nestjsx/crud/wiki/Requests#cache\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get many base response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/GetManyBannerResponseDto"
+                                        },
+                                        {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Banner"
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Баннера"
+                ]
+            }
+        },
+        "/shop/promos/banners/{id}": {
+            "patch": {
+                "operationId": "BannerController_udpate",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateBannerDTO"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Баннера"
+                ]
+            },
+            "get": {
+                "operationId": "getOneBaseBannerControllerBanner",
+                "summary": "Retrieve a single Banner",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "fields",
+                        "description": "Selects resource fields. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#select\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "style": "form",
+                        "explode": false
+                    },
+                    {
+                        "name": "join",
+                        "description": "Adds relational resources. <a href=\"https://github.com/nestjsx/crud/wiki/Requests#join\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "style": "form",
+                        "explode": true
+                    },
+                    {
+                        "name": "cache",
+                        "description": "Reset cache (if was enabled). <a href=\"https://github.com/nestjsx/crud/wiki/Requests#cache\" target=\"_blank\">Docs</a>",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get one base response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Banner"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Баннера"
+                ]
+            },
+            "delete": {
+                "operationId": "deleteOneBaseBannerControllerBanner",
+                "summary": "Delete a single Banner",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Delete one base response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Banner"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Баннера"
+                ]
+            }
+        }
+    },
+    "info": {
+        "title": "Electronly API",
+        "description": "First version api",
+        "version": "1.0",
+        "contact": {}
+    },
+    "tags": [],
+    "servers": [],
+    "components": {
+        "schemas": {
+            "CreateUserDTO": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "title": "Логин",
+                        "minLength": 4,
+                        "maxLength": 200
+                    },
+                    "email": {
+                        "type": "string",
+                        "title": "E-mail"
+                    },
+                    "password": {
+                        "type": "string",
+                        "title": "Пароль",
+                        "minLength": 4,
+                        "maxLength": 200
+                    }
+                },
+                "required": [
+                    "name",
+                    "email",
+                    "password"
+                ]
+            },
+            "UpdateUserDTO": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "title": "Логин",
+                        "minLength": 4,
+                        "maxLength": 200
+                    },
+                    "email": {
+                        "type": "string",
+                        "title": "E-mail"
+                    },
+                    "password": {
+                        "type": "string",
+                        "title": "Пароль",
+                        "minLength": 4,
+                        "maxLength": 200
+                    }
+                }
+            },
+            "GetManyUserResponseDto": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/User"
+                        }
+                    },
+                    "count": {
+                        "type": "number"
+                    },
+                    "total": {
+                        "type": "number"
+                    },
+                    "page": {
+                        "type": "number"
+                    },
+                    "pageCount": {
+                        "type": "number"
+                    }
+                },
+                "required": [
+                    "data",
+                    "count",
+                    "total",
+                    "page",
+                    "pageCount"
+                ]
+            },
+            "User": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "number"
+                    },
+                    "name": {
+                        "type": "string",
+                        "title": "Логин"
+                    },
+                    "email": {
+                        "type": "string",
+                        "title": "E-mail"
+                    },
+                    "password": {
+                        "type": "string",
+                        "title": "Пароль"
+                    }
+                },
+                "required": [
+                    "id",
+                    "name",
+                    "email",
+                    "password"
+                ]
+            },
+            "loginPayload": {
+                "type": "object",
+                "properties": {
+                    "username": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "username",
+                    "password"
+                ]
+            },
+            "GetManyBlogCategoryResponseDto": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/BlogCategory"
+                        }
+                    },
+                    "count": {
+                        "type": "number"
+                    },
+                    "total": {
+                        "type": "number"
+                    },
+                    "page": {
+                        "type": "number"
+                    },
+                    "pageCount": {
+                        "type": "number"
+                    }
+                },
+                "required": [
+                    "data",
+                    "count",
+                    "total",
+                    "page",
+                    "pageCount"
+                ]
+            },
+            "GetManyArticleResponseDto": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Article"
+                        }
+                    },
+                    "count": {
+                        "type": "number"
+                    },
+                    "total": {
+                        "type": "number"
+                    },
+                    "page": {
+                        "type": "number"
+                    },
+                    "pageCount": {
+                        "type": "number"
+                    }
+                },
+                "required": [
+                    "data",
+                    "count",
+                    "total",
+                    "page",
+                    "pageCount"
+                ]
+            },
+            "GetManyFileResponseDto": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/File"
+                        }
+                    },
+                    "count": {
+                        "type": "number"
+                    },
+                    "total": {
+                        "type": "number"
+                    },
+                    "page": {
+                        "type": "number"
+                    },
+                    "pageCount": {
+                        "type": "number"
+                    }
+                },
+                "required": [
+                    "data",
+                    "count",
+                    "total",
+                    "page",
+                    "pageCount"
+                ]
+            },
+            "File": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "number"
+                    },
+                    "path": {
+                        "type": "string",
+                        "title": "Путь"
+                    },
+                    "mimetype": {
+                        "type": "string",
+                        "title": "Тип"
+                    },
+                    "size": {
+                        "type": "number",
+                        "title": "Размер"
+                    }
+                },
+                "required": [
+                    "id",
+                    "path",
+                    "mimetype",
+                    "size"
+                ]
+            },
+            "Article": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "number"
+                    },
+                    "title": {
+                        "type": "string",
+                        "title": "Название"
+                    },
+                    "content": {
+                        "type": "string",
+                        "title": "Содержимое",
+                        "format": "text",
+                        "default": ""
+                    },
+                    "active": {
+                        "type": "boolean",
+                        "title": "Активно",
+                        "default": true
+                    },
+                    "category": {
+                        "title": "Категория",
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/BlogCategory"
+                            }
+                        ]
+                    },
+                    "images": {
+                        "title": "Основное изображение",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/File",
+                            "format": "image"
+                        }
+                    }
+                },
+                "required": [
+                    "id",
+                    "title",
+                    "content",
+                    "category",
+                    "images"
+                ]
+            },
+            "BlogCategory": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "number"
+                    },
+                    "title": {
+                        "type": "string",
+                        "title": "Название"
+                    },
+                    "active": {
+                        "type": "boolean",
+                        "title": "Активно",
+                        "default": true
+                    },
+                    "articles": {
+                        "title": "Материалы",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Article"
+                        }
+                    },
+                    "images": {
+                        "title": "Изображение",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/File",
+                            "format": "image"
+                        }
+                    }
+                },
+                "required": [
+                    "id",
+                    "title",
+                    "articles"
+                ]
+            },
+            "CreateArticleDTO": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "title": "Название"
+                    },
+                    "content": {
+                        "type": "string",
+                        "title": "Содержимое",
+                        "format": "text",
+                        "default": ""
+                    },
+                    "active": {
+                        "type": "boolean",
+                        "title": "Активно",
+                        "default": true
+                    },
+                    "category": {
+                        "title": "Категория",
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/BlogCategory"
+                            }
+                        ]
+                    },
+                    "images": {
+                        "title": "Основное изображение",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/File",
+                            "format": "image"
+                        }
+                    }
+                },
+                "required": [
+                    "title",
+                    "category"
+                ]
+            },
+            "UpdateArticleDTO": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "title": "Название"
+                    },
+                    "content": {
+                        "type": "string",
+                        "title": "Содержимое",
+                        "format": "text",
+                        "default": ""
+                    },
+                    "active": {
+                        "type": "boolean",
+                        "title": "Активно",
+                        "default": true
+                    },
+                    "category": {
+                        "title": "Категория",
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/BlogCategory"
+                            }
+                        ]
+                    },
+                    "images": {
+                        "title": "Основное изображение",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/File",
+                            "format": "image"
+                        }
+                    }
+                }
+            },
+            "BlogCreateCategoryDTO": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "title": "Название"
+                    },
+                    "active": {
+                        "type": "boolean",
+                        "title": "Активно",
+                        "default": true
+                    },
+                    "articles": {
+                        "title": "Материалы",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Article"
+                        }
+                    },
+                    "images": {
+                        "title": "Изображение",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/File",
+                            "format": "image"
+                        }
+                    }
+                },
+                "required": [
+                    "title"
+                ]
+            },
+            "BlogUpdateCategoryDTO": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "title": "Название"
+                    },
+                    "active": {
+                        "type": "boolean",
+                        "title": "Активно",
+                        "default": true
+                    },
+                    "articles": {
+                        "title": "Материалы",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Article"
+                        }
+                    },
+                    "images": {
+                        "title": "Изображение",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/File",
+                            "format": "image"
+                        }
+                    }
+                }
+            },
+            "GetManyShopCategoryResponseDto": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ShopCategory"
+                        }
+                    },
+                    "count": {
+                        "type": "number"
+                    },
+                    "total": {
+                        "type": "number"
+                    },
+                    "page": {
+                        "type": "number"
+                    },
+                    "pageCount": {
+                        "type": "number"
+                    }
+                },
+                "required": [
+                    "data",
+                    "count",
+                    "total",
+                    "page",
+                    "pageCount"
+                ]
+            },
+            "GetManyProductResponseDto": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Product"
+                        }
+                    },
+                    "count": {
+                        "type": "number"
+                    },
+                    "total": {
+                        "type": "number"
+                    },
+                    "page": {
+                        "type": "number"
+                    },
+                    "pageCount": {
+                        "type": "number"
+                    }
+                },
+                "required": [
+                    "data",
+                    "count",
+                    "total",
+                    "page",
+                    "pageCount"
+                ]
+            },
+            "Product": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "number"
+                    },
+                    "name": {
+                        "type": "string",
+                        "title": "Наименование"
+                    },
+                    "description": {
+                        "type": "string",
+                        "title": "Описание",
+                        "format": "text"
+                    },
+                    "purchase_price": {
+                        "type": "number",
+                        "title": "Закупочная цена",
+                        "default": null
+                    },
+                    "price": {
+                        "type": "number",
+                        "title": "Цена"
+                    },
+                    "crossed_price": {
+                        "type": "number",
+                        "title": "Зачеркнутая цена",
+                        "default": null
+                    },
+                    "count": {
+                        "type": "number",
+                        "title": "Кол-во",
+                        "default": null
+                    },
+                    "available": {
+                        "type": "boolean",
+                        "title": "Наличие",
+                        "default": true
+                    },
+                    "active": {
+                        "type": "boolean",
+                        "title": "Активен",
+                        "default": true
+                    },
+                    "category": {
+                        "title": "Категория",
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/ShopCategory"
+                            }
+                        ]
+                    },
+                    "images": {
+                        "title": "Изображения",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/File",
+                            "format": "images"
+                        }
+                    }
+                },
+                "required": [
+                    "id",
+                    "name",
+                    "description",
+                    "price",
+                    "count",
+                    "available",
+                    "active",
+                    "category",
+                    "images"
+                ]
+            },
+            "ShopCategory": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "number"
+                    },
+                    "title": {
+                        "type": "string",
+                        "title": "Название"
+                    },
+                    "active": {
+                        "type": "boolean",
+                        "title": "Активно",
+                        "default": true
+                    },
+                    "products": {
+                        "title": "Товары",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Product"
+                        }
+                    },
+                    "images": {
+                        "title": "Изображение",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/File",
+                            "format": "image"
+                        }
+                    }
+                },
+                "required": [
+                    "id",
+                    "title",
+                    "active",
+                    "products"
+                ]
+            },
+            "CreateProductDTO": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "title": "Наименование"
+                    },
+                    "description": {
+                        "type": "string",
+                        "title": "Описание",
+                        "format": "text"
+                    },
+                    "purchase_price": {
+                        "type": "number",
+                        "title": "Закупочная цена",
+                        "default": null
+                    },
+                    "price": {
+                        "type": "number",
+                        "title": "Цена",
+                        "default": null
+                    },
+                    "crossed_price": {
+                        "type": "number",
+                        "title": "Зачеркнутая цена",
+                        "default": null
+                    },
+                    "count": {
+                        "type": "number",
+                        "title": "Кол-во",
+                        "default": null
+                    },
+                    "available": {
+                        "type": "boolean",
+                        "title": "Наличие",
+                        "default": true
+                    },
+                    "active": {
+                        "type": "boolean",
+                        "title": "Активен",
+                        "default": true
+                    },
+                    "category": {
+                        "title": "Категория",
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/ShopCategory"
+                            }
+                        ]
+                    },
+                    "images": {
+                        "title": "Изображения",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/File",
+                            "format": "images"
+                        }
+                    }
+                },
+                "required": [
+                    "name",
+                    "category"
+                ]
+            },
+            "UpdateProductDTO": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "title": "Наименование"
+                    },
+                    "description": {
+                        "type": "string",
+                        "title": "Описание",
+                        "format": "text"
+                    },
+                    "purchase_price": {
+                        "type": "number",
+                        "title": "Закупочная цена",
+                        "default": null
+                    },
+                    "price": {
+                        "type": "number",
+                        "title": "Цена",
+                        "default": null
+                    },
+                    "crossed_price": {
+                        "type": "number",
+                        "title": "Зачеркнутая цена",
+                        "default": null
+                    },
+                    "count": {
+                        "type": "number",
+                        "title": "Кол-во",
+                        "default": null
+                    },
+                    "available": {
+                        "type": "boolean",
+                        "title": "Наличие",
+                        "default": true
+                    },
+                    "active": {
+                        "type": "boolean",
+                        "title": "Активен",
+                        "default": true
+                    },
+                    "category": {
+                        "title": "Категория",
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/ShopCategory"
+                            }
+                        ]
+                    },
+                    "images": {
+                        "title": "Изображения",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/File",
+                            "format": "images"
+                        }
+                    }
+                }
+            },
+            "ShopCreateCategoryDTO": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "title": "Название"
+                    },
+                    "active": {
+                        "type": "boolean",
+                        "title": "Активно",
+                        "default": true
+                    },
+                    "products": {
+                        "title": "Товары",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Product"
+                        }
+                    },
+                    "images": {
+                        "title": "Изображение",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/File",
+                            "format": "image"
+                        }
+                    }
+                },
+                "required": [
+                    "title"
+                ]
+            },
+            "ShopUpdateCategoryDTO": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "title": "Название"
+                    },
+                    "active": {
+                        "type": "boolean",
+                        "title": "Активно",
+                        "default": true
+                    },
+                    "products": {
+                        "title": "Товары",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Product"
+                        }
+                    },
+                    "images": {
+                        "title": "Изображение",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/File",
+                            "format": "image"
+                        }
+                    }
+                }
+            },
+            "CreateManyShopCategoryDto": {
+                "type": "object",
+                "properties": {
+                    "bulk": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ShopCreateCategoryDTO"
+                        }
+                    }
+                },
+                "required": [
+                    "bulk"
+                ]
+            },
+            "GetManyStatusOrderResponseDto": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/StatusOrder"
+                        }
+                    },
+                    "count": {
+                        "type": "number"
+                    },
+                    "total": {
+                        "type": "number"
+                    },
+                    "page": {
+                        "type": "number"
+                    },
+                    "pageCount": {
+                        "type": "number"
+                    }
+                },
+                "required": [
+                    "data",
+                    "count",
+                    "total",
+                    "page",
+                    "pageCount"
+                ]
+            },
+            "StatusOrder": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "number"
+                    },
+                    "name": {
+                        "type": "string",
+                        "title": "Название"
+                    },
+                    "description": {
+                        "type": "string",
+                        "title": "Описание"
+                    }
+                },
+                "required": [
+                    "id",
+                    "name",
+                    "description"
+                ]
+            },
+            "CreateOrderDTO": {
+                "type": "object",
+                "properties": {
+                    "fio": {
+                        "type": "string",
+                        "title": "ФИО",
+                        "minLength": 3
+                    },
+                    "tel": {
+                        "type": "string",
+                        "title": "Телефон"
+                    },
+                    "email": {
+                        "type": "string",
+                        "title": "E-mail",
+                        "default": ""
+                    },
+                    "comment": {
+                        "type": "string",
+                        "title": "Комментарий"
+                    },
+                    "products": {
+                        "title": "Товары",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Product"
+                        }
+                    },
+                    "status": {
+                        "title": "Статус",
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/StatusOrder"
+                            }
+                        ]
+                    }
+                },
+                "required": [
+                    "fio",
+                    "tel",
+                    "status"
+                ]
+            },
+            "UpdateOrderDTO": {
+                "type": "object",
+                "properties": {
+                    "fio": {
+                        "type": "string",
+                        "title": "ФИО",
+                        "minLength": 3
+                    },
+                    "tel": {
+                        "type": "string",
+                        "title": "Телефон"
+                    },
+                    "email": {
+                        "type": "string",
+                        "title": "E-mail",
+                        "default": ""
+                    },
+                    "comment": {
+                        "type": "string",
+                        "title": "Комментарий"
+                    },
+                    "products": {
+                        "title": "Товары",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Product"
+                        }
+                    },
+                    "status": {
+                        "title": "Статус",
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/StatusOrder"
+                            }
+                        ]
+                    }
+                }
+            },
+            "GetManyOrderResponseDto": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Order"
+                        }
+                    },
+                    "count": {
+                        "type": "number"
+                    },
+                    "total": {
+                        "type": "number"
+                    },
+                    "page": {
+                        "type": "number"
+                    },
+                    "pageCount": {
+                        "type": "number"
+                    }
+                },
+                "required": [
+                    "data",
+                    "count",
+                    "total",
+                    "page",
+                    "pageCount"
+                ]
+            },
+            "Order": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "number"
+                    },
+                    "fio": {
+                        "type": "string",
+                        "title": "ФИО"
+                    },
+                    "tel": {
+                        "type": "string",
+                        "title": "Телефон"
+                    },
+                    "email": {
+                        "type": "string",
+                        "title": "E-mail",
+                        "default": ""
+                    },
+                    "comment": {
+                        "type": "string",
+                        "title": "Комментарий"
+                    },
+                    "created": {
+                        "format": "date-time",
+                        "type": "string",
+                        "title": "Дата создания"
+                    },
+                    "updated": {
+                        "format": "date-time",
+                        "type": "string",
+                        "title": "Дата обновления"
+                    },
+                    "products": {
+                        "title": "Товары",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Product"
+                        }
+                    },
+                    "status": {
+                        "title": "Статус",
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/StatusOrder"
+                            }
+                        ]
+                    }
+                },
+                "required": [
+                    "id",
+                    "fio",
+                    "tel",
+                    "email",
+                    "comment",
+                    "created",
+                    "updated",
+                    "products",
+                    "status"
+                ]
+            },
+            "CreateStatusOrderDTO": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "title": "Название"
+                    },
+                    "description": {
+                        "type": "string",
+                        "title": "Описание"
+                    }
+                },
+                "required": [
+                    "name"
+                ]
+            },
+            "CreateManyStatusOrderDto": {
+                "type": "object",
+                "properties": {
+                    "bulk": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/CreateStatusOrderDTO"
+                        }
+                    }
+                },
+                "required": [
+                    "bulk"
+                ]
+            },
+            "UpdateStatusOrderDTO": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "title": "Название"
+                    },
+                    "description": {
+                        "type": "string",
+                        "title": "Описание"
+                    }
+                }
+            },
+            "CreateBannerDTO": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "title": "Название"
+                    },
+                    "subtitle": {
+                        "type": "string",
+                        "title": "Подзаголовок"
+                    },
+                    "images": {
+                        "title": "Изображение",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/File",
+                            "format": "image"
+                        }
+                    },
+                    "active": {
+                        "type": "boolean",
+                        "title": "Активен",
+                        "default": false
+                    }
+                },
+                "required": [
+                    "title",
+                    "images"
+                ]
+            },
+            "UpdateBannerDTO": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "title": "Название"
+                    },
+                    "subtitle": {
+                        "type": "string",
+                        "title": "Подзаголовок"
+                    },
+                    "images": {
+                        "title": "Изображение",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/File",
+                            "format": "image"
+                        }
+                    },
+                    "active": {
+                        "type": "boolean",
+                        "title": "Активен",
+                        "default": false
+                    }
+                }
+            },
+            "GetManyBannerResponseDto": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Banner"
+                        }
+                    },
+                    "count": {
+                        "type": "number"
+                    },
+                    "total": {
+                        "type": "number"
+                    },
+                    "page": {
+                        "type": "number"
+                    },
+                    "pageCount": {
+                        "type": "number"
+                    }
+                },
+                "required": [
+                    "data",
+                    "count",
+                    "total",
+                    "page",
+                    "pageCount"
+                ]
+            },
+            "Banner": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "number"
+                    },
+                    "title": {
+                        "type": "string",
+                        "title": "Название"
+                    },
+                    "subtitle": {
+                        "type": "string",
+                        "title": "Подзаголовок"
+                    },
+                    "active": {
+                        "type": "boolean",
+                        "title": "Активен"
+                    },
+                    "images": {
+                        "title": "Изображение",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/File",
+                            "format": "image"
+                        }
+                    }
+                },
+                "required": [
+                    "id",
+                    "title",
+                    "subtitle",
+                    "active",
+                    "images"
+                ]
+            }
+        }
+    }
+}

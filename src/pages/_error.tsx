@@ -22,7 +22,7 @@ const ErrorPage: NextPage<TProps> = ({
 	return (
 		<>
 			<Head>
-				<title>{`${statusCode} - ${getRuHTTPErrorDescription}`}</title>
+				<title>{`${statusCode} - ${getRuHTTPErrorDescription(statusCode)}`}</title>
 			</Head>
 			<Section>
 				<Container>

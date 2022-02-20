@@ -1,11 +1,14 @@
-import { AppstoreOutlined, HomeOutlined, ProfileOutlined, SettingOutlined, UploadOutlined } from "@ant-design/icons";
+import { AppstoreOutlined, CodeSandboxOutlined, HomeOutlined, SettingOutlined } from "@ant-design/icons";
 import { Menu } from "antd";
 import Sider, { SiderProps } from "antd/lib/layout/Sider";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import classNames from "classnames";
 import styles from "./style.module.scss";
 import { AppLogo } from "#components/molecules/app-logo";
 import SubMenu from "antd/lib/menu/SubMenu";
+import { SwaggerDocParser } from "#libs/swagger-doc-parser";
+import { Link } from "#components/atoms/link";
+import { CRUDPath } from "#libs/crud-path";
 
 type TProps = SiderProps & {
 	className?: string,
@@ -16,9 +19,21 @@ const AppSider: FC<TProps> = ({
 	...props
 }) => {
 	const [collapsed, setCollapsed] = useState(false);
+	const [endpoints, setEndpoints] = useState([]);
+
+	useEffect(() => {
+		(async () => {
+			const endpoints = await SwaggerDocParser.getEndpoints();
+			setEndpoints(endpoints);
+			console.log(endpoints);
+		})();
+	}, []);
+	
 	const classes = classNames(styles["app-sider"], className);
+
 	return (
 		<Sider
+			width={250}
 			className={classes}
 			collapsible
 			collapsed={collapsed}
@@ -33,7 +48,13 @@ const AppSider: FC<TProps> = ({
 					<AppLogo withoutIcon />
 				</Menu.Item>
 				<SubMenu key="entities" title="Сущности" icon={<AppstoreOutlined />}>
-					<Menu.Item>Товары</Menu.Item>
+					{
+						endpoints.map(endpoint => (
+							<Menu.Item key={endpoint.id} icon={<CodeSandboxOutlined />}>
+								<Link href={CRUDPath.getPathFindAll(endpoint.path)}>{endpoint.title}</Link>
+							</Menu.Item>
+						))
+					}
 				</SubMenu>
 				<Menu.Item icon={<SettingOutlined />} key="settings">Настройки</Menu.Item>
 			</Menu>
